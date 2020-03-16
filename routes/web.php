@@ -56,3 +56,7 @@ Route::get('/resto_grado_procedimiento', 'GradoProcedimientoController@getRestoG
 
 Route::get('/movimiento', 'MovimientoController@getMovimientos');
 Route::get('/movimiento/ruta', 'MovimientoController@getRutas');
+
+
+ Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
+ Route::get('/callback/{provider}', 'SocialController@callback');
