@@ -29,7 +29,7 @@
         </b-form-group>
     </b-form>
     <template v-for="ruta in rutas">
-       <b-button @click="registrarProyectoTesis(ruta)" :variant="etiquetas[ruta.etiqueta]">
+       <b-button @click="registrarProyectoTesis(ruta)" :variant="etiquetas[ruta.etiqueta]" :key="ruta.etiqueta">
           {{ ruta.etiqueta | capitalize }}
        </b-button>
     </template>
