@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/expediente/{cui}', 'ApiController@show_expediente');
+Route::get('/expediente/file/{cui}', 'ApiController@show_file');
+Route::put('/expediente/update/url/{id}', 'ApiController@update');
