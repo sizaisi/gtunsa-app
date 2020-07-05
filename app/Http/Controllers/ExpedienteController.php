@@ -16,24 +16,24 @@ class ExpedienteController extends Controller
      */
     public function index()
     {
-        $idusuario = DB::TABLE('GT_USUARIO')
-                                ->SELECT('id AS idusuario')
-                                ->WHERE('codi_usuario', '=', Auth::user()->cui)
+        $idgraduando = DB::TABLE('GT_GRADUANDO')
+                                ->SELECT('id AS idgraduando')
+                                ->WHERE('cui', '=', Auth::user()->cui)
                                 ->FIRST()
-                                ->idusuario;
+                                ->idgraduando;
 
         $tramites = DB::TABLE('GT_EXPEDIENTE AS gt_e')
                         ->SELECT('gt_e.id AS idexpediente', 'gt_e.codigo AS codExpediente',
                                  'gt_e.idgrado_procedimiento AS idgrado_procedimiento_actual',
                                  'gt_gm.id AS idgrado_modalidad', 'gt_gt.nombre AS nombre_grado_titulo',
                                  'gt_mo.nombre AS nombre_modalidad', 'actescu.nesc')
-                        ->JOIN('GT_USUARIO_EXPEDIENTE AS gt_ue', 'gt_e.id', '=', 'gt_ue.idexpediente')
+                        ->JOIN('GT_GRADUANDO_EXPEDIENTE AS gt_ge', 'gt_e.id', '=', 'gt_ge.idexpediente')
                         ->JOIN('GT_GRADO_PROCEDIMIENTO AS gt_gp', 'gt_e.idgrado_procedimiento', '=', 'gt_gp.id')
                         ->JOIN('GT_GRADO_MODALIDAD AS gt_gm', 'gt_gm.id', '=', 'gt_gp.idgrado_modalidad')
                         ->JOIN('GT_GRADO_TITULO AS gt_gt', 'gt_gm.idgrado_titulo', '=', 'gt_gt.id')
                         ->JOIN('GT_MODALIDAD_OBTENCION AS gt_mo', 'gt_gm.idmodalidad_obtencion', '=', 'gt_mo.id')
                         ->JOIN('actescu', 'actescu.nues', '=', 'gt_e.nues')
-                        ->WHERE('idusuario', '=', $idusuario)
+                        ->WHERE('gt_ge.idgraduando', '=', $idgraduando)
                         ->ORDERBY('gt_e.id', 'desc')
                         ->GET();
 
@@ -71,7 +71,7 @@ class ExpedienteController extends Controller
                                         ->WHERE('gt_gp.idgrado_modalidad', '=', $idgrado_modalidad)
                                         ->WHERE('gt_r.etiqueta', '=', 'iniciar')
                                         ->FIRST()
-                                          ->idgrado_procedimiento;
+                                        ->idgrado_procedimiento;
 
             $mytime= Carbon::now('America/Lima');
 
@@ -80,12 +80,13 @@ class ExpedienteController extends Controller
                                 'idgrado_procedimiento' => $idgrado_procedimiento,
                                 'nues' => $nues,
                                 'espe' => $espe,
-                                'fecha_inicio' => $mytime->format('Y-m-d H:i:s'),
-                                'estado_expediente' => 'En proceso'
+                                'fecha' => $mytime->format('Y-m-d H:i:s'),
+                                'estado' => 'iniciado',
+                                'fing' => NULL
                             ]);
 
             $digitos = strlen(strval($idexpediente));
-            $codExpediente = 'GT-UNSA-';
+            $codExpediente = 'E-';
 
             for($i = 0; $i < 7 - $digitos; $i++) {
                 $codExpediente .= '0';
@@ -97,16 +98,16 @@ class ExpedienteController extends Controller
                 ->where('id', '=', $idexpediente)
                 ->update(['codigo' => $codExpediente]);
 
-            $idusuario = DB::TABLE('GT_USUARIO')
-                                ->SELECT('id AS idusuario')
-                                ->WHERE('codi_usuario', '=', Auth::user()->cui)
+            $idgraduando = DB::TABLE('GT_GRADUANDO')
+                                ->SELECT('id AS idgraduando')
+                                ->WHERE('cui', '=', Auth::user()->cui)
                                 ->FIRST()
-                                ->idusuario;
+                                ->idgraduando;
 
-            DB::table('GT_USUARIO_EXPEDIENTE')
-                ->insert([
+            DB::table('GT_GRADUANDO_EXPEDIENTE')
+                ->insert([                
+                'idgraduando' => $idgraduando,
                 'idexpediente' => $idexpediente,
-                'idusuario' => $idusuario,
             ]);
 
             DB::commit();

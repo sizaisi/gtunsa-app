@@ -29,7 +29,7 @@ class MovimientoController extends Controller
                             ->JOIN('GT_USUARIO AS gt_u', 'gt_m.idusuario', '=', 'gt_u.id')
                             ->JOIN('GT_ROL_AREA AS gt_ra', 'gt_u.idrol_area', '=', 'gt_ra.id')
                             ->SELECT('gt_m.*', 'gt_r.idgradproc_origen', 'gt_r.etiqueta AS estado',
-                                     'gt_p.nombre AS nombre_procedimiento', 'gt_p.descripcion',
+                                     'gt_p.nombre AS nombre_procedimiento', 'gt_gp.descripcion',
                                      'gt_ra.id AS idrol_area', 'gt_ra.nombre AS rol_area', 'gt_gp.tipo_rol',
                                      'gt_gp.url_formulario', 'gt_gp.orden AS nro_orden')
                             ->WHERE('idexpediente', $idexpediente)

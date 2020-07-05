@@ -111,26 +111,44 @@ class GraduandoController extends Controller
 
           $mytime= Carbon::now('America/Lima');
 
-          DB::table('GT_MOVIMIENTO')
+          /*DB::table('GT_MOVIMIENTO')
               ->insert([
               'idexpediente' => $idexpediente,
               'idusuario' => $idusuario,
               'fecha' => $mytime->format('Y-m-d H:i:s'),
               'idruta' => $idruta,
-          ]);
+          ]);*/
+
+          $idmovimiento = DB::table('GT_MOVIMIENTO')
+                                ->insertGetId([
+                                    'idexpediente' => $idexpediente,
+                                    'idusuario' => $idusuario,
+                                    'fecha' => $mytime->format('Y-m-d H:i:s'),
+                                    'idruta' => $idruta,
+                                    'idmov_anterior' => '0'
+                            ]);
 
           DB::table('GT_EXPEDIENTE')
               ->where('id', '=', $idexpediente)
               ->update(['idgrado_procedimiento' => $idgradproc_destino]);
 
+        
+          $idrecurso = DB::table('GT_RECURSO')
+                        ->insertGetId([
+                            'idexpediente' => $idexpediente,
+                            'idgrado_proc' => $idgradproc_origen,
+                            'idusuario' => $idusuario,
+                            'idmovimiento' => $idmovimiento,
+                            'idruta' => $idruta           
+                    ]);          
+
           DB::table('GT_ARCHIVO')
               ->insert([
-                'nombre' => 'Plan de tesis',
-                'data' => $data,
-                'extension' => $extension,
-                'idgrado_proc' => $idgradproc_origen,
-                'idusuario' => $idusuario,
-                'idexpediente' => $idexpediente,
+                'idrecurso' => $idrecurso,                
+                'nombre_asignado' => 'Plan de tesis',                
+                'nombre_archivo' => 'Plan de tesis.pdf',                
+                'mime' => $extension,     
+                'data' => $data         
           ]);
 
           //$archivo_pdf = $request->archivo_pdf;

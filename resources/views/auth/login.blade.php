@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <!--<div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Iniciar sesión') }}</div>
@@ -75,10 +75,10 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--<div align="center"><img src="img/logo_unsa1.png" width="50%"/></div>   
+    </div>-->
+    <div align="center"><img src="img/logo_unsa1.png" width="50%"/></div>   
     <h1 align="center">Sistema de Gestión de Graduación y Titulación</h1>
     <p align="center">Validacion con cuentas de google del domino @unsa.edu.pe.</a></p>
-    <div align="center"><a href="{{ url('/auth/redirect/google') }}"><img src="img/login_unsa.png" class="img-fluid"/></a></div>-->
+    <div align="center"><a href="{{ url('/auth/redirect/google') }}"><img src="img/login_unsa.png" class="img-fluid"/></a></div>
 </div>
 @endsection

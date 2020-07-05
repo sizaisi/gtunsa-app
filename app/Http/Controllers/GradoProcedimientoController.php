@@ -40,7 +40,7 @@ class GradoProcedimientoController extends Controller
                                         ->JOIN('GT_PROCEDIMIENTO AS gt_p', 'gt_gp.idprocedimiento', '=', 'gt_p.id')
                                         ->JOIN('GT_ROL_AREA AS gt_ra', 'gt_gp.idrol_area', '=', 'gt_ra.id')
                                         ->SELECT('gt_gp.id AS idgrado_procedimiento', 'gt_p.nombre AS nombre_procedimiento',
-                                                 'gt_gp.idrol_area', 'gt_gp.url_formulario', 'gt_p.descripcion',
+                                                 'gt_gp.idrol_area', 'gt_gp.url_formulario', 'gt_gp.descripcion',
                                                  'gt_ra.nombre AS rol_area', 'gt_gp.tipo_rol', 'gt_gp.orden AS nro_orden')
                                         ->WHERE('gt_gp.id', '=', $idgrado_procedimiento_actual)
                                         ->FIRST();
