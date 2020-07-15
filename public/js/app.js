@@ -69498,6 +69498,7 @@ var render = function() {
           _c(
             "b-button",
             {
+              key: ruta.etiqueta,
               attrs: { variant: _vm.etiquetas[ruta.etiqueta] },
               on: {
                 click: function($event) {
@@ -99616,8 +99617,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 var config = {
   //API_URL: '//190.119.213.95/gtunsa-app',
-  //API_URL: '//10.20.10.4:8000',
-  API_URL: 'https://desarrollo.unsa.edu.pe/sisgrad',
+  API_URL: '//127.0.0.1:8000',
+  //API_URL: 'https://desarrollo.unsa.edu.pe/sisgrad',
   etiquetas: {
     actual: "primary",
     enviar: "success",
@@ -100103,8 +100104,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/sisgrad/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /var/www/html/sisgrad/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! F:\proyectos_unsa\grados-graduando\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! F:\proyectos_unsa\grados-graduando\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
