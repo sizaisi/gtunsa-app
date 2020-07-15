@@ -140,11 +140,11 @@
                         'idgrado_procedimiento_actual': this.idgrado_procedimiento_actual
                     }
                 })
-                .then(function (response) {                    
+                .then(function (response) {
                     me.grado_proc_actual = response.data
                 })
                 .catch(function (error) {
-                    console.log(error)                    
+                    console.log(error)
                 })
             },
             getMovimientos() { // los movimientos de un expediente determinado
