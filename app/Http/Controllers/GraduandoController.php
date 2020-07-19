@@ -17,14 +17,15 @@ class GraduandoController extends Controller
      */
     public function index()
     {
-        $graduando = User::JOIN('acdiden', 'GT_GRADUANDO.cui', '=', 'acdiden.cui')
-                           ->SELECT('GT_GRADUANDO.id', 'GT_GRADUANDO.cui', DB::raw('(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 1)) AS apellidos'),
+        $graduando = User::JOIN('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
+                           ->SELECT('gt_graduando.id', 'gt_graduando.cui', DB::raw('(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 1)) AS apellidos'),
                                     DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 2), ",", -1)) AS nombres'),
                                     'email', 'acdiden.dic AS dni', 'telefono_fijo', 'telefono_movil','direccion')
-                           ->WHERE('GT_GRADUANDO.cui', '=', Auth::user()->cui)
+                           ->WHERE('gt_graduando.cui', '=', Auth::user()->cui)
                            ->FIRST();
 
-        return $graduando;
+        //dd(json_encode($graduando));
+        return json_encode($graduando);
     }
 
     /**

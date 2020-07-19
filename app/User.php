@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    protected $table = 'GT_GRADUANDO';    
+    protected $table = 'gt_graduando';    
     
     use Notifiable;
 
@@ -22,7 +22,7 @@ class User extends Authenticatable
     ];*/
 
     protected $fillable = [
-         'cui', 'email', 'password', 'provider', 'provider_id'
+         'cui', 'email', 'password', 'provider', 'provider_id', 'telefono_fijo', 'telefono_movil', 'direccion'
     ];
 
     /**

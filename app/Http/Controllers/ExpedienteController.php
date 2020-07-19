@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Auth;
-use DB;
 
 class ExpedienteController extends Controller
 {
@@ -16,10 +16,10 @@ class ExpedienteController extends Controller
      */
     public function index()
     {
-        $idgraduando = DB::TABLE('GT_GRADUANDO')
-                                ->SELECT('id AS idgraduando')
-                                ->WHERE('cui', '=', Auth::user()->cui)
-                                ->FIRST()
+        $idgraduando = DB::table('GT_GRADUANDO')
+                                ->select('id AS idgraduando')
+                                ->where('cui', '=', Auth::user()->cui)
+                                ->first()
                                 ->idgraduando;
 
         $tramites = DB::TABLE('GT_EXPEDIENTE AS gt_e')

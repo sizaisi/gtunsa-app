@@ -31,9 +31,8 @@ return [
     ],
 
     'google' => [
-        'client_id' => '809514991769-rpbib4mqk6k6vkl0pv0ruf3fjuhj6bu7.apps.googleusercontent.com',
-        'client_secret' => 'fjCFTIpZ8ZhS1xWSLyENHkz3',
-        'redirect' => 'https://desarrollo.unsa.edu.pe/gtunsa-app/public/callback/google'
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT'),
     ], 
-
 ];

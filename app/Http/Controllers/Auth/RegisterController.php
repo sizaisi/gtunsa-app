@@ -49,8 +49,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'cui' => ['required', 'string', 'max:8', 'unique:GT_GRADUANDO', 'exists:acdiden,cui'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:GT_GRADUANDO'],
+            'cui' => ['required', 'string', 'max:8', 'unique:gt_graduando', 'exists:acdiden,cui'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:gt_graduando'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'telefono_fijo' => ['nullable', 'string', 'max:10'],
             'telefono_movil' => ['required', 'string', 'max:15'],
