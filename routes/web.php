@@ -35,28 +35,27 @@ Route::get('/home', function () { // interfaz de inicio del sistema
 
 })->name('home');
 
-Route::get('/graduando', 'GraduandoController@index');
+Route::get('/graduando', 'GraduandoController@show');
 Route::put('/graduando/actualizar/{id}', 'GraduandoController@update');
 Route::post('/graduando/registrar_proyecto', 'GraduandoController@registrarProyecto');
 Route::post('/graduando/mover', 'GraduandoController@mover');
 
 Route::get('/escuela', 'EscuelaController@index');
 
-Route::get('/grado_titulo', 'GradoModalidadController@getGradoTitulos');
-Route::get('/grado_modalidad', 'GradoModalidadController@getGradoModalidades');
+Route::get('/GradoModalidad/grado_titulo', 'GradoModalidadController@listGradoTitulo');
+Route::get('/GradoModalidad/modalidad_obtencion', 'GradoModalidadController@listModalidadObtencion');
 
-Route::get('/tramite', 'ExpedienteController@index');
-
+Route::get('/expediente/tramite', 'ExpedienteController@index');
 Route::get('/expediente/registrar/', 'ExpedienteController@store');
 
 Route::get('/grado_procedimiento', 'GradoProcedimientoController@getAllGradoProcedimientos');
-Route::get('/grado_procedimiento_actual', 'GradoProcedimientoController@getGradoProcedimientoActual');
-Route::get('/resto_grado_procedimiento', 'GradoProcedimientoController@getRestoGradoProcedimientos');
+Route::get('/grado_procedimiento/actual', 'GradoProcedimientoController@getGradoProcedimientoActual');
+Route::get('/grado_procedimiento/resto', 'GradoProcedimientoController@getRestoGradoProcedimientos');
 
 
 Route::get('/movimiento', 'MovimientoController@getMovimientos');
 Route::get('/movimiento/ruta', 'MovimientoController@getRutas');
 
 
- Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
- Route::get('/callback/{provider}', 'SocialController@callback');
+Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
+Route::get('/callback/{provider}', 'SocialController@callback');

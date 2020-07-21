@@ -135,7 +135,7 @@
             getGradoProcedimientoActual() { // obtener el procedimiento actual
                 let me = this
 
-                axios.get(`${this.ruta}/grado_procedimiento_actual`, {
+                axios.get(`${this.ruta}/grado_procedimiento/actual`, {
                     params: {
                         'idgrado_procedimiento_actual': this.idgrado_procedimiento_actual
                     }
@@ -204,7 +204,7 @@
             getProcedimientosRestantes(idGradProcMaxOrdenMostrado) {
                 let me = this
 
-                axios.get(`${this.ruta}/resto_grado_procedimiento`, {
+                axios.get(`${this.ruta}/grado_procedimiento/resto`, {
                     params: {
                         'idgrado_modalidad': this.idgrado_modalidad,
                         'idgrado_procedimiento_actual': idGradProcMaxOrdenMostrado

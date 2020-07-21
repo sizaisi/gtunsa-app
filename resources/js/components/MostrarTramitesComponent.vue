@@ -29,7 +29,7 @@
             getTramites() {
                 let me = this
 
-                axios.get(`${this.ruta}/tramite`)
+                axios.get(`${this.ruta}/expediente/tramite`)
                 .then(function (response) {                                    
                     me.tramites = response.data                                                                                 
                 })

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
-use Auth;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class GraduandoController extends Controller
 {
@@ -17,15 +17,7 @@ class GraduandoController extends Controller
      */
     public function index()
     {
-        $graduando = User::JOIN('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
-                           ->SELECT('gt_graduando.id', 'gt_graduando.cui', DB::raw('(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 1)) AS apellidos'),
-                                    DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 2), ",", -1)) AS nombres'),
-                                    'email', 'acdiden.dic AS dni', 'telefono_fijo', 'telefono_movil','direccion')
-                           ->WHERE('gt_graduando.cui', '=', Auth::user()->cui)
-                           ->FIRST();
-
-        //dd(json_encode($graduando));
-        return json_encode($graduando);
+        //
     }
 
     /**
@@ -60,7 +52,7 @@ class GraduandoController extends Controller
 
           DB::beginTransaction();
 
-          $idusuario = DB::TABLE('GT_USUARIO')
+          $idusuario = DB::TABLE('gt_usuario')
                               ->SELECT('id AS idusuario')
                               ->WHERE('codi_usuario', '=', Auth::user()->cui)
                               ->FIRST()
@@ -68,7 +60,7 @@ class GraduandoController extends Controller
 
           $mytime= Carbon::now('America/Lima');
 
-          DB::table('GT_MOVIMIENTO')
+          DB::table('gt_movimiento')
               ->insert([
               'idexpediente' => $idexpediente,
               'idusuario' => $idusuario,
@@ -76,7 +68,7 @@ class GraduandoController extends Controller
               'idruta' => $idruta,
           ]);
 
-          DB::table('GT_EXPEDIENTE')
+          DB::table('gt_expediente')
               ->where('id', '=', $idexpediente)
               ->update(['idgrado_procedimiento' => $idgradproc_destino]);
 
@@ -100,27 +92,19 @@ class GraduandoController extends Controller
 
           DB::beginTransaction();
 
-          $idusuario = DB::TABLE('GT_USUARIO')
+          $idusuario = DB::TABLE('gt_usuario')
                               ->SELECT('id AS idusuario')
                               ->WHERE('codi_usuario', '=', Auth::user()->cui)
                               ->FIRST()
                               ->idusuario;
 
-          DB::table('GT_EXPEDIENTE')
+          DB::table('gt_expediente')
               ->where('id', '=', $idexpediente)
               ->update(['titulo' => $titulo]);
 
-          $mytime= Carbon::now('America/Lima');
+          $mytime= Carbon::now('America/Lima');          
 
-          /*DB::table('GT_MOVIMIENTO')
-              ->insert([
-              'idexpediente' => $idexpediente,
-              'idusuario' => $idusuario,
-              'fecha' => $mytime->format('Y-m-d H:i:s'),
-              'idruta' => $idruta,
-          ]);*/
-
-          $idmovimiento = DB::table('GT_MOVIMIENTO')
+          $idmovimiento = DB::table('gt_movimiento')
                                 ->insertGetId([
                                     'idexpediente' => $idexpediente,
                                     'idusuario' => $idusuario,
@@ -129,12 +113,12 @@ class GraduandoController extends Controller
                                     'idmov_anterior' => '0'
                             ]);
 
-          DB::table('GT_EXPEDIENTE')
+          DB::table('gt_expediente')
               ->where('id', '=', $idexpediente)
               ->update(['idgrado_procedimiento' => $idgradproc_destino]);
 
         
-          $idrecurso = DB::table('GT_RECURSO')
+          $idrecurso = DB::table('gt_recurso')
                         ->insertGetId([
                             'idexpediente' => $idexpediente,
                             'idgrado_proc' => $idgradproc_origen,
@@ -143,7 +127,7 @@ class GraduandoController extends Controller
                             'idruta' => $idruta           
                     ]);          
 
-          DB::table('GT_ARCHIVO')
+          DB::table('gt_archivo')
               ->insert([
                 'idrecurso' => $idrecurso,                
                 'nombre_asignado' => 'Plan de tesis',                
@@ -170,9 +154,18 @@ class GraduandoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $graduando = User::join('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
+                        ->select('gt_graduando.id', 'gt_graduando.cui', DB::raw('(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 1)) AS apellidos'),
+                                DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 2), ",", -1)) AS nombres'),
+                                'email', 'acdiden.dic AS dni', 'telefono_fijo', 'telefono_movil','direccion')
+                        ->where('gt_graduando.id', '=', Auth::id())
+                        ->first();
+
+        //dd(json_encode($graduando));
+        
+        return json_encode($graduando);
     }
 
     /**

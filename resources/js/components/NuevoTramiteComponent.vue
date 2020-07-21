@@ -64,7 +64,7 @@
                 let me = this
                 me.idgrado_titulo  = null
 
-                axios.get(`${this.ruta}/grado_titulo`, {
+                axios.get(`${this.ruta}/GradoModalidad/grado_titulo`, {
                     params: {
                         'nive': val.nive
                     }
@@ -80,14 +80,13 @@
                 let me = this
                 me.idgrado_modalidad  = null
 
-                axios.get(`${this.ruta}/grado_modalidad`, {
+                axios.get(`${this.ruta}/GradoModalidad/modalidad_obtencion`, {
                     params: {
                         'idgrado_titulo': val
                     }
                 })
                 .then(function (response) {
-                    me.grado_modalidades = response.data
-                    console.log(me.grado_modalidades)
+                    me.grado_modalidades = response.data                    
                 })
                 .catch(function (error) {
                     console.log(error)

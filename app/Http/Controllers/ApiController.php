@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -47,8 +47,8 @@ class ApiController extends Controller
      */
     public function show_expediente($cui)
     {
-        $expediente = DB::TABLE('GT_EXPEDIENTE AS GT_E')
-                        ->SELECT(
+        $expediente = DB::table('gt_expediente AS GT_E')
+                        ->select(
                             'GT_E.id AS idexpediente',
                             DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(AC_I.apn, "/", " "), ",", 2), ", ", -1)) AS nombres'),
                             DB::raw('(SUBSTRING_INDEX(REPLACE(AC_I.apn, "/", " "), ",", 1)) AS apellidos'),
@@ -65,47 +65,47 @@ class ApiController extends Controller
                             'GT_E.titulo AS titulo_trabajo_investigacion',
                             //'GT_A.data as tesis'
                         )
-                        ->JOIN('GT_USUARIO_EXPEDIENTE AS GT_UE', 'GT_UE.idexpediente', '=', 'GT_E.id')
-                        ->JOIN('GT_ARCHIVO AS GT_A', 'GT_A.idexpediente', '=', 'GT_E.id')
-                        ->JOIN('GT_USUARIO AS GT_U', 'GT_U.id', '=', 'GT_UE.idusuario')
-                        ->JOIN('GT_GRADUANDO AS GT_G', 'GT_G.cui', '=', 'GT_U.codi_usuario')
-                        ->JOIN('acdiden AS AC_I', 'AC_I.cui', '=', 'GT_G.cui')
-                        ->JOIN('actescu AS AC_E', 'AC_E.nues', '=', 'GT_E.nues')
-                        ->JOIN('actfacu AS AC_F', 'AC_F.facu', '=', 'AC_E.facu')
-                        ->JOIN('GT_GRADO_MODALIDAD AS GT_GM', 'GT_GM.id', '=', 'GT_E.idgrado_modalidad')
-                        ->JOIN('GT_MODALIDAD_OBTENCION AS GT_MO', 'GT_MO.id', '=', 'GT_GM.idmodalidad_obtencion')
-                        ->WHERE('GT_G.cui', '=', $cui)
-                        ->FIRST();   
+                        ->join('gt_usuario_expediente AS GT_UE', 'GT_UE.idexpediente', '=', 'GT_E.id')
+                        ->join('gt_archivo AS GT_A', 'GT_A.idexpediente', '=', 'GT_E.id')
+                        ->join('gt_usuario AS GT_U', 'GT_U.id', '=', 'GT_UE.idusuario')
+                        ->join('gt_graduando AS GT_G', 'GT_G.cui', '=', 'GT_U.codi_usuario')
+                        ->join('acdiden AS AC_I', 'AC_I.cui', '=', 'GT_G.cui')
+                        ->join('actescu AS AC_E', 'AC_E.nues', '=', 'GT_E.nues')
+                        ->join('actfacu AS AC_F', 'AC_F.facu', '=', 'AC_E.facu')
+                        ->join('gt_grado_modalidad AS GT_GM', 'GT_GM.id', '=', 'GT_E.idgrado_modalidad')
+                        ->join('gt_modalidad_obtencion AS GT_MO', 'GT_MO.id', '=', 'GT_GM.idmodalidad_obtencion')
+                        ->where('GT_G.cui', '=', $cui)
+                        ->first();   
 
-        $asesores = DB::SELECT(
+        $asesores = DB::select(
                         DB::raw("SELECT 
                                  (SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(AC_D.apn, '/', ' '), ',', 2), ', ', -1)) AS nombres,
                                  (SUBSTRING_INDEX(REPLACE(AC_D.apn, '/', ' '), ',', 1)) AS apellidos,
                                  AC_D.dic AS dni
                                  FROM SIAC_DOC AC_D                                                                
-                                 INNER JOIN GT_USUARIO AS GT_U ON GT_U.codi_usuario = AC_D.codper
-                                 INNER JOIN GT_USUARIO_EXPEDIENTE AS GT_UE ON GT_UE.idusuario = GT_U.id
+                                 INNER JOIN gt_usuario AS GT_U ON GT_U.codi_usuario = AC_D.codper
+                                 INNER JOIN gt_usuario_expediente AS GT_UE ON GT_UE.idusuario = GT_U.id
                                  WHERE GT_UE.idexpediente = ( SELECT GT_UE.idexpediente
-                                    FROM GT_GRADUANDO AS GT_G
-                                    INNER JOIN GT_USUARIO AS GT_U ON GT_U.codi_usuario = GT_G.cui
-                                    INNER JOIN GT_USUARIO_EXPEDIENTE AS GT_UE ON GT_UE.idusuario = GT_U.id
+                                    FROM gt_graduando AS GT_G
+                                    INNER JOIN gt_usuario AS GT_U ON GT_U.codi_usuario = GT_G.cui
+                                    INNER JOIN gt_usuario_expediente AS GT_UE ON GT_UE.idusuario = GT_U.id
                                     WHERE GT_G.cui = $cui)
                                  AND GT_UE.tipo = 'asesor'"
                         )
                     );
         
-        $jurados = DB::SELECT(
+        $jurados = DB::select(
                         DB::raw("SELECT 
                                     (SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(AC_D.apn, '/', ' '), ',', 2), ', ', -1)) AS nombres,
                                     (SUBSTRING_INDEX(REPLACE(AC_D.apn, '/', ' '), ',', 1)) AS apellidos,
                                     GT_UE.tipo AS cargo
                                     FROM SIAC_DOC AC_D                                                                
-                                    INNER JOIN GT_USUARIO AS GT_U ON GT_U.codi_usuario = AC_D.codper
-                                    INNER JOIN GT_USUARIO_EXPEDIENTE AS GT_UE ON GT_UE.idusuario = GT_U.id
+                                    INNER JOIN gt_usuario AS GT_U ON GT_U.codi_usuario = AC_D.codper
+                                    INNER JOIN gt_usuario_expediente AS GT_UE ON GT_UE.idusuario = GT_U.id
                                     WHERE GT_UE.idexpediente = ( SELECT GT_UE.idexpediente
-                                    FROM GT_GRADUANDO AS GT_G
-                                    INNER JOIN GT_USUARIO AS GT_U ON GT_U.codi_usuario = GT_G.cui
-                                    INNER JOIN GT_USUARIO_EXPEDIENTE AS GT_UE ON GT_UE.idusuario = GT_U.id
+                                    FROM gt_graduando AS GT_G
+                                    INNER JOIN gt_usuario AS GT_U ON GT_U.codi_usuario = GT_G.cui
+                                    INNER JOIN gt_usuario_expediente AS GT_UE ON GT_UE.idusuario = GT_U.id
                                     WHERE GT_G.cui = $cui)
                                     AND GT_UE.tipo IN ('presidente', 'secretario', 'vocal', 'suplente')
                                     ORDER BY GT_UE.tipo"
@@ -121,18 +121,18 @@ class ApiController extends Controller
 
     public function show_file($cui) //url
     {
-        $expediente = DB::TABLE('GT_EXPEDIENTE AS GT_E')
-                        ->SELECT(
+        $expediente = DB::table('gt_expediente AS GT_E')
+                        ->select(
                             'GT_G.cui',
                             'GT_E.titulo AS titulo_trabajo_investigacion',
                             'GT_A.data as file'
                         )
-                        ->JOIN('GT_USUARIO_EXPEDIENTE AS GT_UE', 'GT_UE.idexpediente', '=', 'GT_E.id')
-                        ->JOIN('GT_ARCHIVO AS GT_A', 'GT_A.idexpediente', '=', 'GT_E.id')
-                        ->JOIN('GT_USUARIO AS GT_U', 'GT_U.id', '=', 'GT_UE.idusuario')
-                        ->JOIN('GT_GRADUANDO AS GT_G', 'GT_G.cui', '=', 'GT_U.codi_usuario')                                                
-                        ->WHERE('GT_G.cui', '=', $cui)
-                        ->FIRST();     
+                        ->join('gt_usuario_expediente AS GT_UE', 'GT_UE.idexpediente', '=', 'GT_E.id')
+                        ->join('gt_archivo AS GT_A', 'GT_A.idexpediente', '=', 'GT_E.id')
+                        ->join('gt_usuario AS GT_U', 'GT_U.id', '=', 'GT_UE.idusuario')
+                        ->join('gt_graduando AS GT_G', 'GT_G.cui', '=', 'GT_U.codi_usuario')                                                
+                        ->where('GT_G.cui', '=', $cui)
+                        ->first();     
                         
         $expediente->file = gzencode($expediente->file, 9);
 
@@ -166,12 +166,12 @@ class ApiController extends Controller
         
         $result = array('error' => false);
 
-        $query = DB::table('GT_EXPEDIENTE')
-            ->where('id', '=', $id)
-            ->update([
-                'url_repo' => $url_repositorio,
-                'updated_at' => Carbon::now()
-                ]);       
+        $query = DB::table('gt_expediente')
+                    ->where('id', '=', $id)
+                    ->update([
+                        'url_repo' => $url_repositorio,
+                        'updated_at' => Carbon::now()
+                        ]);       
 
         if ($query) { 
             $result['message'] = "URL actualizada correctamente.";                

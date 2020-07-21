@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class EscuelaController extends Controller
 {
@@ -15,12 +15,12 @@ class EscuelaController extends Controller
      */
     public function index()
     {
-        $escuelas = DB::TABLE('acdidal')                        
-                        ->JOIN('actescu', 'acdidal.nues', '=', 'actescu.nues')
-                        ->SELECT('acdidal.nues', 'nesc', 'nive', 'acdidal.espe')                        
-                        ->WHERE('cui', '=', Auth::user()->cui)
-                        ->WHERE('cond', '=', 'E')
-                        ->ORDERBY('nesc', 'asc')
+        $escuelas = DB::table('acdidal')                        
+                        ->join('actescu', 'acdidal.nues', '=', 'actescu.nues')
+                        ->select('acdidal.nues', 'nesc', 'nive', 'acdidal.espe')                        
+                        ->where('cui', '=', Auth::user()->cui)
+                        ->where('cond', '=', 'E')
+                        ->orderby('nesc', 'asc')
                         ->get();
 
         $escuelas2= array();

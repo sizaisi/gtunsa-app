@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class GradoModalidadController extends Controller
 {
@@ -17,27 +17,27 @@ class GradoModalidadController extends Controller
         
     }
 
-    public function getGradoTitulos(Request $request) {
+    public function listGradoTitulo(Request $request) {
         $nive = $request->nive;
 
-        $grado_titulos = DB::TABLE('GT_GRADO_TITULO')
-                        ->SELECT('id AS value', 'nombre AS text')                                                
-                        ->WHERE('codigo', '=', $nive)  
-                        ->ORDERBY('nombre', 'asc')                      
-                        ->GET();        
+        $grado_titulos = DB::table('gt_grado_titulo')
+                            ->select('id AS value', 'nombre AS text')                                                
+                            ->where('codigo', '=', $nive)  
+                            ->orderby('nombre', 'asc')                      
+                            ->get();        
 
         return $grado_titulos;
     }
 
-    public function getGradoModalidades(Request $request) {
+    public function listModalidadObtencion(Request $request) {
         $idgrado_titulo = $request->idgrado_titulo;
 
-        $grado_modalidades = DB::TABLE('GT_GRADO_MODALIDAD')
-                        ->JOIN('GT_MODALIDAD_OBTENCION', 'GT_GRADO_MODALIDAD.idmodalidad_obtencion', '=', 'GT_MODALIDAD_OBTENCION.id')
-                        ->SELECT('GT_GRADO_MODALIDAD.id AS value', 'nombre AS text')                                                
-                        ->WHERE('idgrado_titulo', '=', $idgrado_titulo)           
-                        ->ORDERBY('nombre', 'asc')             
-                        ->GET();        
+        $grado_modalidades = DB::TABLE('gt_grado_modalidad')
+                                ->join('gt_modalidad_obtencion', 'GT_GRADO_MODALIDAD.idmodalidad_obtencion', '=', 'GT_MODALIDAD_OBTENCION.id')
+                                ->select('gt_grado_modalidad.id AS value', 'nombre AS text')                                                
+                                ->where('idgrado_titulo', '=', $idgrado_titulo)           
+                                ->orderby('nombre', 'asc')             
+                                ->get();        
 
         return $grado_modalidades;
     }
