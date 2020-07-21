@@ -33,7 +33,7 @@ class GradoModalidadController extends Controller
         $idgrado_titulo = $request->idgrado_titulo;
 
         $grado_modalidades = DB::TABLE('gt_grado_modalidad')
-                                ->join('gt_modalidad_obtencion', 'GT_GRADO_MODALIDAD.idmodalidad_obtencion', '=', 'GT_MODALIDAD_OBTENCION.id')
+                                ->join('gt_modalidad_obtencion', 'gt_grado_modalidad.idmodalidad_obtencion', '=', 'gt_modalidad_obtencion.id')
                                 ->select('gt_grado_modalidad.id AS value', 'nombre AS text')                                                
                                 ->where('idgrado_titulo', '=', $idgrado_titulo)           
                                 ->orderby('nombre', 'asc')             
