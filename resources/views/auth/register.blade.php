@@ -12,6 +12,20 @@
                         @csrf
 
                         <div class="form-group row">
+                            <label for="apn" class="col-md-4 col-form-label text-md-right">{{ __('Apellidos y Nombres') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="apn" type="text" class="form-control @error('apn') is-invalid @enderror" name="apn" value="{{ old('apn') }}" required autocomplete="apn" autofocus>                                
+
+                                @error('apn')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group row">
                             <label for="cui" class="col-md-4 col-form-label text-md-right">{{ __('CUI') }}</label>
 
                             <div class="col-md-6">
@@ -23,7 +37,7 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo electrónico') }}</label>

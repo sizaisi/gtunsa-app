@@ -49,13 +49,21 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'cui' => ['required', 'string', 'max:8', 'unique:gt_graduando', 'exists:acdiden,cui'],
+            //'cui' => ['required', 'string', 'max:8', 'unique:gt_graduando', 'exists:acdiden,cui'],
+            //'email' => ['required', 'string', 'email', 'max:255', 'unique:gt_graduando', 'unique:actmail,mail'],
+            'apn' => ['required', 'string', 'max:70'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:gt_graduando'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'telefono_fijo' => ['nullable', 'string', 'max:10'],
             'telefono_movil' => ['required', 'string', 'max:15'],
             'direccion' => ['required', 'string', 'max:150'],
-        ]);
+        ],                
+        /*[            
+            'email.unique' => 'Ya existe un usuario con esa dirección de correo en el sistema. Solicita una contraseña olvidada o selecciona otra dirección de correo electrónico.',
+        ]*/
+    );
+
+
     }
 
     /**
@@ -67,8 +75,10 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'cui' => $data['cui'],
+            //'cui' => $data['cui'],
+            'apn' => $data['apn'],
             'email' => $data['email'],
+            'tipo' => '0',
             'password' => Hash::make($data['password']),
             'telefono_fijo' => $data['telefono_fijo'],
             'telefono_movil' => $data['telefono_movil'],

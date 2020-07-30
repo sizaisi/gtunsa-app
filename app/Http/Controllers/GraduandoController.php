@@ -156,13 +156,22 @@ class GraduandoController extends Controller
      */
     public function show()
     {
-        $graduando = User::join('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
-                        ->select('gt_graduando.id', 'gt_graduando.cui', DB::raw('(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 1)) AS apellidos'),
-                                DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 2), ",", -1)) AS nombres'),
+        if (Auth::user()->tipo == 1) {
+            $graduando = User::join('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
+                        ->select('gt_graduando.id', 'gt_graduando.cui', DB::raw('(SUBSTRING_INDEX(REPLACE(acdiden.apn, "/", " "), ",", 1)) AS apellidos'),
+                                DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(acdiden.apn, "/", " "), ",", 2), ",", -1)) AS nombres'),
                                 'email', 'acdiden.dic AS dni', 'telefono_fijo', 'telefono_movil','direccion')
                         ->where('gt_graduando.id', '=', Auth::id())
                         ->first();
-
+        }
+        else if (Auth::user()->tipo == 0) {
+            $graduando = User::select('gt_graduando.id', DB::raw('(SUBSTRING_INDEX(gt_graduando.apn, ",", 1)) AS apellidos'),
+                                DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(gt_graduando.apn, ",", 2), ",", -1)) AS nombres'),
+                                'email', 'telefono_fijo', 'telefono_movil','direccion')
+                        ->where('gt_graduando.id', '=', Auth::id())
+                        ->first();
+        }
+        
         //dd(json_encode($graduando));
         
         return json_encode($graduando);
