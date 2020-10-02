@@ -1,89 +1,89 @@
 <template>
   <div>
     <h3>Enviar correciones post-sustentación</h3>
-    <template v-for="ruta in rutas">
-       <b-button @click="mover(ruta)" :variant="etiquetas[ruta.etiqueta]">
-          {{ ruta.etiqueta | capitalize }}
-       </b-button>
+    <template v-for="(ruta, index) in rutas">
+      <b-button
+        @click="mover(ruta)"
+        :variant="etiquetas[ruta.etiqueta]"
+        :key="index"
+      >
+        {{ ruta.etiqueta | capitalize }}
+      </b-button>
     </template>
   </div>
 </template>
 <script>
-
-import config from '../config'
+import config from "../config";
 
 export default {
-  name: 'tp_st_registrar_proyecto_grado',
-  props : ['ruta', 'idexpediente', 'idgrado_procedimiento_actual'],
-  data(){
-      return{
-          rutas: [],
-          etiquetas : config.etiquetas
-      }
+  name: "tp_st_registrar_proyecto_grado",
+  props: ["idexpediente", "idgrado_procedimiento_actual"],
+  data() {
+    return {
+      api_url: this.$root.api_url,
+      rutas: [],
+      etiquetas: config.etiquetas,
+    };
   },
-  methods:{
-      getRutas() { // rutas del procedimiento
-          let me = this
-
-          axios.get(`${this.ruta}/movimiento/ruta`, {
-              params: {
-                  'idgrado_procedimiento_actual': this.idgrado_procedimiento_actual
-              }
-          })
-          .then(function (response) {
-              me.rutas = response.data
-          })
-          .catch(function (error) {
-              console.log(error)
-          })
-      },
-      mover(ruta) {
-          let me = this
-
-          axios.post(`${me.ruta}/graduando/mover`, {
-                'idexpediente': me.idexpediente,
-                'idruta': ruta.id,
-                'idgradproc_origen': ruta.idgradproc_origen, /*verificar jeiken*/
-                'idgradproc_destino': ruta.idgradproc_destino,
-          }).then(function (response) {
-              me.$vs.notify({
-                  title: 'Éxito',
-                  text: 'Se mensaje se ha enviado correctamente',
-                  color: 'success',
-                  icon: 'done',
-                  position: 'top-center',
-                  time: 4000
-              })
-          }).catch(function (error) {
-              console.log(error)
-              if (error.response.status==422) {
-                  //me.errors = error.response.data.errors;
-              }
-              else {
-                  me.$vs.notify({
-                      title: 'Error',
-                      text: 'No se pudo registrar su proyecto de tesis',
-                      color: 'danger',
-                      icon: 'error',
-                      position: 'top-left',
-                      time: 4000
-                  })
-              }
-          })
-      },
+  created() {
+    this.getRutas();
+  },
+  methods: {
+    getRutas() {
+      axios
+        .get(`${this.api_url}/movimiento/ruta`, {
+          params: {
+            idgrado_procedimiento_actual: this.idgrado_procedimiento_actual,
+          },
+        })
+        .then((response) => {
+          this.rutas = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    mover(ruta) {
+      axios
+        .post(`${this.api_url}/graduando/mover`, {
+          idexpediente: this.idexpediente,
+          idruta: ruta.id,
+          idgradproc_origen: ruta.idgradproc_origen /*verificar jeiken*/,
+          idgradproc_destino: ruta.idgradproc_destino,
+        })
+        .then((response) => {
+          this.$vs.notify({
+            title: "Éxito",
+            text: "Se mensaje se ha enviado correctamente",
+            color: "success",
+            icon: "done",
+            position: "top-center",
+            time: 4000,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status == 422) {
+            //me.errors = error.response.data.errors;
+          } else {
+            this.$vs.notify({
+              title: "Error",
+              text: "No se pudo registrar su proyecto de tesis",
+              color: "danger",
+              icon: "error",
+              position: "top-left",
+              time: 4000,
+            });
+          }
+        });
+    },
   },
   filters: {
-      capitalize: function (value) {
-         if (!value) return ''
-         value = value.toString()
-         return value.charAt(0).toUpperCase() + value.slice(1)
-      },
+    capitalize: function (value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
   },
-  mounted() {
-      this.getRutas()
-  }
-}
+};
 </script>
-<style scoped>
-
-</style>

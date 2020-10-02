@@ -4,7 +4,7 @@
 <b-container fluid>
     <b-row>
         <b-col cols="3">
-            <graduando-component :ruta="ruta"></graduando-component>
+            <graduando-component></graduando-component>
         </b-col>
         <b-col cols="9">
             <transition>

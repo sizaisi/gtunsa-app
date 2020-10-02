@@ -1897,25 +1897,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'estado-component',
+  name: "estado-component",
   components: {
     tp_st_registrar_proyecto_grado: _procedimientos_tp_st_registrar_proyecto_grado_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     tp_st_corregir_observacion_jurado: _procedimientos_tp_st_corregir_observacion_jurado_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     tp_st_corregir_obs_post_sustentacion: _procedimientos_tp_st_corregir_obs_post_sustentacion_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  props: ['ruta', 'idexpediente', 'title', 'idgrado_procedimiento_actual', 'number', 'color', 'click', 'showDescription', 'hideDescription', 'url_form', 'idrol_area', 'rol_area', 'tipo_rol', 'desc', 'fecha', 'tail'],
+  props: ["idexpediente", "title", "idgrado_procedimiento_actual", "number", "color", "click", "showDescription", "hideDescription", "url_form", "idrol_area", "rol_area", "tipo_rol", "desc", "fecha", "tail"],
   data: function data() {
     return {
-      image: '',
+      image: "",
       showDescription_: false,
       rutas: [],
-      color_mostrar: '',
-      titulo: '',
+      color_mostrar: "",
+      titulo: "",
       file: [],
       etiquetas: _config__WEBPACK_IMPORTED_MODULE_0__["default"].etiquetas
     };
@@ -1927,15 +1967,15 @@ __webpack_require__.r(__webpack_exports__);
 
     this.getColor();
 
-    if (this.number != '.') {
+    if (this.number != ".") {
       this.image = "https://ui-avatars.com/api/?background=" + this.color_mostrar + "&color=fff&name=" + this.number + "&rounded=true&size=50";
     } else {
-      this.image = "https://ui-avatars.com/api/?background=" + this.color_mostrar + "&color=fff&name=" + '%E2%80%A2' + "&rounded=true&size=50";
+      this.image = "https://ui-avatars.com/api/?background=" + this.color_mostrar + "&color=fff&name=" + "%E2%80%A2" + "&rounded=true&size=50";
     }
   },
   methods: {
     getColor: function getColor() {
-      if (!this.color) this.color_mostrar = '0D8ABC';else if (this.color == 'success') this.color_mostrar = '4BB543';else if (this.color == 'aceptar') this.color_mostrar = '4BB543';else if (this.color == 'enviar') this.color_mostrar = '4BB543';else if (this.color == 'derivar') this.color_mostrar = '4BB543';else if (this.color == 'aprobar') this.color_mostrar = '4BB543';else if (this.color == 'gray') this.color_mostrar = '7D7D7D';else if (this.color == 'light_gray') this.color_mostrar = 'CCC';else if (this.color == 'denegar') this.color_mostrar = 'CC0202';else if (this.color == 'rechazar') this.color_mostrar = 'FFC107';else if (this.color == 'observar') this.color_mostrar = 'FFC107';else if (this.color == 'actual') this.color_mostrar = '0D8ABC';
+      if (!this.color) this.color_mostrar = "0D8ABC";else if (this.color == "success") this.color_mostrar = "4BB543";else if (this.color == "aceptar") this.color_mostrar = "4BB543";else if (this.color == "enviar") this.color_mostrar = "4BB543";else if (this.color == "derivar") this.color_mostrar = "4BB543";else if (this.color == "aprobar") this.color_mostrar = "4BB543";else if (this.color == "gray") this.color_mostrar = "7D7D7D";else if (this.color == "light_gray") this.color_mostrar = "CCC";else if (this.color == "denegar") this.color_mostrar = "CC0202";else if (this.color == "rechazar") this.color_mostrar = "FFC107";else if (this.color == "observar") this.color_mostrar = "FFC107";else if (this.color == "actual") this.color_mostrar = "0D8ABC";
     },
     collapseClick: function collapseClick() {
       if (!this.click) {
@@ -1949,40 +1989,40 @@ __webpack_require__.r(__webpack_exports__);
   filters: {
     estado: function estado(value) {
       switch (value) {
-        case 'actual':
-          return 'EN CALIFICACIÓN';
+        case "actual":
+          return "EN CALIFICACIÓN";
           break;
 
-        case 'enviar':
-          return 'REGISTRADO';
+        case "enviar":
+          return "REGISTRADO";
           break;
 
-        case 'aprobar':
-          return 'APROBADO';
+        case "aprobar":
+          return "APROBADO";
           break;
 
-        case 'aceptar':
-          return 'ACEPTADO';
+        case "aceptar":
+          return "ACEPTADO";
           break;
 
-        case 'derivar':
-          return 'DERIVADO';
+        case "derivar":
+          return "DERIVADO";
           break;
 
-        case 'observar':
-          return 'OBSERVADO';
+        case "observar":
+          return "OBSERVADO";
           break;
 
-        case 'devolver':
-          return 'DEVUELTO';
+        case "devolver":
+          return "DEVUELTO";
           break;
 
-        case 'denegar':
-          return 'DENEGADO';
+        case "denegar":
+          return "DENEGADO";
           break;
 
-        case 'rechazar':
-          return 'RECHAZADO';
+        case "rechazar":
+          return "RECHAZADO";
           break;
       }
     }
@@ -2001,8 +2041,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_EstadoComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/EstadoComponent */ "./resources/js/components/EstadoComponent.vue");
-//
-//
 //
 //
 //
@@ -2276,9 +2314,9 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this3.resto_grado_procedimientos = response.data;
 
-        for (var k = 0; k < me.resto_grado_procedimientos.length; k++) {
-          var objRestoGradoProcedimiento = me.resto_grado_procedimientos[k];
-          objRestoGradoProcedimiento.nro_orden = me.cont_resto_procedimientos++;
+        for (var k = 0; k < _this3.resto_grado_procedimientos.length; k++) {
+          var objRestoGradoProcedimiento = _this3.resto_grado_procedimientos[k];
+          objRestoGradoProcedimiento.nro_orden = _this3.cont_resto_procedimientos++;
         }
       })["catch"](function (error) {
         console.log(error);
@@ -2617,46 +2655,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'tp_st_registrar_proyecto_grado',
-  props: ['ruta', 'idexpediente', 'idgrado_procedimiento_actual'],
+  name: "tp_st_registrar_proyecto_grado",
+  props: ["idexpediente", "idgrado_procedimiento_actual"],
   data: function data() {
     return {
+      api_url: this.$root.api_url,
       rutas: [],
       etiquetas: _config__WEBPACK_IMPORTED_MODULE_0__["default"].etiquetas
     };
   },
+  created: function created() {
+    this.getRutas();
+  },
   methods: {
     getRutas: function getRutas() {
-      // rutas del procedimiento
-      var me = this;
-      axios.get("".concat(this.ruta, "/movimiento/ruta"), {
+      var _this = this;
+
+      axios.get("".concat(this.api_url, "/movimiento/ruta"), {
         params: {
-          'idgrado_procedimiento_actual': this.idgrado_procedimiento_actual
+          idgrado_procedimiento_actual: this.idgrado_procedimiento_actual
         }
       }).then(function (response) {
-        me.rutas = response.data;
+        _this.rutas = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     mover: function mover(ruta) {
-      var me = this;
-      axios.post("".concat(me.ruta, "/graduando/mover"), {
-        'idexpediente': me.idexpediente,
-        'idruta': ruta.id,
-        'idgradproc_origen': ruta.idgradproc_origen,
+      var _this2 = this;
 
+      axios.post("".concat(this.api_url, "/graduando/mover"), {
+        idexpediente: this.idexpediente,
+        idruta: ruta.id,
+        idgradproc_origen: ruta.idgradproc_origen
         /*verificar jeiken*/
-        'idgradproc_destino': ruta.idgradproc_destino
+        ,
+        idgradproc_destino: ruta.idgradproc_destino
       }).then(function (response) {
-        me.$vs.notify({
-          title: 'Éxito',
-          text: 'Se mensaje se ha enviado correctamente',
-          color: 'success',
-          icon: 'done',
-          position: 'top-center',
+        _this2.$vs.notify({
+          title: "Éxito",
+          text: "Se mensaje se ha enviado correctamente",
+          color: "success",
+          icon: "done",
+          position: "top-center",
           time: 4000
         });
       })["catch"](function (error) {
@@ -2664,12 +2711,12 @@ __webpack_require__.r(__webpack_exports__);
 
         if (error.response.status == 422) {//me.errors = error.response.data.errors;
         } else {
-          me.$vs.notify({
-            title: 'Error',
-            text: 'No se pudo registrar su proyecto de tesis',
-            color: 'danger',
-            icon: 'error',
-            position: 'top-left',
+          _this2.$vs.notify({
+            title: "Error",
+            text: "No se pudo registrar su proyecto de tesis",
+            color: "danger",
+            icon: "error",
+            position: "top-left",
             time: 4000
           });
         }
@@ -2678,13 +2725,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   filters: {
     capitalize: function capitalize(value) {
-      if (!value) return '';
+      if (!value) return "";
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
     }
-  },
-  mounted: function mounted() {
-    this.getRutas();
   }
 });
 
@@ -2710,46 +2754,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'tp_st_registrar_proyecto_grado',
-  props: ['ruta', 'idexpediente', 'idgrado_procedimiento_actual'],
+  name: "tp_st_registrar_proyecto_grado",
+  props: ["idexpediente", "idgrado_procedimiento_actual"],
   data: function data() {
     return {
+      api_url: this.$root.api_url,
       rutas: [],
       etiquetas: _config__WEBPACK_IMPORTED_MODULE_0__["default"].etiquetas
     };
   },
+  created: function created() {
+    this.getRutas();
+  },
   methods: {
     getRutas: function getRutas() {
-      // rutas del procedimiento
-      var me = this;
-      axios.get("".concat(this.ruta, "/movimiento/ruta"), {
+      var _this = this;
+
+      axios.get("".concat(this.api_url, "/movimiento/ruta"), {
         params: {
-          'idgrado_procedimiento_actual': this.idgrado_procedimiento_actual
+          idgrado_procedimiento_actual: this.idgrado_procedimiento_actual
         }
       }).then(function (response) {
-        me.rutas = response.data;
+        _this.rutas = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     mover: function mover(ruta) {
-      var me = this;
-      axios.post("".concat(me.ruta, "/graduando/mover"), {
-        'idexpediente': me.idexpediente,
-        'idruta': ruta.id,
-        'idgradproc_origen': ruta.idgradproc_origen,
+      var _this2 = this;
 
+      axios.post("".concat(this.api_url, "/graduando/mover"), {
+        idexpediente: this.idexpediente,
+        idruta: ruta.id,
+        idgradproc_origen: ruta.idgradproc_origen
         /*verificar jeiken*/
-        'idgradproc_destino': ruta.idgradproc_destino
+        ,
+        idgradproc_destino: ruta.idgradproc_destino
       }).then(function (response) {
-        me.$vs.notify({
-          title: 'Éxito',
-          text: 'Se mensaje se ha enviado correctamente',
-          color: 'success',
-          icon: 'done',
-          position: 'top-center',
+        _this2.$vs.notify({
+          title: "Éxito",
+          text: "Se mensaje se ha enviado correctamente",
+          color: "success",
+          icon: "done",
+          position: "top-center",
           time: 4000
         });
       })["catch"](function (error) {
@@ -2757,12 +2810,12 @@ __webpack_require__.r(__webpack_exports__);
 
         if (error.response.status == 422) {//me.errors = error.response.data.errors;
         } else {
-          me.$vs.notify({
-            title: 'Error',
-            text: 'No se pudo registrar su proyecto de tesis',
-            color: 'danger',
-            icon: 'error',
-            position: 'top-left',
+          _this2.$vs.notify({
+            title: "Error",
+            text: "No se pudo registrar su proyecto de tesis",
+            color: "danger",
+            icon: "error",
+            position: "top-left",
             time: 4000
           });
         }
@@ -2771,13 +2824,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   filters: {
     capitalize: function capitalize(value) {
-      if (!value) return '';
+      if (!value) return "";
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
     }
-  },
-  mounted: function mounted() {
-    this.getRutas();
   }
 });
 
@@ -2831,50 +2881,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'tp_st_registrar_proyecto_grado',
-  props: ['ruta', 'idexpediente', 'idgrado_procedimiento_actual'],
+  name: "tp_st_registrar_proyecto_grado",
+  props: ["idexpediente", "idgrado_procedimiento_actual"],
   data: function data() {
     return {
+      api_url: this.$root.api_url,
       rutas: [],
-      titulo: '',
+      titulo: "",
       file: [],
       etiquetas: _config__WEBPACK_IMPORTED_MODULE_0__["default"].etiquetas
     };
   },
+  created: function created() {
+    this.getRutas();
+  },
   methods: {
     getRutas: function getRutas() {
+      var _this = this;
+
       // rutas del procedimiento
-      var me = this;
-      axios.get("".concat(this.ruta, "/movimiento/ruta"), {
+      axios.get("".concat(this.api_url, "/movimiento/ruta"), {
         params: {
-          'idgrado_procedimiento_actual': this.idgrado_procedimiento_actual
+          idgrado_procedimiento_actual: this.idgrado_procedimiento_actual
         }
       }).then(function (response) {
-        me.rutas = response.data;
+        _this.rutas = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     registrarProyectoTesis: function registrarProyectoTesis(ruta) {
-      var me = this;
+      var _this2 = this;
+
       this.file.arrayBuffer().then(function (buffer) {
-        axios.post("".concat(me.ruta, "/graduando/registrar_proyecto"), {
-          'titulo': me.titulo,
-          'data': me.getB64Str(buffer),
-          'extension': me.file.type,
-          'idexpediente': me.idexpediente,
-          'idruta': ruta.id,
-          'idgradproc_origen': ruta.idgradproc_origen,
-          'idgradproc_destino': ruta.idgradproc_destino
+        axios.post("".concat(_this2.api_url, "/graduando/registrar_proyecto"), {
+          titulo: _this2.titulo,
+          data: _this2.getB64Str(buffer),
+          extension: _this2.file.type,
+          idexpediente: _this2.idexpediente,
+          idruta: ruta.id,
+          idgradproc_origen: ruta.idgradproc_origen,
+          idgradproc_destino: ruta.idgradproc_destino
         }).then(function (response) {
-          me.$vs.notify({
-            title: 'Éxito',
-            text: 'Se registro su proyecto de tesis correctamente',
-            color: 'success',
-            icon: 'done',
-            position: 'top-center',
+          thus.$vs.notify({
+            title: "Éxito",
+            text: "Se registro su proyecto de tesis correctamente",
+            color: "success",
+            icon: "done",
+            position: "top-center",
             time: 4000
           });
         })["catch"](function (error) {
@@ -2882,12 +2942,12 @@ __webpack_require__.r(__webpack_exports__);
 
           if (error.response.status == 422) {//me.errors = error.response.data.errors;
           } else {
-            me.$vs.notify({
-              title: 'Error',
-              text: 'No se pudo registrar su proyecto de tesis',
-              color: 'danger',
-              icon: 'error',
-              position: 'top-left',
+            _this2.$vs.notify({
+              title: "Error",
+              text: "No se pudo registrar su proyecto de tesis",
+              color: "danger",
+              icon: "error",
+              position: "top-left",
               time: 4000
             });
           }
@@ -2895,7 +2955,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     getB64Str: function getB64Str(buffer) {
-      var binary = '';
+      var binary = "";
       var bytes = new Uint8Array(buffer);
       var len = bytes.byteLength;
 
@@ -2908,13 +2968,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   filters: {
     capitalize: function capitalize(value) {
-      if (!value) return '';
+      if (!value) return "";
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
     }
-  },
-  mounted: function mounted() {
-    this.getRutas();
   }
 });
 
@@ -68636,9 +68693,11 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  _vm._s(
-                                                    _vm.tipo_rol.toUpperCase()
-                                                  )
+                                                  "\n                      " +
+                                                    _vm._s(
+                                                      _vm.tipo_rol.toUpperCase()
+                                                    ) +
+                                                    "\n                    "
                                                 )
                                               ]
                                             )
@@ -68648,7 +68707,13 @@ var render = function() {
                                                 staticClass:
                                                   "py-2 col-lg-9 col-md-8 col-sm-12 border"
                                               },
-                                              [_vm._v(_vm._s(_vm.rol_area))]
+                                              [
+                                                _vm._v(
+                                                  "\n                      " +
+                                                    _vm._s(_vm.rol_area) +
+                                                    "\n                    "
+                                                )
+                                              ]
                                             )
                                       ]),
                                       _vm._v(" "),
@@ -68711,7 +68776,13 @@ var render = function() {
                                                 staticClass:
                                                   "py-2 col-lg-9 col-md-8 col-sm-12 border"
                                               },
-                                              [_vm._v(_vm._s(_vm.fecha))]
+                                              [
+                                                _vm._v(
+                                                  "\n                      " +
+                                                    _vm._s(_vm.fecha) +
+                                                    "\n                    "
+                                                )
+                                              ]
                                             )
                                           ])
                                         : _vm._e()
@@ -68721,7 +68792,6 @@ var render = function() {
                                     _c(_vm.url_form, {
                                       tag: "component",
                                       attrs: {
-                                        ruta: _vm.ruta,
                                         idexpediente: _vm.idexpediente,
                                         idgrado_procedimiento_actual:
                                           _vm.idgrado_procedimiento_actual
@@ -68853,7 +68923,6 @@ var render = function() {
                               [
                                 _c("estado-component", {
                                   attrs: {
-                                    ruta: _vm.ruta,
                                     idexpediente: _vm.idexpediente,
                                     idgrado_procedimiento_actual:
                                       _vm.idgrado_procedimiento_actual,
@@ -68953,7 +69022,6 @@ var render = function() {
                         [
                           _c("estado-component", {
                             attrs: {
-                              ruta: _vm.ruta,
                               idexpediente: _vm.idexpediente,
                               title: _vm.grado_proc_actual.nombre_procedimiento,
                               idgrado_procedimiento_actual:
@@ -69106,64 +69174,62 @@ var render = function() {
   return _c(
     "div",
     [
-      !_vm.flag_nuevo
-        ? _c(
-            "b-card",
-            [
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-success",
-                  attrs: { to: { name: "nuevo-tramite" } }
-                },
-                [_vm._v("Nuevo trámite")]
-              ),
-              _vm._v(" "),
-              _c("hr"),
-              _vm._v(" "),
-              _vm._l(_vm.tramites, function(tramite) {
-                return _c(
-                  "b-card",
-                  { key: tramite.id },
-                  [
-                    _c("b-card-text", [
-                      _c("b", [_vm._v("Código de Expediente:")]),
-                      _vm._v(" " + _vm._s(tramite.codExpediente) + " "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("b", [_vm._v("Grado ó Título:")]),
-                      _vm._v(" " + _vm._s(tramite.nombre_grado_titulo) + " "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("b", [_vm._v("Modalidad de Obtención:")]),
-                      _vm._v(" " + _vm._s(tramite.nombre_modalidad) + " "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("b", [_vm._v("Escuela o Programa:")]),
-                      _vm._v(" " + _vm._s(tramite.nesc) + " "),
-                      _c("br")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "b-button",
-                      {
-                        attrs: { variant: "info" },
-                        on: {
-                          click: function($event) {
-                            return _vm.verEstados(tramite)
-                          }
-                        }
-                      },
-                      [_vm._v("Iniciar / Seguir proceso")]
-                    )
-                  ],
-                  1
+      _c(
+        "b-card",
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "btn btn-success",
+              attrs: { to: { name: "nuevo-tramite" } }
+            },
+            [_vm._v("Nuevo trámite")]
+          ),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _vm._l(_vm.tramites, function(tramite) {
+            return _c(
+              "b-card",
+              { key: tramite.id },
+              [
+                _c("b-card-text", [
+                  _c("b", [_vm._v("Código de Expediente:")]),
+                  _vm._v(" " + _vm._s(tramite.codExpediente) + " "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("b", [_vm._v("Grado ó Título:")]),
+                  _vm._v(" " + _vm._s(tramite.nombre_grado_titulo) + " "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("b", [_vm._v("Modalidad de Obtención:")]),
+                  _vm._v(" " + _vm._s(tramite.nombre_modalidad) + " "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("b", [_vm._v("Escuela o Programa:")]),
+                  _vm._v(" " + _vm._s(tramite.nesc) + " "),
+                  _c("br")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    attrs: { variant: "info" },
+                    on: {
+                      click: function($event) {
+                        return _vm.verEstados(tramite)
+                      }
+                    }
+                  },
+                  [_vm._v("Iniciar / Seguir proceso")]
                 )
-              })
-            ],
-            2
-          )
-        : _vm._e()
+              ],
+              1
+            )
+          })
+        ],
+        2
+      )
     ],
     1
   )
@@ -69470,10 +69536,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&scoped=true&":
-/*!*******************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&scoped=true& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -69490,11 +69556,12 @@ var render = function() {
     [
       _c("h3", [_vm._v("Enviar correciones post-sustentación")]),
       _vm._v(" "),
-      _vm._l(_vm.rutas, function(ruta) {
+      _vm._l(_vm.rutas, function(ruta, index) {
         return [
           _c(
             "b-button",
             {
+              key: index,
               attrs: { variant: _vm.etiquetas[ruta.etiqueta] },
               on: {
                 click: function($event) {
@@ -69504,9 +69571,9 @@ var render = function() {
             },
             [
               _vm._v(
-                "\n        " +
+                "\n      " +
                   _vm._s(_vm._f("capitalize")(ruta.etiqueta)) +
-                  "\n     "
+                  "\n    "
               )
             ]
           )
@@ -69523,10 +69590,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&scoped=true&":
-/*!****************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&scoped=true& ***!
-  \****************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842& ***!
+  \****************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -69543,11 +69610,12 @@ var render = function() {
     [
       _c("h3", [_vm._v("Enviar correciones para el jurado")]),
       _vm._v(" "),
-      _vm._l(_vm.rutas, function(ruta) {
+      _vm._l(_vm.rutas, function(ruta, index) {
         return [
           _c(
             "b-button",
             {
+              key: index,
               attrs: { variant: _vm.etiquetas[ruta.etiqueta] },
               on: {
                 click: function($event) {
@@ -69557,9 +69625,9 @@ var render = function() {
             },
             [
               _vm._v(
-                "\n        " +
+                "\n      " +
                   _vm._s(_vm._f("capitalize")(ruta.etiqueta)) +
-                  "\n     "
+                  "\n    "
               )
             ]
           )
@@ -69576,10 +69644,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&scoped=true&":
-/*!*************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&scoped=true& ***!
-  \*************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -69673,9 +69741,9 @@ var render = function() {
             },
             [
               _vm._v(
-                "\n        " +
+                "\n      " +
                   _vm._s(_vm._f("capitalize")(ruta.etiqueta)) +
-                  "\n     "
+                  "\n    "
               )
             ]
           )
@@ -99926,7 +99994,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&scoped=true& */ "./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&scoped=true&");
+/* harmony import */ var _tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693& */ "./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&");
 /* harmony import */ var _tp_st_corregir_obs_post_sustentacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tp_st_corregir_obs_post_sustentacion.vue?vue&type=script&lang=js& */ "./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -99938,11 +100006,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _tp_st_corregir_obs_post_sustentacion_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "6f94e693",
+  null,
   null
   
 )
@@ -99968,19 +100036,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&scoped=true&":
-/*!*************************************************************************************************************************!*\
-  !*** ./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&scoped=true& ***!
-  \*************************************************************************************************************************/
+/***/ "./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693& ***!
+  \*************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_corregir_obs_post_sustentacion.vue?vue&type=template&id=6f94e693&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_obs_post_sustentacion_vue_vue_type_template_id_6f94e693___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -99995,7 +100063,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&scoped=true& */ "./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&scoped=true&");
+/* harmony import */ var _tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842& */ "./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&");
 /* harmony import */ var _tp_st_corregir_observacion_jurado_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tp_st_corregir_observacion_jurado.vue?vue&type=script&lang=js& */ "./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -100007,11 +100075,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _tp_st_corregir_observacion_jurado_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "6d734842",
+  null,
   null
   
 )
@@ -100037,19 +100105,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&scoped=true&":
-/*!**********************************************************************************************************************!*\
-  !*** ./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&scoped=true& ***!
-  \**********************************************************************************************************************/
+/***/ "./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&":
+/*!**********************************************************************************************************!*\
+  !*** ./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842& ***!
+  \**********************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_corregir_observacion_jurado.vue?vue&type=template&id=6d734842&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_corregir_observacion_jurado_vue_vue_type_template_id_6d734842___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -100064,7 +100132,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&scoped=true& */ "./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&scoped=true&");
+/* harmony import */ var _tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94& */ "./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&");
 /* harmony import */ var _tp_st_registrar_proyecto_grado_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tp_st_registrar_proyecto_grado.vue?vue&type=script&lang=js& */ "./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -100076,11 +100144,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _tp_st_registrar_proyecto_grado_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "abca0b94",
+  null,
   null
   
 )
@@ -100106,19 +100174,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&scoped=true&":
-/*!*******************************************************************************************************************!*\
-  !*** ./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&scoped=true& ***!
-  \*******************************************************************************************************************/
+/***/ "./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94& ***!
+  \*******************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/procedimientos/tp_st_registrar_proyecto_grado.vue?vue&type=template&id=abca0b94&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_tp_st_registrar_proyecto_grado_vue_vue_type_template_id_abca0b94___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

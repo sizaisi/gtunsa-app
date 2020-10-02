@@ -29,7 +29,6 @@
               "
             >
               <estado-component
-                :ruta="ruta"
                 :idexpediente="idexpediente"
                 :idgrado_procedimiento_actual="idgrado_procedimiento_actual"
                 :showDescription="true"
@@ -100,7 +99,6 @@
           <!-- Procedimiento Actual -->
           <b-col>
             <estado-component
-              :ruta="ruta"
               :idexpediente="idexpediente"
               :title="grado_proc_actual.nombre_procedimiento"
               :idgrado_procedimiento_actual="idgrado_procedimiento_actual"
@@ -276,9 +274,10 @@ export default {
         })
         .then((response) => {
           this.resto_grado_procedimientos = response.data;
-          for (let k = 0; k < me.resto_grado_procedimientos.length; k++) {
-            var objRestoGradoProcedimiento = me.resto_grado_procedimientos[k];
-            objRestoGradoProcedimiento.nro_orden = me.cont_resto_procedimientos++;
+          for (let k = 0; k < this.resto_grado_procedimientos.length; k++) {
+            var objRestoGradoProcedimiento = this.resto_grado_procedimientos[k];
+            objRestoGradoProcedimiento.nro_orden = this
+              .cont_resto_procedimientos++;
           }
         })
         .catch((error) => {

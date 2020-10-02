@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card v-if="!flag_nuevo">
+    <b-card>
       <router-link :to="{ name: 'nuevo-tramite' }" class="btn btn-success"
         >Nuevo trámite</router-link
       >
