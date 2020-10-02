@@ -5,12 +5,17 @@
         >Nuevo trámite</router-link
       >
       <hr />
-      <b-card v-for="tramite in tramites" :key="tramite.id">
+      <b-card
+        v-for="tramite in tramites"
+        :key="tramite.id"
+        :title="`Expediente: ${tramite.codExpediente}`"
+      >
         <b-card-text>
-          <b>Código de Expediente:</b> {{ tramite.codExpediente }} <br />
-          <b>Grado ó Título:</b> {{ tramite.nombre_grado_titulo }} <br />
-          <b>Modalidad de Obtención:</b> {{ tramite.nombre_modalidad }} <br />
-          <b>Escuela o Programa:</b> {{ tramite.nesc }} <br />
+          Expediente presentado para la obtención del
+          <b>{{ tramite.nombre_grado_titulo }}</b
+          >, por medio de la modalidad de
+          <b>{{ tramite.nombre_modalidad }}</b> del programa de estudios de
+          <b>{{ tramite.nesc }}</b>
         </b-card-text>
         <b-button variant="info" @click="verEstados(tramite)"
           >Iniciar / Seguir proceso</b-button

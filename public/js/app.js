@@ -2392,6 +2392,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "inicio",
   data: function data() {
@@ -69191,24 +69196,20 @@ var render = function() {
           _vm._l(_vm.tramites, function(tramite) {
             return _c(
               "b-card",
-              { key: tramite.id },
+              {
+                key: tramite.id,
+                attrs: { title: "Expediente: " + tramite.codExpediente }
+              },
               [
                 _c("b-card-text", [
-                  _c("b", [_vm._v("Código de Expediente:")]),
-                  _vm._v(" " + _vm._s(tramite.codExpediente) + " "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("b", [_vm._v("Grado ó Título:")]),
-                  _vm._v(" " + _vm._s(tramite.nombre_grado_titulo) + " "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("b", [_vm._v("Modalidad de Obtención:")]),
-                  _vm._v(" " + _vm._s(tramite.nombre_modalidad) + " "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("b", [_vm._v("Escuela o Programa:")]),
-                  _vm._v(" " + _vm._s(tramite.nesc) + " "),
-                  _c("br")
+                  _vm._v(
+                    "\n        Expediente presentado para la obtención del\n        "
+                  ),
+                  _c("b", [_vm._v(_vm._s(tramite.nombre_grado_titulo))]),
+                  _vm._v(", por medio de la modalidad de\n        "),
+                  _c("b", [_vm._v(_vm._s(tramite.nombre_modalidad))]),
+                  _vm._v(" del programa de estudios de\n        "),
+                  _c("b", [_vm._v(_vm._s(tramite.nesc))])
                 ]),
                 _vm._v(" "),
                 _c(
