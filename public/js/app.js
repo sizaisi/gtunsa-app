@@ -2898,11 +2898,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['ruta'],
+  props: ["ruta"],
   data: function data() {
     return {
       graduando: {},
+      cui_anio: "",
       tmp_graduando: {},
       edit_flag: false,
       errors: []
@@ -2910,9 +2942,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getGraduando: function getGraduando() {
-      var me = this;
+      var _this = this;
+
       axios.get("".concat(this.ruta, "/graduando")).then(function (response) {
-        me.graduando = response.data;
+        _this.graduando = response.data;
+        _this.cui_anio = _this.graduando.cui.substr(0, 4);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2921,30 +2955,30 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       this.errors = [];
       axios.put("".concat(this.ruta, "/graduando/actualizar/").concat(this.graduando.id), {
-        'telefono_fijo': this.graduando.telefono_fijo,
-        'telefono_movil': this.graduando.telefono_movil,
-        'direccion': this.graduando.direccion
+        telefono_fijo: this.graduando.telefono_fijo,
+        telefono_movil: this.graduando.telefono_movil,
+        direccion: this.graduando.direccion
       }).then(function (response) {
         me.edit_flag = false;
         me.$vs.notify({
-          title: 'Éxito',
-          text: 'Se actualizó su información personal',
-          color: 'success',
-          icon: 'done',
-          position: 'top-left',
+          title: "Éxito",
+          text: "Se actualizó su información personal",
+          color: "success",
+          icon: "done",
+          position: "top-left",
           time: 4000
         });
       })["catch"](function (error) {
-        //console.log(error)                
+        //console.log(error)
         if (error.response.status == 422) {
           me.errors = error.response.data.errors;
         } else {
           me.$vs.notify({
-            title: 'Error',
-            text: 'No se pudo actualizar su informacion personal',
-            color: 'danger',
-            icon: 'error',
-            position: 'top-left',
+            title: "Error",
+            text: "No se pudo actualizar su informacion personal",
+            color: "danger",
+            icon: "error",
+            position: "top-left",
             time: 4000
           });
         }
@@ -69546,201 +69580,247 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "b-card",
-    { attrs: { "no-body": "" } },
+    "div",
     [
-      _c("b-card-img", {
-        staticClass: "rounded-0",
-        attrs: { src: "img/person.png", height: "250px" }
-      }),
-      _vm._v(" "),
       _c(
-        "b-card-body",
-        { attrs: { title: "Información Personal" } },
+        "b-card",
+        { attrs: { "no-body": "" } },
         [
-          _c("b-card-text", [
-            _c("label", [
-              _c("b", [_vm._v("Apellidos:")]),
-              _vm._v(" " + _vm._s(_vm.graduando.apellidos) + " ")
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("label", [
-              _c("b", [_vm._v("Nombres:")]),
-              _vm._v(" " + _vm._s(_vm.graduando.nombres) + " ")
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            _c("label", [
-              _c("b", [_vm._v("DNI:")]),
-              _vm._v(" " + _vm._s(_vm.graduando.dni) + " ")
-            ]),
-            _vm._v(" "),
-            _c("br"),
-            _vm._v(" "),
-            !_vm.edit_flag
-              ? _c(
-                  "div",
-                  [
-                    _c("label", [
-                      _c("b", [_vm._v("Teléfono fijo:")]),
-                      _vm._v(" " + _vm._s(_vm.graduando.telefono_fijo) + " ")
-                    ]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("label", [
-                      _c("b", [_vm._v("Teléfono móvil:")]),
-                      _vm._v(" " + _vm._s(_vm.graduando.telefono_movil) + " ")
-                    ]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("label", [
-                      _c("b", [_vm._v("Dirección:")]),
-                      _vm._v(" " + _vm._s(_vm.graduando.direccion) + " ")
-                    ]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c(
-                      "b-button",
-                      {
-                        attrs: { variant: "success" },
-                        on: { click: _vm.changeEdit }
-                      },
-                      [_vm._v("Actualizar datos")]
-                    )
-                  ],
-                  1
-                )
-              : _c(
-                  "div",
-                  [
-                    _c(
-                      "b-form",
-                      {
-                        on: {
-                          submit: function($event) {
-                            $event.preventDefault()
-                            return _vm.actualizarDatos($event)
-                          }
-                        }
-                      },
+          _c("div", { staticClass: "text-center" }, [
+            _c("img", {
+              staticClass: "avatar border-gray",
+              attrs: {
+                src:
+                  "http://190.119.145.150:8023/fotos/" +
+                  _vm.cui_anio +
+                  "/" +
+                  _vm.graduando.cui +
+                  ".jpg"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "b-card-body",
+            { attrs: { title: "Información Personal" } },
+            [
+              _c("b-card-text", [
+                _c("label", [
+                  _c("b", [_vm._v("CUI:")]),
+                  _vm._v(" " + _vm._s(_vm.graduando.cui) + " ")
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("label", [
+                  _c("b", [_vm._v("Apellidos:")]),
+                  _vm._v(" " + _vm._s(_vm.graduando.apellidos) + " ")
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("label", [
+                  _c("b", [_vm._v("Nombres:")]),
+                  _vm._v(" " + _vm._s(_vm.graduando.nombres) + " ")
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("label", [
+                  _c("b", [_vm._v("DNI:")]),
+                  _vm._v(" " + _vm._s(_vm.graduando.dni) + " ")
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                !_vm.edit_flag
+                  ? _c(
+                      "div",
                       [
-                        _c(
-                          "b-form-group",
-                          {
-                            attrs: {
-                              id: "input-group-tel-fijo",
-                              label: "Teléfono fijo:",
-                              "label-for": "input-tel-fijo"
-                            }
-                          },
-                          [
-                            _c("b-form-input", {
-                              attrs: { id: "input-tel-fijo" },
-                              model: {
-                                value: _vm.graduando.telefono_fijo,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.graduando, "telefono_fijo", $$v)
-                                },
-                                expression: "graduando.telefono_fijo"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.errors.telefono_fijo
-                              ? _c("span", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.errors.telefono_fijo[0]))
-                                ])
-                              : _vm._e()
-                          ],
-                          1
-                        ),
+                        _c("label", [
+                          _c("b", [_vm._v("Teléfono fijo:")]),
+                          _vm._v(
+                            " " + _vm._s(_vm.graduando.telefono_fijo) + " "
+                          )
+                        ]),
                         _vm._v(" "),
-                        _c(
-                          "b-form-group",
-                          {
-                            attrs: {
-                              id: "input-group-tel-movil",
-                              label: "Teléfono móvil:",
-                              "label-for": "input-tel-movil"
-                            }
-                          },
-                          [
-                            _c("b-form-input", {
-                              attrs: { id: "input-tel-movil", required: "" },
-                              model: {
-                                value: _vm.graduando.telefono_movil,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.graduando, "telefono_movil", $$v)
-                                },
-                                expression: "graduando.telefono_movil"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.errors.telefono_movil
-                              ? _c("span", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.errors.telefono_movil[0]))
-                                ])
-                              : _vm._e()
-                          ],
-                          1
-                        ),
+                        _c("br"),
                         _vm._v(" "),
-                        _c(
-                          "b-form-group",
-                          {
-                            attrs: {
-                              id: "input-group-direccion",
-                              label: "Dirección:",
-                              "label-for": "input-direccion"
-                            }
-                          },
-                          [
-                            _c("b-form-input", {
-                              attrs: { id: "input-direccion", required: "" },
-                              model: {
-                                value: _vm.graduando.direccion,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.graduando, "direccion", $$v)
-                                },
-                                expression: "graduando.direccion"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _vm.errors.direccion
-                              ? _c("span", { staticClass: "text-danger" }, [
-                                  _vm._v(_vm._s(_vm.errors.direccion[0]))
-                                ])
-                              : _vm._e()
-                          ],
-                          1
-                        ),
+                        _c("label", [
+                          _c("b", [_vm._v("Teléfono móvil:")]),
+                          _vm._v(
+                            " " +
+                              _vm._s(_vm.graduando.telefono_movil) +
+                              "\n          "
+                          )
+                        ]),
                         _vm._v(" "),
-                        _c(
-                          "b-button",
-                          { attrs: { type: "submit", variant: "primary" } },
-                          [_vm._v("Actualizar")]
-                        ),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("label", [
+                          _c("b", [_vm._v("Dirección:")]),
+                          _vm._v(" " + _vm._s(_vm.graduando.direccion) + " ")
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
                         _vm._v(" "),
                         _c(
                           "b-button",
                           {
-                            attrs: { variant: "danger" },
+                            attrs: { variant: "success" },
                             on: { click: _vm.changeEdit }
                           },
-                          [_vm._v("Cancelar")]
+                          [_vm._v("Actualizar datos")]
                         )
                       ],
                       1
                     )
-                  ],
-                  1
-                )
-          ])
+                  : _c(
+                      "div",
+                      [
+                        _c(
+                          "b-form",
+                          {
+                            on: {
+                              submit: function($event) {
+                                $event.preventDefault()
+                                return _vm.actualizarDatos($event)
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "b-form-group",
+                              {
+                                attrs: {
+                                  id: "input-group-tel-fijo",
+                                  label: "Teléfono fijo:",
+                                  "label-for": "input-tel-fijo"
+                                }
+                              },
+                              [
+                                _c("b-form-input", {
+                                  attrs: { id: "input-tel-fijo" },
+                                  model: {
+                                    value: _vm.graduando.telefono_fijo,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.graduando,
+                                        "telefono_fijo",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "graduando.telefono_fijo"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm.errors.telefono_fijo
+                                  ? _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v(
+                                        _vm._s(_vm.errors.telefono_fijo[0])
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-form-group",
+                              {
+                                attrs: {
+                                  id: "input-group-tel-movil",
+                                  label: "Teléfono móvil:",
+                                  "label-for": "input-tel-movil"
+                                }
+                              },
+                              [
+                                _c("b-form-input", {
+                                  attrs: {
+                                    id: "input-tel-movil",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: _vm.graduando.telefono_movil,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.graduando,
+                                        "telefono_movil",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "graduando.telefono_movil"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm.errors.telefono_movil
+                                  ? _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v(
+                                        _vm._s(_vm.errors.telefono_movil[0])
+                                      )
+                                    ])
+                                  : _vm._e()
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-form-group",
+                              {
+                                attrs: {
+                                  id: "input-group-direccion",
+                                  label: "Dirección:",
+                                  "label-for": "input-direccion"
+                                }
+                              },
+                              [
+                                _c("b-form-input", {
+                                  attrs: {
+                                    id: "input-direccion",
+                                    required: ""
+                                  },
+                                  model: {
+                                    value: _vm.graduando.direccion,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.graduando, "direccion", $$v)
+                                    },
+                                    expression: "graduando.direccion"
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _vm.errors.direccion
+                                  ? _c("span", { staticClass: "text-danger" }, [
+                                      _vm._v(_vm._s(_vm.errors.direccion[0]))
+                                    ])
+                                  : _vm._e()
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-button",
+                              { attrs: { type: "submit", variant: "primary" } },
+                              [_vm._v("Actualizar")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "b-button",
+                              {
+                                attrs: { variant: "danger" },
+                                on: { click: _vm.changeEdit }
+                              },
+                              [_vm._v("Cancelar")]
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+              ])
+            ],
+            1
+          )
         ],
         1
       )
