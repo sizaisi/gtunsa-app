@@ -82,9 +82,10 @@
 
 <script>
 export default {
-  props: ["ruta"],
+  name: "graduando-information",
   data() {
     return {
+      api_url: this.$root.api_url,
       graduando: {},
       cui_anio: null,
       tmp_graduando: {},
@@ -98,7 +99,7 @@ export default {
   methods: {
     getGraduando() {
       axios
-        .get(`${this.ruta}/graduando`)
+        .get(`${this.api_url}/graduando`)
         .then((response) => {
           this.graduando = response.data;
           this.cui_anio = this.graduando.cui.substr(0, 4);
@@ -111,7 +112,7 @@ export default {
       this.errors = [];
 
       axios
-        .put(`${this.ruta}/graduando/actualizar/${this.graduando.id}`, {
+        .put(`${this.api_url}/graduando/actualizar/${this.graduando.id}`, {
           telefono_fijo: this.graduando.telefono_fijo,
           telefono_movil: this.graduando.telefono_movil,
           direccion: this.graduando.direccion,

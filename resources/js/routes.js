@@ -1,13 +1,21 @@
-import config from './config'
+import config from "./config";
 
-import TramitesPage from './pages/TramitesPage'
-import EstadosPage from './pages/EstadosPage'
+import Inicio from "./pages/Inicio";
+import NuevoTramite from "./pages/NuevoTramite";
+import Estados from "./pages/Estados";
 
-const routes = [    
-    { path: '/', component: TramitesPage, name: 'inicio', props: { ruta: config.API_URL } },        
-    { path: '/tramites', component: TramitesPage, name: 'tramites', props: true }, 
-    { path: '/estados', component: EstadosPage, name: 'estados', props: true },
-                 
-]
+const routes = [
+    {
+        path: "/",
+        component: Inicio,
+        name: "inicio"
+    },
+    {
+        path: "/nuevo_tramite",
+        component: NuevoTramite,
+        name: "nuevo-tramite"
+    },
+    { path: "/estados", component: Estados, name: "estados", props: true }
+];
 
-export default routes
+export default routes;

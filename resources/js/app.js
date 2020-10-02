@@ -4,31 +4,29 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require("./bootstrap");
 
-window.Vue = require('vue');
+window.Vue = require("vue");
 
-import BootstrapVue from 'bootstrap-vue'
-import VueRouter from 'vue-router'
-import Vuesax from 'vuesax'
+import BootstrapVue from "bootstrap-vue";
+import VueRouter from "vue-router";
+import Vuesax from "vuesax";
 
-Vue.use(BootstrapVue)
-Vue.use(VueRouter)
-Vue.use(Vuesax)
+Vue.use(BootstrapVue);
+Vue.use(VueRouter);
+Vue.use(Vuesax);
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import 'vuesax/dist/vuesax.css' //Vuesax styles
-import 'material-icons/iconfont/material-icons.css'
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+import "vuesax/dist/vuesax.css"; //Vuesax styles
+import "material-icons/iconfont/material-icons.css";
 
-import config from './config'
-import routes from './routes'
+import config from "./config";
+import routes from "./routes";
 
 const router = new VueRouter({
     routes // short for `routes: routes`
-})
-
-
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -41,7 +39,10 @@ const router = new VueRouter({
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('graduando-component', require('./views/GraduandoComponent.vue').default);
+Vue.component(
+    "graduando-component",
+    require("./views/GraduandoComponent.vue").default
+);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -50,9 +51,9 @@ Vue.component('graduando-component', require('./views/GraduandoComponent.vue').d
  */
 
 const app = new Vue({
-    el: '#app',
+    el: "#app",
     router,
-    data: {                      
-        ruta: config.API_URL
-    },      
+    data: {
+        api_url: config.API_URL
+    }
 });
