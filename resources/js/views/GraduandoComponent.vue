@@ -3,6 +3,7 @@
     <b-card no-body>
       <div class="text-center">
         <img
+          v-if="cui_anio !== null"
           class="avatar border-gray"
           :src="`http://190.119.145.150:8023/fotos/${cui_anio}/${graduando.cui}.jpg`"
         />
@@ -85,11 +86,14 @@ export default {
   data() {
     return {
       graduando: {},
-      cui_anio: "",
+      cui_anio: null,
       tmp_graduando: {},
       edit_flag: false,
       errors: [],
     };
+  },
+  created() {
+    this.getGraduando();
   },
   methods: {
     getGraduando() {
@@ -104,7 +108,6 @@ export default {
         });
     },
     actualizarDatos() {
-      let me = this;
       this.errors = [];
 
       axios
@@ -113,9 +116,9 @@ export default {
           telefono_movil: this.graduando.telefono_movil,
           direccion: this.graduando.direccion,
         })
-        .then(function (response) {
-          me.edit_flag = false;
-          me.$vs.notify({
+        .then((response) => {
+          this.edit_flag = false;
+          this.$vs.notify({
             title: "Éxito",
             text: "Se actualizó su información personal",
             color: "success",
@@ -124,12 +127,11 @@ export default {
             time: 4000,
           });
         })
-        .catch(function (error) {
-          //console.log(error)
+        .catch((error) => {
           if (error.response.status == 422) {
-            me.errors = error.response.data.errors;
+            this.errors = error.response.data.errors;
           } else {
-            me.$vs.notify({
+            this.$vs.notify({
               title: "Error",
               text: "No se pudo actualizar su informacion personal",
               color: "danger",
@@ -149,9 +151,6 @@ export default {
         this.graduando = Object.assign({}, this.tmp_graduando);
       }
     },
-  },
-  mounted() {
-    this.getGraduando();
   },
 };
 </script>

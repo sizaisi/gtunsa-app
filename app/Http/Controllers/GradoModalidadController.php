@@ -14,30 +14,33 @@ class GradoModalidadController extends Controller
      */
     public function index()
     {
-        
     }
 
-    public function listGradoTitulo(Request $request) {
+    public function listGradoTitulo(Request $request)
+    {
         $nive = $request->nive;
+        $codigo = $request->codigo;
 
         $grado_titulos = DB::table('gt_grado_titulo')
-                            ->select('id AS value', 'nombre AS text')                                                
-                            ->where('codigo', '=', $nive)  
-                            ->orderby('nombre', 'asc')                      
-                            ->get();        
+            ->select('id AS value', 'nombre AS text')
+            ->where('nive', '=', $nive)
+            ->where('codigo', '=', $codigo)
+            ->orderby('nombre', 'asc')
+            ->get();
 
         return $grado_titulos;
     }
 
-    public function listModalidadObtencion(Request $request) {
+    public function listModalidadObtencion(Request $request)
+    {
         $idgrado_titulo = $request->idgrado_titulo;
 
         $grado_modalidades = DB::TABLE('gt_grado_modalidad')
-                                ->join('gt_modalidad_obtencion', 'gt_grado_modalidad.idmodalidad_obtencion', '=', 'gt_modalidad_obtencion.id')
-                                ->select('gt_grado_modalidad.id AS value', 'nombre AS text')                                                
-                                ->where('idgrado_titulo', '=', $idgrado_titulo)           
-                                ->orderby('nombre', 'asc')             
-                                ->get();        
+            ->join('gt_modalidad_obtencion', 'gt_grado_modalidad.idmodalidad_obtencion', '=', 'gt_modalidad_obtencion.id')
+            ->select('gt_grado_modalidad.id AS value', 'gt_modalidad_obtencion.nombre AS text')
+            ->where('gt_grado_modalidad.idgrado_titulo', '=', $idgrado_titulo)
+            ->orderby('gt_modalidad_obtencion.nombre', 'asc')
+            ->get();
 
         return $grado_modalidades;
     }

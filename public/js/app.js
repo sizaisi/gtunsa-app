@@ -2108,9 +2108,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'nuevo-tramite-component',
-  props: ['ruta'],
+  name: "nuevo-tramite-component",
+  props: ["ruta"],
   data: function data() {
     return {
       show: 3,
@@ -2124,78 +2148,84 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     escuela: function escuela(val) {
-      var me = this;
-      me.idgrado_titulo = null;
+      var _this = this;
+
+      this.idgrado_titulo = null;
       axios.get("".concat(this.ruta, "/GradoModalidad/grado_titulo"), {
         params: {
-          'nive': val.nive
+          nive: val.nive,
+          codigo: val.nues.substr(0, 1)
         }
       }).then(function (response) {
-        me.grado_titulos = response.data;
+        _this.grado_titulos = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     idgrado_titulo: function idgrado_titulo(val) {
-      var me = this;
-      me.idgrado_modalidad = null;
+      var _this2 = this;
+
+      this.idgrado_modalidad = null;
       axios.get("".concat(this.ruta, "/GradoModalidad/modalidad_obtencion"), {
         params: {
-          'idgrado_titulo': val
+          idgrado_titulo: val
         }
       }).then(function (response) {
-        me.grado_modalidades = response.data;
+        _this2.grado_modalidades = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
     }
   },
+  created: function created() {
+    this.getEscuelas();
+  },
   methods: {
     getEscuelas: function getEscuelas() {
-      // escuelas de pregrado y posgrado
-      var me = this;
+      var _this3 = this;
+
       axios.get("".concat(this.ruta, "/escuela")).then(function (response) {
-        me.escuelas = response.data;
+        _this3.escuelas = response.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     registrarTramite: function registrarTramite() {
+      var _this4 = this;
+
       //validar que cui nues y espe no tenga registro en proceso en gt_expediente
       //si hay por lo menos un registro no mostrar mensaje de error con respectivo mensaje
       //warning ud tiene un expediente en proceso para la escuela o programa seleccionado
-      var me = this;
       axios.get("".concat(this.ruta, "/expediente/registrar/"), {
         params: {
-          'idgrado_modalidad': this.idgrado_modalidad,
-          'nues': this.escuela.nues,
-          'espe': this.escuela.espe
+          idgrado_modalidad: this.idgrado_modalidad,
+          nues: this.escuela.nues,
+          espe: this.escuela.espe
         }
       }).then(function (response) {
-        me.$vs.notify({
-          title: 'Éxito',
-          text: '¡Su trámite fue registrado con éxito!',
-          color: 'success',
-          icon: 'done',
-          position: 'top-center',
+        _this4.$vs.notify({
+          title: "Éxito",
+          text: "¡Su trámite fue registrado con éxito!",
+          color: "success",
+          icon: "done",
+          position: "top-center",
           time: 4000
         });
-        me.$emit('registrado');
+
+        _this4.$emit("registrado");
       })["catch"](function (error) {
         console.log(error);
-        me.$vs.notify({
-          title: 'Error',
-          text: 'No se pudo registrar su trámite',
-          color: 'danger',
-          icon: 'error',
-          position: 'top-center',
+
+        _this4.$vs.notify({
+          title: "Error",
+          text: "No se pudo registrar su trámite",
+          color: "danger",
+          icon: "error",
+          position: "top-center",
           time: 4000
         });
       });
     }
-  },
-  mounted: function mounted() {
-    this.getEscuelas();
   }
 });
 
@@ -2929,16 +2959,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["ruta"],
   data: function data() {
     return {
       graduando: {},
-      cui_anio: "",
+      cui_anio: null,
       tmp_graduando: {},
       edit_flag: false,
       errors: []
     };
+  },
+  created: function created() {
+    this.getGraduando();
   },
   methods: {
     getGraduando: function getGraduando() {
@@ -2952,15 +2986,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     actualizarDatos: function actualizarDatos() {
-      var me = this;
+      var _this2 = this;
+
       this.errors = [];
       axios.put("".concat(this.ruta, "/graduando/actualizar/").concat(this.graduando.id), {
         telefono_fijo: this.graduando.telefono_fijo,
         telefono_movil: this.graduando.telefono_movil,
         direccion: this.graduando.direccion
       }).then(function (response) {
-        me.edit_flag = false;
-        me.$vs.notify({
+        _this2.edit_flag = false;
+
+        _this2.$vs.notify({
           title: "Éxito",
           text: "Se actualizó su información personal",
           color: "success",
@@ -2969,11 +3005,10 @@ __webpack_require__.r(__webpack_exports__);
           time: 4000
         });
       })["catch"](function (error) {
-        //console.log(error)
         if (error.response.status == 422) {
-          me.errors = error.response.data.errors;
+          _this2.errors = error.response.data.errors;
         } else {
-          me.$vs.notify({
+          _this2.$vs.notify({
             title: "Error",
             text: "No se pudo actualizar su informacion personal",
             color: "danger",
@@ -2993,9 +3028,6 @@ __webpack_require__.r(__webpack_exports__);
         this.graduando = Object.assign({}, this.tmp_graduando);
       }
     }
-  },
-  mounted: function mounted() {
-    this.getGraduando();
   }
 });
 
@@ -68807,7 +68839,11 @@ var render = function() {
                                 attrs: { disabled: "" },
                                 domProps: { value: null }
                               },
-                              [_vm._v("-- Por favor seleccione una opción --")]
+                              [
+                                _vm._v(
+                                  "\n              -- Por favor seleccione una opción --\n            "
+                                )
+                              ]
                             )
                           ]
                         },
@@ -68861,7 +68897,11 @@ var render = function() {
                                 attrs: { disabled: "" },
                                 domProps: { value: null }
                               },
-                              [_vm._v("-- Por favor seleccione una opción --")]
+                              [
+                                _vm._v(
+                                  "\n              -- Por favor seleccione una opción --\n            "
+                                )
+                              ]
                             )
                           ]
                         },
@@ -68915,7 +68955,11 @@ var render = function() {
                                 attrs: { disabled: "" },
                                 domProps: { value: null }
                               },
-                              [_vm._v("-- Por favor seleccione una opción --")]
+                              [
+                                _vm._v(
+                                  "\n              -- Por favor seleccione una opción --\n            "
+                                )
+                              ]
                             )
                           ]
                         },
@@ -69587,17 +69631,19 @@ var render = function() {
         { attrs: { "no-body": "" } },
         [
           _c("div", { staticClass: "text-center" }, [
-            _c("img", {
-              staticClass: "avatar border-gray",
-              attrs: {
-                src:
-                  "http://190.119.145.150:8023/fotos/" +
-                  _vm.cui_anio +
-                  "/" +
-                  _vm.graduando.cui +
-                  ".jpg"
-              }
-            })
+            _vm.cui_anio !== null
+              ? _c("img", {
+                  staticClass: "avatar border-gray",
+                  attrs: {
+                    src:
+                      "http://190.119.145.150:8023/fotos/" +
+                      _vm.cui_anio +
+                      "/" +
+                      _vm.graduando.cui +
+                      ".jpg"
+                  }
+                })
+              : _vm._e()
           ]),
           _vm._v(" "),
           _c(
