@@ -6,94 +6,105 @@
           >Volver</b-button
         >
       </div>
-      <div class="d-flex justify-content-center">
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="datos_correctos"
-          name="checkbox-1"
-          value="acepto"
-          unchecked-value="no_acepto"
-          description="We'll never share your email with anyone else."
-        >
-          <b>Declaro que los datos de información personal son correctos</b>
-        </b-form-checkbox>
-      </div>
-      <div class="d-flex justify-content-center">
-        <small
-          >En caso su información no es correcta comunicarse con DUFA al correo
-          dufa@unsa.edu.pe</small
-        >
-      </div>
-      <template v-if="datos_correctos == 'acepto'">
-        <hr class="bg-light" />
-        <b-form @submit.prevent="registrarTramite">
-          <b-row>
-            <b-col>
-              <b-form-group
-                id="input-group-3"
-                label="Escuela o Programa:"
-                label-for="input-3"
+      <b-form @submit.prevent="registrarTramite">
+        <b-row>
+          <b-col>
+            <b-form-group
+              id="input-group-3"
+              label="Escuela o Programa:"
+              label-for="input-3"
+            >
+              <b-form-select
+                id="input-3"
+                v-model="escuela"
+                :options="escuelas"
+                required
               >
-                <b-form-select
-                  id="input-3"
-                  v-model="escuela"
-                  :options="escuelas"
-                  required
-                >
-                  <template v-slot:first>
-                    <option :value="null" disabled>
-                      -- Por favor seleccione una opción --
-                    </option>
-                  </template>
-                </b-form-select>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col lg="6" sm="12">
-              <b-form-group
-                id="input-group-3"
-                label="Grado ó Título:"
-                label-for="input-3"
+                <template v-slot:first>
+                  <option :value="null" disabled>
+                    -- Por favor seleccione una opción --
+                  </option>
+                </template>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col lg="6" sm="12">
+            <b-form-group
+              id="input-group-3"
+              label="Grado ó Título:"
+              label-for="input-3"
+            >
+              <b-form-select
+                id="input-3"
+                v-model="idgrado_titulo"
+                :options="grado_titulos"
+                required
               >
-                <b-form-select
-                  id="input-3"
-                  v-model="idgrado_titulo"
-                  :options="grado_titulos"
-                  required
-                >
-                  <template v-slot:first>
-                    <option :value="null" disabled>
-                      -- Por favor seleccione una opción --
-                    </option>
-                  </template>
-                </b-form-select>
-              </b-form-group>
-            </b-col>
-            <b-col lg="6" sm="12">
-              <b-form-group
-                id="input-group-3"
-                label="Modalidad de obtención:"
-                label-for="input-3"
+                <template v-slot:first>
+                  <option :value="null" disabled>
+                    -- Por favor seleccione una opción --
+                  </option>
+                </template>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+          <b-col lg="6" sm="12">
+            <b-form-group
+              id="input-group-3"
+              label="Modalidad de obtención:"
+              label-for="input-3"
+            >
+              <b-form-select
+                id="input-3"
+                v-model="idgrado_modalidad"
+                :options="grado_modalidades"
+                required
               >
-                <b-form-select
-                  id="input-3"
-                  v-model="idgrado_modalidad"
-                  :options="grado_modalidades"
-                  required
-                >
-                  <template v-slot:first>
-                    <option :value="null" disabled>
-                      -- Por favor seleccione una opción --
-                    </option>
-                  </template>
-                </b-form-select>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-button type="submit" variant="primary">Registrar trámite</b-button>
-        </b-form>
-      </template>
+                <template v-slot:first>
+                  <option :value="null" disabled>
+                    -- Por favor seleccione una opción --
+                  </option>
+                </template>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-form-checkbox
+              id="checkbox-1"
+              v-model="datos_correctos"
+              name="checkbox-1"
+              value="acepto"
+              unchecked-value="no_acepto"
+              description="We'll never share your email with anyone else."
+            >
+              <b
+                >Estoy de acuerdo con los datos de información personal
+                proporcionados por la universidad.</b
+              >
+            </b-form-checkbox>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <small
+              >En caso su información no es correcta comunicarse con DUFA al
+              correo dufa@unsa.edu.pe</small
+            >
+          </b-col>
+        </b-row>
+        <div class="mt-3">
+          <b-button
+            :disabled="datos_correctos == 'no_acepto'"
+            type="submit"
+            variant="primary"
+            >Registrar trámite</b-button
+          >
+        </div>
+      </b-form>
     </b-card>
   </div>
 </template>
