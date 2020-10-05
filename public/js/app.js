@@ -2538,6 +2538,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "nuevo-tramite",
   data: function data() {
@@ -69326,198 +69329,217 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "b-form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.registrarTramite($event)
+                      }
+                    }
+                  },
                   [
                     _c(
-                      "b-form-group",
-                      {
-                        attrs: {
-                          id: "input-group-3",
-                          label: "Escuela o Programa:",
-                          "label-for": "input-3"
-                        }
-                      },
+                      "b-row",
                       [
-                        _c("b-form-select", {
-                          attrs: {
-                            id: "input-3",
-                            options: _vm.escuelas,
-                            required: ""
-                          },
-                          scopedSlots: _vm._u(
-                            [
+                        _c(
+                          "b-col",
+                          [
+                            _c(
+                              "b-form-group",
                               {
-                                key: "first",
-                                fn: function() {
-                                  return [
-                                    _c(
-                                      "option",
+                                attrs: {
+                                  id: "input-group-3",
+                                  label: "Escuela o Programa:",
+                                  "label-for": "input-3"
+                                }
+                              },
+                              [
+                                _c("b-form-select", {
+                                  attrs: {
+                                    id: "input-3",
+                                    options: _vm.escuelas,
+                                    required: ""
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
                                       {
-                                        attrs: { disabled: "" },
-                                        domProps: { value: null }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                -- Por favor seleccione una opción --\n              "
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ],
-                            null,
-                            false,
-                            1464715292
-                          ),
-                          model: {
-                            value: _vm.escuela,
-                            callback: function($$v) {
-                              _vm.escuela = $$v
-                            },
-                            expression: "escuela"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-form-group",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.grado_titulos.length > 0,
-                            expression: "grado_titulos.length > 0"
-                          }
-                        ],
-                        attrs: {
-                          id: "input-group-3",
-                          label: "Grado ó Título:",
-                          "label-for": "input-3"
-                        }
-                      },
-                      [
-                        _c("b-form-select", {
-                          attrs: {
-                            id: "input-3",
-                            options: _vm.grado_titulos,
-                            required: ""
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "first",
-                                fn: function() {
-                                  return [
-                                    _c(
-                                      "option",
-                                      {
-                                        attrs: { disabled: "" },
-                                        domProps: { value: null }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                -- Por favor seleccione una opción --\n              "
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ],
-                            null,
-                            false,
-                            1464715292
-                          ),
-                          model: {
-                            value: _vm.idgrado_titulo,
-                            callback: function($$v) {
-                              _vm.idgrado_titulo = $$v
-                            },
-                            expression: "idgrado_titulo"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "b-form-group",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.grado_modalidades.length > 0,
-                            expression: "grado_modalidades.length > 0"
-                          }
-                        ],
-                        attrs: {
-                          id: "input-group-3",
-                          label: "Modalidad de obtención:",
-                          "label-for": "input-3"
-                        }
-                      },
-                      [
-                        _c("b-form-select", {
-                          attrs: {
-                            id: "input-3",
-                            options: _vm.grado_modalidades,
-                            required: ""
-                          },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "first",
-                                fn: function() {
-                                  return [
-                                    _c(
-                                      "option",
-                                      {
-                                        attrs: { disabled: "" },
-                                        domProps: { value: null }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                -- Por favor seleccione una opción --\n              "
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                },
-                                proxy: true
-                              }
-                            ],
-                            null,
-                            false,
-                            1464715292
-                          ),
-                          model: {
-                            value: _vm.idgrado_modalidad,
-                            callback: function($$v) {
-                              _vm.idgrado_modalidad = $$v
-                            },
-                            expression: "idgrado_modalidad"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _vm.idgrado_modalidad !== null
-                      ? _c(
-                          "b-button",
-                          {
-                            attrs: { variant: "primary" },
-                            on: { click: _vm.registrarTramite }
-                          },
-                          [_vm._v("Registrar trámite")]
+                                        key: "first",
+                                        fn: function() {
+                                          return [
+                                            _c(
+                                              "option",
+                                              {
+                                                attrs: { disabled: "" },
+                                                domProps: { value: null }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                    -- Por favor seleccione una opción --\n                  "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        },
+                                        proxy: true
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    1834988060
+                                  ),
+                                  model: {
+                                    value: _vm.escuela,
+                                    callback: function($$v) {
+                                      _vm.escuela = $$v
+                                    },
+                                    expression: "escuela"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
                         )
-                      : _vm._e()
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-row",
+                      [
+                        _c(
+                          "b-col",
+                          { attrs: { lg: "6", sm: "12" } },
+                          [
+                            _c(
+                              "b-form-group",
+                              {
+                                attrs: {
+                                  id: "input-group-3",
+                                  label: "Grado ó Título:",
+                                  "label-for": "input-3"
+                                }
+                              },
+                              [
+                                _c("b-form-select", {
+                                  attrs: {
+                                    id: "input-3",
+                                    options: _vm.grado_titulos,
+                                    required: ""
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "first",
+                                        fn: function() {
+                                          return [
+                                            _c(
+                                              "option",
+                                              {
+                                                attrs: { disabled: "" },
+                                                domProps: { value: null }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                    -- Por favor seleccione una opción --\n                  "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        },
+                                        proxy: true
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    1834988060
+                                  ),
+                                  model: {
+                                    value: _vm.idgrado_titulo,
+                                    callback: function($$v) {
+                                      _vm.idgrado_titulo = $$v
+                                    },
+                                    expression: "idgrado_titulo"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-col",
+                          { attrs: { lg: "6", sm: "12" } },
+                          [
+                            _c(
+                              "b-form-group",
+                              {
+                                attrs: {
+                                  id: "input-group-3",
+                                  label: "Modalidad de obtención:",
+                                  "label-for": "input-3"
+                                }
+                              },
+                              [
+                                _c("b-form-select", {
+                                  attrs: {
+                                    id: "input-3",
+                                    options: _vm.grado_modalidades,
+                                    required: ""
+                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "first",
+                                        fn: function() {
+                                          return [
+                                            _c(
+                                              "option",
+                                              {
+                                                attrs: { disabled: "" },
+                                                domProps: { value: null }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                    -- Por favor seleccione una opción --\n                  "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        },
+                                        proxy: true
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    1834988060
+                                  ),
+                                  model: {
+                                    value: _vm.idgrado_modalidad,
+                                    callback: function($$v) {
+                                      _vm.idgrado_modalidad = $$v
+                                    },
+                                    expression: "idgrado_modalidad"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-button",
+                      { attrs: { type: "submit", variant: "primary" } },
+                      [_vm._v("Registrar trámite")]
+                    )
                   ],
                   1
                 )
