@@ -8,13 +8,26 @@ require("./bootstrap");
 
 window.Vue = require("vue");
 
-import BootstrapVue from "bootstrap-vue";
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+
 import VueRouter from "vue-router";
 import Vuesax from "vuesax";
 
 Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 Vue.use(VueRouter);
-Vue.use(Vuesax);
+//Vue.use(Vuesax);
+Vue.use(Vuesax, {
+    theme: {
+        colors: {
+            primary: "#5b3cc4",
+            success: "rgb(23, 201, 100)",
+            danger: "rgb(242, 19, 93)",
+            warning: "rgb(255, 130, 0)",
+            dark: "rgb(36, 33, 69)"
+        }
+    }
+});
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
