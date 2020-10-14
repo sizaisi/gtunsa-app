@@ -57,12 +57,12 @@
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <a class="nav-link navbar-text-unsa" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>
+                            <!--<a class="nav-link navbar-text-unsa" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>-->
                         </li>
                         @if (Route::has('register'))
-                        <li class="nav-item">
+                        <!--<li class="nav-item">
                             <a class="nav-link navbar-text-unsa" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
-                        </li>
+                        </li>-->
                         @endif
                         @else
                         <li class="nav-item dropdown">

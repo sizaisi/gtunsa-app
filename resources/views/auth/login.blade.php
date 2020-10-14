@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <!--<div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Iniciar sesión') }}</div>
@@ -18,9 +18,9 @@
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -32,9 +32,9 @@
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                                 @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -59,20 +59,20 @@
                                 <a href="{{ url('/auth/redirect/google') }}" class="btn btn-primary"><i class="fab fa-google"></i> Google</a>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('¿Has olvidado tu contraseña?') }}
-                                    </a>
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    {{ __('¿Has olvidado tu contraseña?') }}
+                                </a>
                                 @endif
-                            </div>                            
-                        </div>                        
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
-    <!--<div align="center"><img src="img/logo_unsa1.png" width="50%"/></div>   
-    <h1 align="center">Sistema de Gestión de Graduación y Titulación</h1>
-    <p align="center">Validacion con cuentas de google del domino @unsa.edu.pe.</a></p>
-    <div align="center"><a href="{{ url('/auth/redirect/google') }}"><img src="img/login_unsa.png" class="img-fluid"/></a></div>-->
+    </div>-->
+    <div align="center"><img src="img/logo_unsa.png" width="50%" /></div>
+    <h2 align="center">Registro y Seguimiento de Grados</h2>
+    <p align="center">Login únicamente con cuentas de correo institucional <strong>@unsa.edu.pe.</strong></p>
+    <div align="center"><a href="{{ url('/auth/redirect/google') }}"><img src="img/login_unsa.png" class="img-fluid" /></a></div>
 </div>
 @endsection

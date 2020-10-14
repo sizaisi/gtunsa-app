@@ -15,10 +15,10 @@
     return view('welcome');
 });*/
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/', function () { //mostrar el login
-    if(Auth::check()){
+    if (Auth::check()) {
         return view('home');
     }
 
@@ -27,12 +27,11 @@ Route::get('/', function () { //mostrar el login
 
 Route::get('/home', function () { // interfaz de inicio del sistema
 
-    if(Auth::check()){
+    if (Auth::check()) {
         return view('home');
     }
 
     return view('auth.login');
-
 })->name('home');
 
 Route::get('/graduando', 'GraduandoController@show');
