@@ -9,6 +9,12 @@
         <b-col md="0" v-if="hideDescription">
           <b-card-img :src="image" class="rounded-0"></b-card-img>
         </b-col>
+        <b-col md="0" v-else-if="color == 'actual'">
+          <b-card-img
+            :src="image"
+            class="rounded-0"            
+          ></b-card-img>
+        </b-col>
         <b-col md="0" v-else>
           <b-card-img
             :src="image"
@@ -142,19 +148,33 @@ export default {
 
     this.getColor();
 
-    if (this.number != ".") {
+    if (this.number == "+") {
       this.image =
         "https://ui-avatars.com/api/?background=" +
         this.color_mostrar +
         "&color=fff&name=" +
-        this.number +
+        "%2B" +
+        "&rounded=true&size=50";
+    } else if (this.number == "..") {
+      this.image =
+        "https://ui-avatars.com/api/?background=" +
+        this.color_mostrar +
+        "&color=fff&name=" +
+        "%C2%B7 %C2%B7" +        
+        "&rounded=true&size=50";  
+    } else if (this.number == ".") {
+      this.image =
+        "https://ui-avatars.com/api/?background=" +
+        this.color_mostrar +
+        "&color=fff&name=" +
+        "%E2%80%A2" +
         "&rounded=true&size=50";
     } else {
       this.image =
         "https://ui-avatars.com/api/?background=" +
         this.color_mostrar +
         "&color=fff&name=" +
-        "%E2%80%A2" +
+        "" +
         "&rounded=true&size=50";
     }
   },
@@ -176,12 +196,24 @@ export default {
     collapseClick() {
       if (!this.click) {
         this.showDescription_ = !this.showDescription_;
-        this.image =
+
+        if (this.showDescription_) {
+          this.image =
           "https://ui-avatars.com/api/?background=" +
           this.color_mostrar +
           "&color=fff&name=" +
-          this.number +
+          "%E2%80%93" +
           "&rounded=true&size=50";
+        }
+        else {
+          this.image =
+          "https://ui-avatars.com/api/?background=" +
+          this.color_mostrar +
+          "&color=fff&name=" +
+          "%2B" +
+          "&rounded=true&size=50";
+        }
+        
       } else {
         this.$emit(this.click);
       }
