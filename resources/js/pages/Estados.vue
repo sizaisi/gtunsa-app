@@ -123,8 +123,7 @@ export default {
     },
     created() {
         this.getGradoProcedimientoActual();
-        this.getMovimientos();
-        this.getProcedimientosRestantes();
+        this.getMovimientos();        
     },
     methods: {
         getGradoProcedimientoActual() {            
@@ -147,7 +146,8 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.movimientos = response.data;                                        
+                    this.movimientos = response.data;    
+                    this.getProcedimientosRestantes();                                    
                 })
                 .catch(error => {
                     console.log(error);

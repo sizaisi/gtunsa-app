@@ -97,6 +97,8 @@ export default {
                             position: "top-center",
                             time: 4000
                         });
+                        
+                        this.$router.push({ name: "estados" });
                     })
                     .catch(error => {
                         console.log(error);

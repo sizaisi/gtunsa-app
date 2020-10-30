@@ -203,21 +203,6 @@ class GraduandoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!$request->ajax()) return redirect('/');
-
-        $this->validate($request, [
-            'telefono_fijo' => 'nullable|digits_between:6, 10',
-            'telefono_movil' => 'required|digits_between:9, 15',
-            'direccion' => 'required|max:150'
-        ]);
-
-        $graduando = User::findOrFail($id);
-
-        $graduando->telefono_fijo = $request->telefono_fijo;
-        $graduando->telefono_movil = $request->telefono_movil;
-        $graduando->direccion = $request->direccion;
-
-        $graduando->save();
     }
 
     /**

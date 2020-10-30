@@ -35,7 +35,6 @@ Route::get('/home', function () { // interfaz de inicio del sistema
 })->name('home');
 
 Route::get('/graduando', 'GraduandoController@show');
-Route::put('/graduando/actualizar/{id}', 'GraduandoController@update');
 Route::post('/graduando/registrar_proyecto', 'GraduandoController@registrarProyecto');
 Route::post('/graduando/mover', 'GraduandoController@mover');
 
