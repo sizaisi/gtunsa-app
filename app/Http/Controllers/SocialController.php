@@ -18,22 +18,25 @@ class SocialController extends Controller
 
 	public function callback($provider)
 	{
-
 		$getInfo = Socialite::driver($provider)->user();
+		$alumno_unsa = CodigoMail::where('mail', $getInfo->email)->first();
 
-		$user = $this->createUser($getInfo, $provider);
+		if (!$alumno_unsa) {
+			\Session::flash('login_message', "Lo sentimos, su correo aún no esta habilitado o registrado en el Sistema Académico");			
 
-		auth()->login($user);
+			return redirect()->to('/');
+		}
+		else {
+			$cui = $alumno_unsa->cui;
+			$user = $this->createUser($getInfo, $provider, $cui);
+			auth()->login($user);			
+		}		
 
 		return redirect()->to('/home');
 	}
 
-	function createUser($getInfo, $provider)
-	{
-
-		$cui = CodigoMail::where('mail', $getInfo->email)->first()->cui;
-
-		//$user = User::where('provider_id', $getInfo->id)->first();
+	function createUser($getInfo, $provider, $cui)
+	{		
 		$user = User::where('email', $getInfo->email)->first();
 
 		if (!$user) {
@@ -41,13 +44,20 @@ class SocialController extends Controller
 				'cui'    => $cui,
 				'email'    => $getInfo->email,
 				'provider' => $provider,
-				'provider_id' => $getInfo->id
+				'provider_id' => $getInfo->id,
+				'apn' => $getInfo->name
 			]);
 		} else {
 			//User::where('email', $user['email'])->update(['provider' => 'google', 'provider_id' => $googleData->getId()]);
 			User::where('email', $user->email)
-				->update(['provider' => $provider, 'provider_id' => $getInfo->id]);
-		}
+				->update(
+					[
+						'provider' => $provider, 
+						'provider_id' => $getInfo->id,
+						'apn' => $getInfo->name
+					]
+				);
+		}		
 
 		return $user;
 	}

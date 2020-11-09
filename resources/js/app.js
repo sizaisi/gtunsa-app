@@ -36,6 +36,7 @@ import "material-icons/iconfont/material-icons.css";
 
 import config from "./config";
 import routes from "./routes";
+import store from './store'
 
 const router = new VueRouter({
     routes // short for `routes: routes`
@@ -66,6 +67,7 @@ Vue.component(
 const app = new Vue({
     el: "#app",
     router,
+    store,
     data: {
         api_url: config.API_URL
     }

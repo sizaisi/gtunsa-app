@@ -57,14 +57,9 @@ class ExpedienteController extends Controller
      */
     public function store(Request $request)
     {
-        $telefono_fijo = $request->telefono_fijo;
-        $telefono_movil = $request->telefono_movil;
-        $direccion = $request->direccion;
-
         $idgrado_modalidad = $request->idgrado_modalidad;
         $nues = $request->nues;
         $espe = $request->espe;
-
 
         try {
             DB::beginTransaction();
@@ -106,25 +101,17 @@ class ExpedienteController extends Controller
                 ->insert([
                     'idgraduando' => Auth::id(),
                     'idexpediente' => $idexpediente,
-                ]);
-
-            //Actualizar información de contacto
-            $user_id = Auth::id();
-
-            DB::table('gt_graduando')
-                ->where('id', $user_id)
-                ->update(
-                    [
-                        'telefono_fijo' => $telefono_fijo,
-                        'telefono_movil' => $telefono_movil,
-                        'direccion' => $direccion
-                    ]
-                );
+                ]);           
 
             DB::commit();
-        } catch (Exception $e) {
+            $result = ['successMessage' => 'Trámite registrado con éxito', 'error' => false];
+        } catch (\Exception $e) {
             DB::rollBack();
+            $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
+            \Log::error('ExpedienteController@store, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
         }
+
+        return $result;
     }
 
     /**

@@ -55,16 +55,16 @@ export default {
     methods: {
         nuevoTramite() {
             axios
-                .get(`${this.api_url}/graduando`)
+                .get(`${this.api_url}/graduando/contacto`)
                 .then(response => {
-                    let graduando = response.data;
-                    if (!graduando.telefono_movil || !graduando.direccion) {
+                    let contacto = response.data;
+                    if (!contacto.telefono_movil || !contacto.direccion) {
                         this.$vs.notify({
                             title: "Nuevo trámite",
-                            text: "Debe actualizar su información personal",
+                            text: "Debe actualizar su información de contacto",
                             color: "warning",
                             icon: "error",
-                            position: "top-center",
+                            position: "top-left",
                             time: 4000
                         });
                     } else {
@@ -88,15 +88,9 @@ export default {
                 });
         },
         verEstados(tramite) {
-            this.$router.push({
-                name: "estados",
-                params: {
-                    idgrado_modalidad: tramite.idgrado_modalidad,
-                    idexpediente: tramite.idexpediente,
-                    idgrado_procedimiento_actual:
-                        tramite.idgrado_procedimiento_actual
-                }
-            });
+            this.$store.dispatch('setIdGradoModalidad', tramite.idgrado_modalidad)  
+            this.$store.dispatch('setIdExpediente', tramite.idexpediente)              
+            this.$router.push( {name: "estados"} );            
         }
     }
 };

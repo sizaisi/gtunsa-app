@@ -74,5 +74,8 @@
     <h2 align="center">Registro y Seguimiento de Grados</h2>
     <p align="center">Login únicamente con cuentas de correo institucional <strong>@unsa.edu.pe.</strong></p>
     <div align="center"><a href="{{ url('/auth/redirect/google') }}"><img src="img/login_unsa.png" class="img-fluid" /></a></div>
+    @if (Session::has('login_message'))
+        <div class="alert alert-warning text-center mt-3">{{ Session::get('login_message') }}</div>
+    @endif
 </div>
 @endsection

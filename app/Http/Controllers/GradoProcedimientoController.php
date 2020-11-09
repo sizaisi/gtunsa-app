@@ -36,8 +36,14 @@ class GradoProcedimientoController extends Controller
     }
 
     public function getGradoProcedimientoActual(Request $request)
-    {
-        $idgrado_procedimiento_actual = $request->idgrado_procedimiento_actual;
+    {        
+        $idexpediente = $request->idexpediente;
+
+        $idgrado_procedimiento_actual = DB::table('gt_expediente')
+                                        ->select('idgrado_procedimiento AS idgrado_procedimiento_actual')
+                                        ->where('id', $idexpediente)
+                                        ->first()
+                                        ->idgrado_procedimiento_actual;    
 
         $grado_procedimiento_actual = DB::table('gt_grado_procedimiento AS gt_gp')
             ->join('gt_procedimiento AS gt_p', 'gt_gp.idprocedimiento', '=', 'gt_p.id')

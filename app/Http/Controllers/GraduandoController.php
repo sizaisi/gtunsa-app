@@ -81,21 +81,18 @@ class GraduandoController extends Controller
     public function registrarProyecto(Request $request)
     {
         $titulo = $request->titulo;
-        $idexpediente = $request->idexpediente;
-        $data = $request->data;
-        $extension = $request->extension;
+        $idexpediente = $request->idexpediente;        
         $idruta = $request->idruta;
         $idgradproc_origen = $request->idgradproc_origen;
         $idgradproc_destino = $request->idgradproc_destino;
 
         try {
-
             DB::beginTransaction();
 
-            $idusuario = DB::TABLE('gt_usuario')
-                ->SELECT('id AS idusuario')
-                ->WHERE('codi_usuario', '=', Auth::user()->cui)
-                ->FIRST()
+            $idusuario = DB::table('gt_usuario')
+                ->select('id AS idusuario')
+                ->where('codi_usuario', Auth::user()->cui)
+                ->first()
                 ->idusuario;
 
             DB::table('gt_expediente')
@@ -117,35 +114,15 @@ class GraduandoController extends Controller
                 ->where('id', '=', $idexpediente)
                 ->update(['idgrado_procedimiento' => $idgradproc_destino]);
 
-
-            $idrecurso = DB::table('gt_recurso')
-                ->insertGetId([
-                    'idexpediente' => $idexpediente,
-                    'idgrado_proc' => $idgradproc_origen,
-                    'idusuario' => $idusuario,
-                    'idmovimiento' => $idmovimiento,
-                    'idruta' => $idruta
-                ]);
-
-            DB::table('gt_archivo')
-                ->insert([
-                    'idrecurso' => $idrecurso,
-                    'nombre_asignado' => 'Plan de tesis',
-                    'nombre_archivo' => 'Plan de tesis.pdf',
-                    'mime' => $extension,
-                    'data' => $data
-                ]);
-
-            //$archivo_pdf = $request->archivo_pdf;
-            /*if (move_uploaded_file($_FILES["file"]["tmp_name"], "pdfs/".$_FILES['file']['name'])) {
-            return "done";
-          }*/
-
-            //return $_FILES["file"]["tmp_name"];
             DB::commit();
-        } catch (Exception $e) {
+            $result = ['successMessage' => 'Proyecto de tesis registrado con éxito', 'error' => false];                   
+        } catch (\Exception $e) {
             DB::rollBack();
+            $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
+            \Log::error('GraduandoController@registrarProyecto, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
         }
+
+        return $result;
     }
 
     /**
@@ -155,32 +132,27 @@ class GraduandoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show()
-    {
-        //if (Auth::user()->tipo == 1) {
+    {        
         $graduando = User::join('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
-            ->select(
-                'gt_graduando.id',
-                'gt_graduando.cui',
-                DB::raw('(SUBSTRING_INDEX(REPLACE(acdiden.apn, "/", " "), ",", 1)) AS apellidos'),
-                DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(acdiden.apn, "/", " "), ",", 2), ",", -1)) AS nombres'),
-                'email',
-                'acdiden.dic AS dni',
-                'telefono_fijo',
-                'telefono_movil',
-                'direccion'
-            )
-            ->where('gt_graduando.id', '=', Auth::id())
-            ->first();
-        /*}
-        else if (Auth::user()->tipo == 0) {
-            $graduando = User::select('gt_graduando.id', DB::raw('(SUBSTRING_INDEX(gt_graduando.apn, ",", 1)) AS apellidos'),
-                                DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(gt_graduando.apn, ",", 2), ",", -1)) AS nombres'),
-                                'email', 'telefono_fijo', 'telefono_movil','direccion')
+                        ->select(                
+                            'gt_graduando.cui', 
+                            DB::raw('(SUBSTRING(acdiden.dic, 2)) AS dni'),
+                            DB::raw('(SUBSTRING_INDEX(REPLACE(acdiden.apn, "/", " "), ",", 1)) AS apellidos'),
+                            DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(acdiden.apn, "/", " "), ",", 2), ",", -1)) AS nombres')
+                        )
                         ->where('gt_graduando.id', '=', Auth::id())
-                        ->first();
-        }*/
+                        ->first();        
 
         return json_encode($graduando);
+    }
+
+    public function getContacto()
+    {        
+        $contacto = User::select('telefono_fijo', 'telefono_movil', 'direccion')
+                            ->where('id', Auth::id())
+                            ->first();        
+
+        return json_encode($contacto);
     }
 
     /**
@@ -201,8 +173,37 @@ class GraduandoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request)
+    {        
+        $this->validate($request, 
+            [
+                'telefono_fijo' => 'nullable|digits_between:6, 10',
+                'telefono_movil' => 'required|digits_between:9, 15',
+                'direccion' => 'required|max:150'
+            ]
+        );
+
+        try {         
+            $user_id = Auth::id();
+
+            DB::table('gt_graduando')
+                ->where('id', $user_id)
+                ->update(
+                    [
+                        'telefono_fijo' => $request->telefono_fijo,
+                        'telefono_movil' => $request->telefono_movil,
+                        'direccion' => $request->direccion
+                    ]
+                );      
+
+            $result = ['successMessage' => 'Información de contacto actualizado con éxito', 'error' => false]; 
+            
+        } catch (\Exception $e) {                              
+            $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
+            \Log::warning('GraduandoController@update, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
+        }
+
+        return $result;
     }
 
     /**

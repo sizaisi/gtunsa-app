@@ -30,13 +30,14 @@
             <b-collapse id="description" v-model="showDescription_">
               <b-card-body>
                 <b-card-sub-title class="mb-2">{{ desc }}</b-card-sub-title>
+                <br />
                 <template v-if="idrol_area != 1 || color != 'actual'">
                   <div class="container">
                     <div class="row">
                       <div
                         class="text-lg-right text-md-right text-sm-left py-2 col-lg-3 col-md-4 col-sm-12 border bg-light"
                       >
-                        <b>Área / Responsable:</b>
+                        <b>Responsable:</b>
                       </div>
                       <div
                         v-if="tipo_rol == 'asesor' || tipo_rol == 'jurado'"
@@ -81,6 +82,7 @@
                     :is="url_form"
                     :idexpediente="idexpediente"
                     :idgrado_procedimiento_actual="idgrado_procedimiento_actual"
+                    @reload-parent="actualizarEstados"
                   />
                 </template>
               </b-card-body>
@@ -102,9 +104,9 @@
 <script>
 import config from "../config";
 
-import tp_st_registrar_proyecto_grado from "../procedimientos/tp_st_registrar_proyecto_grado.vue";
-import tp_st_corregir_observacion_jurado from "../procedimientos/tp_st_corregir_observacion_jurado.vue";
-import tp_st_corregir_obs_post_sustentacion from "../procedimientos/tp_st_corregir_obs_post_sustentacion.vue";
+import tp_st_registrar_proyecto_grado from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_registrar_proyecto_grado.vue";
+import tp_st_corregir_observacion_jurado from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_corregir_observacion_jurado.vue";
+import tp_st_corregir_obs_post_sustentacion from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_corregir_obs_post_sustentacion.vue";
 
 export default {
   name: "estado-component",
@@ -192,6 +194,9 @@ export default {
       else if (this.color == "rechazar") this.color_mostrar = "FFC107";
       else if (this.color == "observar") this.color_mostrar = "FFC107";
       else if (this.color == "actual") this.color_mostrar = "0D8ABC";
+    },
+    actualizarEstados() {
+      this.$emit("reload-parent");
     },
     collapseClick() {
       if (!this.click) {

@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import config from "../config";
+import config from "../../config";
 
 export default {
   name: "tp_st_registrar_proyecto_grado",

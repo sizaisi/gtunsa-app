@@ -35,6 +35,8 @@ Route::get('/home', function () { // interfaz de inicio del sistema
 })->name('home');
 
 Route::get('/graduando', 'GraduandoController@show');
+Route::get('/graduando/contacto', 'GraduandoController@getContacto');
+Route::put('/graduando/actualizar', 'GraduandoController@update');
 Route::post('/graduando/registrar_proyecto', 'GraduandoController@registrarProyecto');
 Route::post('/graduando/mover', 'GraduandoController@mover');
 
@@ -44,7 +46,7 @@ Route::get('/GradoModalidad/grado_titulo', 'GradoModalidadController@listGradoTi
 Route::get('/GradoModalidad/modalidad_obtencion', 'GradoModalidadController@listModalidadObtencion');
 
 Route::get('/expediente/tramite', 'ExpedienteController@index');
-Route::get('/expediente/registrar/', 'ExpedienteController@store');
+Route::post('/expediente/registrar', 'ExpedienteController@store');
 
 Route::get('/grado_procedimiento', 'GradoProcedimientoController@getAllGradoProcedimientos');
 Route::get('/grado_procedimiento/actual', 'GradoProcedimientoController@getGradoProcedimientoActual');
@@ -53,6 +55,12 @@ Route::get('/grado_procedimiento/resto', 'GradoProcedimientoController@getRestoG
 
 Route::get('/movimiento', 'MovimientoController@getMovimientos');
 Route::get('/movimiento/ruta', 'MovimientoController@getRutas');
+
+Route::get('/archivo/get', 'ArchivoController@get');
+Route::post('/archivo/registrar', 'ArchivoController@store');
+Route::delete('/archivo/eliminar', 'ArchivoController@destroy');
+
+Route::get('/archivo/mostrar/{idrecurso}', 'ArchivoController@show');
 
 
 Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
