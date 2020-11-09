@@ -42,19 +42,19 @@ class SocialController extends Controller
 		if (!$user) {
 			$user = User::create([
 				'cui'    => $cui,
+				'name' => $getInfo->name,
 				'email'    => $getInfo->email,
 				'provider' => $provider,
-				'provider_id' => $getInfo->id,
-				'apn' => $getInfo->name
+				'provider_id' => $getInfo->id,				
 			]);
 		} else {
 			//User::where('email', $user['email'])->update(['provider' => 'google', 'provider_id' => $googleData->getId()]);
 			User::where('email', $user->email)
 				->update(
 					[
+						'name' => $getInfo->name,
 						'provider' => $provider, 
-						'provider_id' => $getInfo->id,
-						'apn' => $getInfo->name
+						'provider_id' => $getInfo->id						
 					]
 				);
 		}		
