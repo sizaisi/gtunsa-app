@@ -13,7 +13,7 @@ class SocialController extends Controller
 
 	public function redirect($provider)
 	{
-		return Socialite::driver($provider)->redirect();
+		return Socialite::driver($provider)->with(['hd' => 'unsa.edu.pe'])->redirect();
 	}
 
 	public function callback($provider)
@@ -47,8 +47,7 @@ class SocialController extends Controller
 				'provider' => $provider,
 				'provider_id' => $getInfo->id,				
 			]);
-		} else {
-			//User::where('email', $user['email'])->update(['provider' => 'google', 'provider_id' => $googleData->getId()]);
+		} else {			
 			User::where('email', $user->email)
 				->update(
 					[
