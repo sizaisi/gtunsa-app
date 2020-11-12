@@ -23,8 +23,9 @@
             :idgrado_proc="idgrado_procedimiento_actual"
             :idruta="ruta.id"                
             :array_opciones="array_tipo_documento"
-            max_docs="1"
+            :max_docs="max_docs"
             ref="documentos"
+            @reset="resetChild"
         ></subir-archivos>
         <div v-if="errors.length" class="alert alert-danger" role="alert">
             <ul><li v-for="(error, i) in errors" :key="i">{{ error }}</li></ul>
@@ -52,8 +53,12 @@ export default {
             etiquetas: config.etiquetas,
             array_tipo_documento: [
                 { value: null, text: 'Tipo Documento', disabled: true },                
-                { value: 'Plan de tesis', text: 'Plan de tesis', disabled: false},           
+                { value: 'Plan de tesis', text: 'Plan de tesis', disabled: false},
+                { value: 'DNI', text: 'DNI', disabled: false},
+                { value: 'Constancia de prácticas', text: 'Constancia de prácticas', disabled: false},
+                { value: 'Reporte SUNARP', text: 'Reporte SUNARP', disabled: false},           
             ],
+            max_docs: 4,
             errors: []
         };
     },
@@ -68,8 +73,10 @@ export default {
                 this.errors.push("El campo título debe contener entre 30 y 256 caracteres.")
             }   
 
-            if (this.$refs.documentos.cantidadDocumentos() == 0) { //referencia al metodo del componente hijo
-                this.errors.push("Debe registrar documentos para este procedimiento.")
+            let totalDocs = this.$refs.documentos.cantidadDocumentos();
+
+            if (totalDocs < this.max_docs) { //referencia al metodo del componente hijo
+                this.errors.push(`Debe registrar ${this.max_docs} documentos para este procedimiento.`)
             }           
             
             if (!this.errors.length) {
@@ -133,7 +140,10 @@ export default {
                         //me.errors = error.response.data.errors;
                     } 
                 });            
-        }        
+        },
+        resetChild() {
+            this.errors = [];
+        }     
     },
     filters: {
         capitalize: function(value) {

@@ -184,16 +184,16 @@
                         class="mr-1"
                         @click="prevTab"
                         :disabled="tabIndex == 0"
-                        >Anterior</b-button
                     >
+                        Anterior
+                    </b-button>
                     <b-button
                         variant="primary"
                         @click="nextTab"
-                        :disabled="
-                            tabIndex == 1 || datos_correctos == 'no_acepto'
-                        "
-                        >Siguiente</b-button
+                        :disabled="tabIndex == 1 || datos_correctos == 'no_acepto'"
                     >
+                        Siguiente
+                    </b-button>
                 </b-button-group>
             </div>
         </b-card>
@@ -222,8 +222,7 @@ export default {
         escuela: function(val) {
             this.idgrado_titulo = null;
 
-            axios
-                .get(`${this.api_url}/GradoModalidad/grado_titulo`, {
+            axios.get(`${this.api_url}/GradoModalidad/grado_titulo`, {
                     params: {
                         nive: val.nive,
                         codigo: val.nues.substr(0, 1)
@@ -239,8 +238,7 @@ export default {
         idgrado_titulo: function(val) {
             this.idgrado_modalidad = null;
 
-            axios
-                .get(`${this.api_url}/GradoModalidad/modalidad_obtencion`, {
+            axios.get(`${this.api_url}/GradoModalidad/modalidad_obtencion`, {
                     params: {
                         idgrado_titulo: val
                     }

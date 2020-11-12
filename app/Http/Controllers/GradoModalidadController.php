@@ -22,11 +22,12 @@ class GradoModalidadController extends Controller
         $codigo = $request->codigo;
 
         $grado_titulos = DB::table('gt_grado_titulo')
-            ->select('id AS value', 'nombre AS text')
-            ->where('nive', '=', $nive)
-            ->where('codigo', '=', $codigo)
-            ->orderby('nombre', 'asc')
-            ->get();
+                            ->select('id AS value', 'nombre AS text')
+                            ->where('nive', $nive)
+                            ->where('codigo', $codigo)
+                            ->where('condicion', 1)
+                            ->orderby('nombre', 'asc')
+                            ->get();
 
         return $grado_titulos;
     }

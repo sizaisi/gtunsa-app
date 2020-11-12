@@ -223,7 +223,11 @@ export default {
       this.file = null;      
       this.opcion_documento = null;
       this.estaOcupado = false;
+      this.resetParent();
     }, 
+    resetParent() {
+      this.$emit('reset');
+    },
     mostrarDocumento(idrecurso) {
       window.open(`${this.api_url}/archivo/mostrar/${idrecurso}`,'_blank');     
     } 
