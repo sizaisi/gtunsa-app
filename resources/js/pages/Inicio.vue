@@ -1,9 +1,6 @@
 <template>
     <div>
-        <b-card>
-            <!--<router-link :to="{ name: 'nuevo-tramite' }" class="btn btn-primary"
-                >Nuevo trámite</router-link
-            >-->
+        <b-card>            
             <b-button variant="primary" @click="nuevoTramite"
                 >Nuevo trámite</b-button
             >

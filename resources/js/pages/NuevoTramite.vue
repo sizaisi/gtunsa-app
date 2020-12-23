@@ -129,8 +129,8 @@
                                     >
                                         <b-form-select
                                             id="input-3"
-                                            v-model="idgrado_titulo"
-                                            :options="grado_titulos"
+                                            v-model="idgrado"
+                                            :options="grados"
                                             required
                                         >
                                             <template v-slot:first>
@@ -208,8 +208,8 @@ export default {
             graduando: {},
             escuela: null,
             escuelas: [],
-            idgrado_titulo: null,
-            grado_titulos: [],
+            idgrado: null,
+            grados: [],
             idgrado_modalidad: null,
             grado_modalidades: [],
             datos_correctos: "no_acepto",
@@ -220,27 +220,27 @@ export default {
     },
     watch: {
         escuela: function(val) {
-            this.idgrado_titulo = null;
+            this.idgrado = null;
 
-            axios.get(`${this.api_url}/GradoModalidad/grado_titulo`, {
+            axios.get(`${this.api_url}/GradoModalidad/getGrados`, {
                     params: {
                         nive: val.nive,
                         codigo: val.nues.substr(0, 1)
                     }
                 })
                 .then(response => {
-                    this.grado_titulos = response.data;
+                    this.grados = response.data;
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
-        idgrado_titulo: function(val) {
+        idgrado: function(val) {
             this.idgrado_modalidad = null;
 
-            axios.get(`${this.api_url}/GradoModalidad/modalidad_obtencion`, {
+            axios.get(`${this.api_url}/GradoModalidad/getModalidades`, {
                     params: {
-                        idgrado_titulo: val
+                        idgrado: val
                     }
                 })
                 .then(response => {

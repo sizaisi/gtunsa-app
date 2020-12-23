@@ -1,23 +1,5 @@
 <template>    
-    <b-form @submit.prevent="registrarProyectoTesis()">
-        <b-form-group
-            id="textarea-group-1"            
-            label-for="textarea-1"
-            description="Este título debe coincidir con el título de plan de tesis del archivo adjunto"
-        >            
-            <template v-slot:label>
-                Título de plan de tesis <span style="color:red;">*</span>
-            </template>  
-            <b-form-textarea
-                id="textarea-1"
-                :state="titulo.length >= 30 && titulo.length <= 256"
-                v-model="titulo"
-                placeholder="Ingrese al menos 30 caracteres y un máximo de 256 caracteres"
-                rows="2"                
-                required
-            >
-            </b-form-textarea>
-        </b-form-group>            
+    <b-form @submit.prevent="registrarRequisitos()">                  
         <subir-archivos
             :idexpediente="idexpediente" 
             :idgrado_proc="idprocedimiento_actual"
@@ -40,7 +22,7 @@ import config from "./../../config";
 import SubirArchivos from "./../../components/SubirArchivos";
 
 export default {
-    name: "tp_st_registrar_proyecto_grado",
+    name: "b_a_registrar_requisitos_externos",
     components: {
         SubirArchivos
     },
@@ -48,15 +30,14 @@ export default {
     data() {
         return {
             api_url: this.$root.api_url,
-            ruta: {},
-            titulo: "",            
+            ruta: {},            
             etiquetas: config.etiquetas,
             array_tipo_documento: [
                 { value: null, text: 'Tipo Documento', disabled: true },                
-                { value: 'Plan de tesis', text: 'Plan de tesis', disabled: false},
-                { value: 'DNI', text: 'DNI', disabled: false},
-                { value: 'Constancia de prácticas', text: 'Constancia de prácticas', disabled: false},
-                { value: 'Reporte SUNARP', text: 'Reporte SUNARP', disabled: false},           
+                { value: 'DNI Anverso', text: 'DNI Anverso', disabled: false},
+                { value: 'DNI Reverso', text: 'DNI Reverso', disabled: false},
+                { value: 'Certificado Antecendentes Penales', text: 'Certificado Antecendentes Penales', disabled: false},
+                { value: 'Constancia Nivel Intermedio de Idiomas', text: 'Constancia Nivel Intermedio de Idiomas', disabled: false},           
             ],
             max_docs: 4,
             errors: []
@@ -67,11 +48,7 @@ export default {
     },
     methods: {
         validarDocumentos() {        
-            this.errors = [] 
-
-            if (this.titulo.length < 30 || this.titulo.length > 256) {
-                this.errors.push("El campo título debe contener entre 30 y 256 caracteres.")
-            }   
+            this.errors = []             
 
             let totalDocs = this.$refs.documentos.cantidadDocumentos();
 
@@ -99,13 +76,12 @@ export default {
                     console.log(error);
                 });
         },
-        registrarProyectoTesis() {                 
+        registrarRequisitos() {                 
             if (!this.validarDocumentos()) {
                 return
             }
             
-            axios.post(`${this.api_url}/graduando/registrar_proyecto`, {
-                    titulo: this.titulo,                                        
+            axios.post(`${this.api_url}/graduando/registrar_requisitos`, {                                                
                     idexpediente: this.idexpediente,
                     idruta: this.ruta.id,
                     idproc_origen: this.ruta.idproc_origen,
@@ -114,7 +90,7 @@ export default {
                 .then(response => {
                     if (!response.data.error) {                        
                         this.$vs.notify({
-                            title: "Registro de plan de tesis",
+                            title: "Registro de requisitos externos",
                             text: response.data.successMessage,
                             color: "success",
                             icon: "done",
@@ -124,7 +100,7 @@ export default {
                     } 
                     else {
                         this.$vs.notify({
-                            title: "Registro de plan de tesis",
+                            title: "Registro de requisitos externos",
                             text: response.data.errorMessage,
                             color: "warning",
                             icon: "error",

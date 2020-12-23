@@ -9,38 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class GraduandoController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
+{    
     public function mover(Request $request)
     {
         $idruta = $request->idruta;
@@ -83,8 +52,10 @@ class GraduandoController extends Controller
         $titulo = $request->titulo;
         $idexpediente = $request->idexpediente;        
         $idruta = $request->idruta;
-        $idgradproc_origen = $request->idgradproc_origen;
-        $idgradproc_destino = $request->idgradproc_destino;
+        $idproc_origen = $request->idproc_origen;
+        $idproc_destino = $request->idproc_destino;
+
+        //dd($request->all());
 
         try {
             DB::beginTransaction();
@@ -112,7 +83,7 @@ class GraduandoController extends Controller
 
             DB::table('gt_expediente')
                 ->where('id', '=', $idexpediente)
-                ->update(['idgrado_procedimiento' => $idgradproc_destino]);
+                ->update(['idgrado_procedimiento' => $idproc_destino]);
 
             DB::commit();
             $result = ['successMessage' => 'Proyecto de tesis registrado con éxito', 'error' => false];                   
@@ -125,12 +96,48 @@ class GraduandoController extends Controller
         return $result;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function registrarRequisitos(Request $request)
+    {        
+        $idexpediente = $request->idexpediente;        
+        $idruta = $request->idruta;
+        $idproc_origen = $request->idproc_origen;
+        $idproc_destino = $request->idproc_destino;        
+
+        try {
+            DB::beginTransaction();
+
+            $idusuario = DB::table('gt_usuario')
+                ->select('id AS idusuario')
+                ->where('codi_usuario', Auth::user()->cui)
+                ->first()
+                ->idusuario;            
+
+            $mytime = Carbon::now('America/Lima');
+
+            $idmovimiento = DB::table('gt_movimiento')
+                ->insertGetId([
+                    'idexpediente' => $idexpediente,
+                    'idusuario' => $idusuario,
+                    'fecha' => $mytime->format('Y-m-d H:i:s'),
+                    'idruta' => $idruta,
+                    'idmov_anterior' => '0'
+                ]);
+
+            DB::table('gt_expediente')
+                ->where('id', '=', $idexpediente)
+                ->update(['idgrado_procedimiento' => $idproc_destino]);
+
+            DB::commit();
+            $result = ['successMessage' => 'Requisitos externos registrado con éxito', 'error' => false];                   
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
+            \Log::error('GraduandoController@registrarRequisitos, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
+        }
+
+        return $result;
+    }
+    
     public function show()
     {        
         $graduando = User::join('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
@@ -153,26 +160,8 @@ class GraduandoController extends Controller
                             ->first();        
 
         return json_encode($contacto);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    }  
+        
     public function update(Request $request)
     {        
         $this->validate($request, 
@@ -204,16 +193,5 @@ class GraduandoController extends Controller
         }
 
         return $result;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    }      
 }

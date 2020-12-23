@@ -81,7 +81,7 @@
                   <component
                     :is="url_form"
                     :idexpediente="idexpediente"
-                    :idgrado_procedimiento_actual="idgrado_procedimiento_actual"
+                    :idprocedimiento_actual="idgrado_procedimiento_actual"
                     @reload-parent="actualizarEstados"
                   />
                 </template>
@@ -104,9 +104,13 @@
 <script>
 import config from "../config";
 
+//titulo profesional sustentacion tesis
 import tp_st_registrar_proyecto_grado from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_registrar_proyecto_grado.vue";
 import tp_st_corregir_observacion_jurado from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_corregir_observacion_jurado.vue";
 import tp_st_corregir_obs_post_sustentacion from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_corregir_obs_post_sustentacion.vue";
+
+//bachiller automatico
+import b_a_registrar_requisitos_externos from "../procedimientos/bachiller_automatico/registrar_requisitos_externos.vue";
 
 export default {
   name: "estado-component",
@@ -114,6 +118,7 @@ export default {
     tp_st_registrar_proyecto_grado,
     tp_st_corregir_observacion_jurado,
     tp_st_corregir_obs_post_sustentacion,
+    b_a_registrar_requisitos_externos
   },
   props: [
     "idexpediente",

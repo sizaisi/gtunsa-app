@@ -38,12 +38,13 @@ Route::get('/graduando', 'GraduandoController@show');
 Route::get('/graduando/contacto', 'GraduandoController@getContacto');
 Route::put('/graduando/actualizar', 'GraduandoController@update');
 Route::post('/graduando/registrar_proyecto', 'GraduandoController@registrarProyecto');
+Route::post('/graduando/registrar_requisitos', 'GraduandoController@registrarRequisitos');
 Route::post('/graduando/mover', 'GraduandoController@mover');
 
 Route::get('/escuela', 'EscuelaController@index');
 
-Route::get('/GradoModalidad/grado_titulo', 'GradoModalidadController@listGradoTitulo');
-Route::get('/GradoModalidad/modalidad_obtencion', 'GradoModalidadController@listModalidadObtencion');
+Route::get('/GradoModalidad/getGrados', 'GradoModalidadController@getGrados');
+Route::get('/GradoModalidad/getModalidades', 'GradoModalidadController@getModalidades');
 
 Route::get('/expediente/tramite', 'ExpedienteController@index');
 Route::post('/expediente/registrar', 'ExpedienteController@store');

@@ -43,7 +43,7 @@
                             number=""
                             color="actual"
                             :url_form="grado_proc_actual.url_formulario"
-                            :idrol_area="grado_proc_actual.idrol_area"
+                            :idrol_area="grado_proc_actual.idrol"
                             :rol_area="grado_proc_actual.rol_area"
                             :tipo_rol="grado_proc_actual.tipo_rol"
                             :desc="grado_proc_actual.descripcion"
