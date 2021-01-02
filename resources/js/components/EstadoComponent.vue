@@ -31,7 +31,7 @@
               <b-card-body>
                 <b-card-sub-title class="mb-2">{{ desc }}</b-card-sub-title>
                 <br />
-                <template v-if="idrol_area != 1 || color != 'actual'">
+                <template v-if="rol != 'Graduando' || color != 'actual'">
                   <div class="container">
                     <div class="row">
                       <div
@@ -49,7 +49,7 @@
                         v-else
                         class="py-2 col-lg-9 col-md-8 col-sm-12 border"
                       >
-                        {{ rol_area }}
+                        {{ rol }}
                       </div>
                     </div>
                     <div class="row">
@@ -79,9 +79,9 @@
                 <template v-else
                   ><!-- es proc actual y procedimiento del graduando -->
                   <component
-                    :is="url_form"
+                    :is="componente"
                     :idexpediente="idexpediente"
-                    :idprocedimiento_actual="idgrado_procedimiento_actual"
+                    :idprocedimiento_actual="idprocedimiento_actual"
                     @reload-parent="actualizarEstados"
                   />
                 </template>
@@ -123,15 +123,14 @@ export default {
   props: [
     "idexpediente",
     "title",
-    "idgrado_procedimiento_actual",
+    "idprocedimiento_actual",
     "number",
     "color",
     "click",
     "showDescription",
     "hideDescription",
-    "url_form",
-    "idrol_area",
-    "rol_area",
+    "componente",        
+    "rol",
     "tipo_rol",
     "desc",
     "fecha",

@@ -49,10 +49,8 @@ Route::get('/GradoModalidad/getModalidades', 'GradoModalidadController@getModali
 Route::get('/expediente/tramite', 'ExpedienteController@index');
 Route::post('/expediente/registrar', 'ExpedienteController@store');
 
-Route::get('/grado_procedimiento', 'GradoProcedimientoController@getAllGradoProcedimientos');
-Route::get('/grado_procedimiento/actual', 'GradoProcedimientoController@getGradoProcedimientoActual');
-Route::get('/grado_procedimiento/resto', 'GradoProcedimientoController@getRestoGradoProcedimientos');
-
+Route::get('/procedimiento/actual', 'ProcedimientoController@getProcedimientoActual');
+Route::get('/procedimiento/resto', 'ProcedimientoController@getRestoProcedimientos');
 
 Route::get('/movimiento', 'MovimientoController@getMovimientos');
 Route::get('/movimiento/ruta', 'MovimientoController@getRutas');

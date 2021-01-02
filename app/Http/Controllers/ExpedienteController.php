@@ -23,7 +23,7 @@ class ExpedienteController extends Controller
             )
             ->join('gt_graduando_expediente AS gt_ge', 'gt_e.id', '=', 'gt_ge.idexpediente')
             ->join('gt_procedimientos AS gt_p', 'gt_e.idgrado_procedimiento', '=', 'gt_p.id')
-            ->join('gt_grados_modalidades AS gt_gm', 'gt_gm.id', '=', 'gt_p.idgradomodalidad')
+            ->join('gt_grado_modalidades AS gt_gm', 'gt_gm.id', '=', 'gt_p.idgradomodalidad')
             ->join('gt_grados AS gt_g', 'gt_gm.idgrado', '=', 'gt_g.id')
             ->join('gt_modalidades AS gt_m', 'gt_gm.idmodalidad', '=', 'gt_m.id')
             ->join('actescu', 'actescu.nues', '=', 'gt_e.nues')

@@ -13,13 +13,11 @@ class MovimientoController extends Controller
 
         $movimientos = DB::table('gt_movimiento AS gt_m')
                             ->join('gt_rutas AS gt_r', 'gt_m.idruta', '=', 'gt_r.id')
-                            ->join('gt_procedimientos AS gt_p', 'gt_r.idproc_origen', '=', 'gt_p.id')                            
-                            ->join('gt_usuario AS gt_u', 'gt_m.idusuario', '=', 'gt_u.id')
-                            ->join('gt_roles AS gt_ro', 'gt_u.idrol_area', '=', 'gt_ro.id')
+                            ->join('gt_procedimientos AS gt_p', 'gt_r.idproc_origen', '=', 'gt_p.id')
+                            ->join('gt_roles AS gt_ro', 'gt_p.idrol', '=', 'gt_ro.id')
                             ->select('gt_m.*', 'gt_r.idproc_origen', 'gt_r.etiqueta AS estado',
-                                     'gt_p.nombre AS nombre_procedimiento', 'gt_p.descripcion',
-                                     'gt_ro.id AS idrol_area', 'gt_ro.nombre AS rol_area', 'gt_p.tipo_rol',
-                                     'gt_p.url_formulario', 'gt_p.orden AS nro_orden')
+                                     'gt_p.nombre AS procedimiento', 'gt_p.descripcion',
+                                     'gt_ro.nombre AS rol', 'gt_p.tipo_rol', 'gt_p.componente')
                             ->where('gt_m.idexpediente', $idexpediente)
                             ->orderby('gt_m.id', 'asc')
                             ->get();

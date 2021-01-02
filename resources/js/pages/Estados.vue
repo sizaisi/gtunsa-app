@@ -18,35 +18,33 @@
                         />
                     </b-col>
                 </b-row>                
-                <b-row v-for="(grado_proc_mov, index) in movimientos" :key="index">                        
+                <b-row v-for="(movimiento, index) in movimientos" :key="index">                        
                     <b-col>
                         <estado-component
-                            :title="grado_proc_mov.nombre_procedimiento"
+                            :title="movimiento.procedimiento"
                             number="+"
-                            :color="grado_proc_mov.estado"
-                            :url_form="grado_proc_mov.url_formulario"
-                            :idrol_area="grado_proc_mov.idrol_area"
-                            :rol_area="grado_proc_mov.rol_area"
-                            :tipo_rol="grado_proc_mov.tipo_rol"
-                            :desc="grado_proc_mov.descripcion"
-                            :fecha="grado_proc_mov.fecha"
+                            :color="movimiento.estado"
+                            :componente="movimiento.componente"                            
+                            :rol="movimiento.rol"
+                            :tipo_rol="movimiento.tipo_rol"
+                            :desc="movimiento.descripcion"
+                            :fecha="movimiento.fecha"
                             :tail="true"
                         />
                     </b-col>                        
                 </b-row>                
-                <b-row v-if="grado_proc_actual != null">                    
+                <b-row v-if="procedimiento_actual != null">                    
                     <b-col>
                         <estado-component
                             :idexpediente="idexpediente"
-                            :title="grado_proc_actual.nombre_procedimiento"
-                            :idgrado_procedimiento_actual="grado_proc_actual.idgrado_procedimiento"
+                            :title="procedimiento_actual.procedimiento"
+                            :idprocedimiento_actual="procedimiento_actual.id"
                             number=""
                             color="actual"
-                            :url_form="grado_proc_actual.url_formulario"
-                            :idrol_area="grado_proc_actual.idrol"
-                            :rol_area="grado_proc_actual.rol_area"
-                            :tipo_rol="grado_proc_actual.tipo_rol"
-                            :desc="grado_proc_actual.descripcion"
+                            :componente="procedimiento_actual.componente"                            
+                            :rol="procedimiento_actual.rol"
+                            :tipo_rol="procedimiento_actual.tipo_rol"
+                            :desc="procedimiento_actual.descripcion"
                             :fecha="''"
                             :showDescription="true"
                             :tail="true"                            
@@ -54,7 +52,7 @@
                         />
                     </b-col>
                 </b-row>
-                <b-row v-if="resto_grado_procedimientos.length > 0">
+                <b-row v-if="resto_procedimientos.length > 0">
                     <b-col>
                         <estado-component
                             :title="'Procedimientos restantes...'"
@@ -67,10 +65,10 @@
                     </b-col>
                 </b-row>
                 <b-collapse v-model="showRest">                    
-                    <b-row v-for="(grado_proc_rest, index) in resto_grado_procedimientos" :key="index">
+                    <b-row v-for="(proc_rest, index) in resto_procedimientos" :key="index">
                         <b-col>
                             <estado-component
-                                :title="grado_proc_rest.nombre_procedimiento"
+                                :title="proc_rest.procedimiento"
                                 number=""
                                 color="gray"
                                 :hideDescription="true"
@@ -105,16 +103,16 @@ export default {
             api_url: this.$root.api_url,
             idgrado_modalidad: this.$store.state.idgrado_modalidad,
             idexpediente: this.$store.state.idexpediente,            
-            grado_proc_actual: null,            
+            procedimiento_actual: null,            
             movimientos: [],            
-            resto_grado_procedimientos: [],            
+            resto_procedimientos: [],            
             showRest: false              
         };
     },
     created() {
         if (this.idgrado_modalidad != null && this.idexpediente != null) {
-            this.getGradoProcedimientoActual()
             this.getMovimientos()
+            this.getProcedimientoActual()            
         }
         else {
             this.$router.push({ name: 'inicio' }); 
@@ -122,19 +120,6 @@ export default {
            
     },
     methods: {
-        getGradoProcedimientoActual() {            
-            axios.get(`${this.api_url}/grado_procedimiento/actual`, {
-                    params: {                        
-                        idexpediente: this.idexpediente
-                    }
-                })
-                .then(response => {
-                    this.grado_proc_actual = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
         getMovimientos() {            
             axios.get(`${this.api_url}/movimiento`, {
                     params: {
@@ -142,30 +127,44 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.movimientos = response.data;    
-                    this.getProcedimientosRestantes();                                    
+                    this.movimientos = response.data;                                                        
                 })
                 .catch(error => {
                     console.log(error);
                 });
-        },                
-        getProcedimientosRestantes() {
-            axios.get(`${this.api_url}/grado_procedimiento/resto`, {
-                    params: {
-                        idgrado_modalidad: this.idgrado_modalidad,
-                        idgrado_procedimiento_actual: this.grado_proc_actual.idgrado_procedimiento
+        },  
+        getProcedimientoActual() {            
+            axios.get(`${this.api_url}/procedimiento/actual`, {
+                    params: {                        
+                        idexpediente: this.idexpediente
                     }
                 })
                 .then(response => {
-                    this.resto_grado_procedimientos = response.data;                    
+                    this.procedimiento_actual = response.data;                    
+                    this.getProcedimientosRestantes();    
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },                      
+        getProcedimientosRestantes() {
+            axios.get(`${this.api_url}/procedimiento/resto`, {
+                    params: {
+                        idgrado_modalidad: this.idgrado_modalidad,
+                        idprocedimiento_actual: this.procedimiento_actual.id
+                    }
+                })
+                .then(response => {                    
+                    this.resto_procedimientos = response.data;                    
+                    console.log(this.resto_procedimientos)
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },  
         actualizarEstados() {
-            this.getGradoProcedimientoActual();
-            this.getMovimientos();            
+            this.getMovimientos();
+            this.getProcedimientoActual();                        
         },      
         displayRest() {
             this.showRest = !this.showRest;

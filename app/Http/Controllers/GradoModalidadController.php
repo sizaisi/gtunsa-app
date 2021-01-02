@@ -26,10 +26,10 @@ class GradoModalidadController extends Controller
     {
         $idgrado = $request->idgrado;
 
-        $grados_modalidades = DB::TABLE('gt_grados_modalidades')
-            ->join('gt_modalidades', 'gt_grados_modalidades.idmodalidad', '=', 'gt_modalidades.id')
-            ->select('gt_grados_modalidades.id AS value', 'gt_modalidades.nombre AS text')
-            ->where('gt_grados_modalidades.idgrado', '=', $idgrado)
+        $grados_modalidades = DB::TABLE('gt_grado_modalidades')
+            ->join('gt_modalidades', 'gt_grado_modalidades.idmodalidad', '=', 'gt_modalidades.id')
+            ->select('gt_grado_modalidades.id AS value', 'gt_modalidades.nombre AS text')
+            ->where('gt_grado_modalidades.idgrado', '=', $idgrado)
             ->orderby('gt_modalidades.nombre', 'asc')
             ->get();
 
