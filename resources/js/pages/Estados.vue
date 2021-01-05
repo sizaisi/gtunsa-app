@@ -155,8 +155,7 @@ export default {
                     }
                 })
                 .then(response => {                    
-                    this.resto_procedimientos = response.data;                    
-                    console.log(this.resto_procedimientos)
+                    this.resto_procedimientos = response.data;                                        
                 })
                 .catch(error => {
                     console.log(error);
