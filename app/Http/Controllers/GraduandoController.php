@@ -39,7 +39,7 @@ class GraduandoController extends Controller
 
             DB::table('gt_expediente')
                 ->where('id', '=', $idexpediente)
-                ->update(['idgrado_procedimiento' => $idgradproc_destino]);
+                ->update(['idprocedimiento' => $idgradproc_destino]);
 
             DB::commit();
         } catch (Exception $e) {
@@ -83,7 +83,7 @@ class GraduandoController extends Controller
 
             DB::table('gt_expediente')
                 ->where('id', '=', $idexpediente)
-                ->update(['idgrado_procedimiento' => $idproc_destino]);
+                ->update(['idprocedimiento' => $idproc_destino]);
 
             DB::commit();
             $result = ['successMessage' => 'Proyecto de tesis registrado con éxito', 'error' => false];                   
@@ -125,7 +125,7 @@ class GraduandoController extends Controller
 
             DB::table('gt_expediente')
                 ->where('id', '=', $idexpediente)
-                ->update(['idgrado_procedimiento' => $idproc_destino]);
+                ->update(['idprocedimiento' => $idproc_destino]);
 
             DB::commit();
             $result = ['successMessage' => 'Requisitos externos registrado con éxito', 'error' => false];                   

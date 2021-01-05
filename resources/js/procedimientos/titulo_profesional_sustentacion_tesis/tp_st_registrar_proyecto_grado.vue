@@ -20,7 +20,7 @@
         </b-form-group>            
         <subir-archivos
             :idexpediente="idexpediente" 
-            :idgrado_proc="idprocedimiento_actual"
+            :idprocedimiento="idprocedimiento_actual"
             :idruta="ruta.id"                
             :array_opciones="array_tipo_documento"
             :max_docs="max_docs"

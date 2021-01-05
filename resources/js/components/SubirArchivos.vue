@@ -68,7 +68,7 @@
 <script>
 export default {
   name: "subir-archivos",
-  props: ["idexpediente", "idgrado_proc", "idruta", "array_opciones", "max_docs"],
+  props: ["idexpediente", "idprocedimiento", "idruta", "array_opciones", "max_docs"],
   data() {
     return {
       api_url: this.$root.api_url,  
@@ -97,7 +97,7 @@ export default {
       axios.get(`${this.api_url}/archivo/get`, {
           params: {
             idexpediente: this.idexpediente,
-            idgrado_proc: this.idgrado_proc,                        
+            idprocedimiento: this.idprocedimiento,                        
           }
         })
         .then(response => {                
@@ -114,7 +114,7 @@ export default {
       this.file.arrayBuffer().then((buffer) => {
         axios.post(`${this.api_url}/archivo/registrar`,{                    
             idexpediente: this.idexpediente,
-            idgrado_proc: this.idgrado_proc,
+            idprocedimiento: this.idprocedimiento,
             idruta: this.idruta,                      
             file: this.getB64Str(buffer),
             type: this.file.type,

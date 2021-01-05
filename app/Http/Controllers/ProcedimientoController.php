@@ -12,7 +12,7 @@ class ProcedimientoController extends Controller
         $idexpediente = $request->idexpediente;
 
         $idprocedimiento_actual = DB::table('gt_expediente')
-                                        ->select('idgrado_procedimiento AS idprocedimiento_actual')
+                                        ->select('idprocedimiento AS idprocedimiento_actual')
                                         ->where('id', $idexpediente)
                                         ->first()
                                         ->idprocedimiento_actual;    

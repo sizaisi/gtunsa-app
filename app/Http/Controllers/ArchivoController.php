@@ -11,7 +11,7 @@ class ArchivoController extends Controller
     public function get(Request $request) 
     {
         $idexpediente = $request->idexpediente;
-        $idgrado_proc = $request->idgrado_proc;
+        $idprocedimiento = $request->idprocedimiento;
 
         $idusuario = DB::table('gt_usuario')
             ->select('id AS idusuario')
@@ -23,7 +23,7 @@ class ArchivoController extends Controller
             ->join('gt_archivo AS GT_A', 'GT_R.id', '=', 'GT_A.idrecurso')
             ->select('GT_R.id AS idrecurso', 'GT_A.nombre_asignado', 'GT_A.nombre_archivo', 'GT_A.mime')
             ->where('GT_R.idexpediente', $idexpediente)
-            ->where('GT_R.idgrado_proc', $idgrado_proc)
+            ->where('GT_R.idprocedimiento', $idprocedimiento)
             ->where('GT_R.idusuario', $idusuario)
             ->where('GT_R.idmovimiento', NULL)                
             ->get();     
@@ -49,7 +49,7 @@ class ArchivoController extends Controller
             $idrecurso = DB::table('gt_recurso')
                         ->insertGetId([
                             'idexpediente' => $request->idexpediente,
-                            'idgrado_proc' => $request->idgrado_proc,
+                            'idprocedimiento' => $request->idprocedimiento,
                             'idusuario' => $idusuario,
                             'idmovimiento' => null,
                             'idruta' => $request->idruta
