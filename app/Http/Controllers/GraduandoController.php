@@ -14,8 +14,8 @@ class GraduandoController extends Controller
     {
         $idruta = $request->idruta;
         $idexpediente = $request->idexpediente;
-        $idgradproc_origen = $request->idgradproc_origen;
-        $idgradproc_destino = $request->idgradproc_destino;
+        $idproc_origen = $request->idproc_origen;
+        $idproc_destino = $request->idproc_destino;
 
         try {
 
@@ -39,7 +39,7 @@ class GraduandoController extends Controller
 
             DB::table('gt_expediente')
                 ->where('id', '=', $idexpediente)
-                ->update(['idprocedimiento' => $idgradproc_destino]);
+                ->update(['idprocedimiento' => $idproc_destino]);
 
             DB::commit();
         } catch (Exception $e) {

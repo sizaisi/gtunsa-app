@@ -1,9 +1,7 @@
 <template>
     <div>
         <b-card>            
-            <b-button variant="primary" @click="nuevoTramite"
-                >Nuevo trámite</b-button
-            >
+            <b-button variant="primary" @click="nuevoTramite">Nuevo trámite</b-button>
             <hr />
             <b-card
                 v-for="tramite in tramites"
@@ -12,26 +10,15 @@
                 class="mb-3"
             >
                 <template v-slot:header>
-                    <h6
-                        class="mb-0"
-                        v-text="
-                            `${tramite.nombre_grado_titulo} - ${
-                                tramite.nombre_modalidad
-                            }`
-                        "
-                    ></h6>
+                    <h6 class="mb-0" v-text="`${tramite.grado_titulo} - ${tramite.modalidad}`"></h6>
                 </template>
                 <b-card-text>
                     Trámite presentado para la obtención de
-                    <b>{{ tramite.nombre_grado_titulo }}</b
-                    >, por medio de la modalidad de
-                    <b>{{ tramite.nombre_modalidad }}</b> del programa de
-                    estudios de
+                    <b>{{ tramite.nombre_grado_titulo }}</b>, por medio de la modalidad de
+                    <b>{{ tramite.nombre_modalidad }}</b> del programa de estudios de
                     <b>{{ tramite.nesc }}</b>
                 </b-card-text>
-                <b-button variant="info" @click="verEstados(tramite)"
-                    >Seguimiento de trámite</b-button
-                >
+                <b-button variant="info" @click="verEstados(tramite)">Seguimiento de trámite</b-button>
             </b-card>
         </b-card>
     </div>
@@ -51,8 +38,7 @@ export default {
     },
     methods: {
         nuevoTramite() {
-            axios
-                .get(`${this.api_url}/graduando/contacto`)
+            axios.get(`${this.api_url}/graduando/contacto`)
                 .then(response => {
                     let contacto = response.data;
                     if (!contacto.telefono_movil || !contacto.direccion) {
@@ -75,8 +61,7 @@ export default {
                 });
         },
         getTramites() {
-            axios
-                .get(`${this.api_url}/expediente/tramite`)
+            axios.get(`${this.api_url}/expediente/tramite`)
                 .then(response => {
                     this.tramites = response.data;
                 })

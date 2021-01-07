@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Enviar correciones para el jurado</h3>
+    <h3>Enviar correciones post-sustentación</h3>
     <template v-for="(ruta, index) in rutas">
       <b-button
         @click="mover(ruta)"
@@ -16,8 +16,8 @@
 import config from "../../config";
 
 export default {
-  name: "tp_st_registrar_proyecto_grado",
-  props: ["idexpediente", "idgrado_procedimiento_actual"],
+  name: "corregir_obs_post_sustentacion",
+  props: ["idexpediente", "idprocedimiento_actual"],
   data() {
     return {
       api_url: this.$root.api_url,
@@ -33,7 +33,7 @@ export default {
       axios
         .get(`${this.api_url}/movimiento/ruta`, {
           params: {
-            idgrado_procedimiento_actual: this.idgrado_procedimiento_actual,
+            idprocedimiento_actual: this.idprocedimiento_actual,
           },
         })
         .then((response) => {
@@ -48,8 +48,8 @@ export default {
         .post(`${this.api_url}/graduando/mover`, {
           idexpediente: this.idexpediente,
           idruta: ruta.id,
-          idgradproc_origen: ruta.idgradproc_origen /*verificar jeiken*/,
-          idgradproc_destino: ruta.idgradproc_destino,
+          idproc_origen: ruta.idproc_origen,
+          idproc_destino: ruta.idproc_destino,
         })
         .then((response) => {
           this.$vs.notify({

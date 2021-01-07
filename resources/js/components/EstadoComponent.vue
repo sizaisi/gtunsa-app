@@ -76,8 +76,7 @@
                     </div>
                   </div>
                 </template>
-                <template v-else
-                  ><!-- es proc actual y procedimiento del graduando -->
+                <template v-else>
                   <component
                     :is="componente"
                     :idexpediente="idexpediente"
@@ -93,9 +92,7 @@
     </b-card>
     <b-row v-if="tail">
       <b-col>
-        <div
-          :style="'height: 30px; margin-left: 27px; border-left: 6px solid #c0c0c0'"
-        ></div>
+        <div :style="'height: 30px; margin-left: 27px; border-left: 6px solid #c0c0c0'"></div>
       </b-col>
     </b-row>
   </div>
@@ -105,9 +102,9 @@
 import config from "../config";
 
 //titulo profesional sustentacion tesis
-import tp_st_registrar_proyecto_grado from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_registrar_proyecto_grado.vue";
-import tp_st_corregir_observacion_jurado from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_corregir_observacion_jurado.vue";
-import tp_st_corregir_obs_post_sustentacion from "../procedimientos/titulo_profesional_sustentacion_tesis/tp_st_corregir_obs_post_sustentacion.vue";
+import tp_st_registrar_proyecto_grado from "../procedimientos/titulo_profesional_sustentacion_tesis/registrar_proyecto_grado.vue";
+import tp_st_corregir_observacion_jurado from "../procedimientos/titulo_profesional_sustentacion_tesis/corregir_observacion_jurado.vue";
+import tp_st_corregir_obs_post_sustentacion from "../procedimientos/titulo_profesional_sustentacion_tesis/corregir_obs_post_sustentacion.vue";
 
 //bachiller automatico
 import b_a_registrar_requisitos_externos from "../procedimientos/bachiller_automatico/registrar_requisitos_externos.vue";

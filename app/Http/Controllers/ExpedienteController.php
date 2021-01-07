@@ -11,23 +11,23 @@ class ExpedienteController extends Controller
 {    
     public function index()
     {
-        $tramites = DB::table('gt_expediente AS gt_e')
-            ->select(
-                'gt_e.id AS idexpediente',
-                'gt_e.codigo AS codExpediente',
-                'gt_e.idprocedimiento AS idgrado_procedimiento_actual',
-                'gt_gm.id AS idgrado_modalidad',
-                'gt_g.nombre AS nombre_grado_titulo',
-                'gt_m.nombre AS nombre_modalidad',
-                'actescu.nesc'
-            )
+        $tramites = DB::table('gt_expediente AS gt_e')            
             ->join('gt_graduando_expediente AS gt_ge', 'gt_e.id', '=', 'gt_ge.idexpediente')
             ->join('gt_procedimientos AS gt_p', 'gt_e.idprocedimiento', '=', 'gt_p.id')
             ->join('gt_grado_modalidades AS gt_gm', 'gt_gm.id', '=', 'gt_p.idgradomodalidad')
             ->join('gt_grados AS gt_g', 'gt_gm.idgrado', '=', 'gt_g.id')
             ->join('gt_modalidades AS gt_m', 'gt_gm.idmodalidad', '=', 'gt_m.id')
             ->join('actescu', 'actescu.nues', '=', 'gt_e.nues')
-            ->where('gt_ge.idgraduando', '=', Auth::id())
+            ->select(
+                'gt_e.id AS idexpediente',
+                'gt_e.codigo AS codExpediente',
+                'gt_e.idprocedimiento',
+                'gt_gm.id AS idgrado_modalidad',
+                'gt_g.nombre AS grado_titulo',
+                'gt_m.nombre AS modalidad',
+                'actescu.nesc'
+            )
+            ->where('gt_ge.idgraduando', Auth::id())
             ->orderby('gt_e.id', 'desc')
             ->get();
 

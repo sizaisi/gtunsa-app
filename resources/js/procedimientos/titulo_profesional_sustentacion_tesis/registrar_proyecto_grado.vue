@@ -40,7 +40,7 @@ import config from "./../../config";
 import SubirArchivos from "./../../components/SubirArchivos";
 
 export default {
-    name: "tp_st_registrar_proyecto_grado",
+    name: "registrar_proyecto_grado",
     components: {
         SubirArchivos
     },
