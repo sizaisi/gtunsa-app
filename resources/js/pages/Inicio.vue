@@ -4,19 +4,17 @@
             <b-button variant="primary" @click="nuevoTramite">Nuevo trámite</b-button>
             <hr />
             <b-card
-                v-for="tramite in tramites"
-                :key="tramite.id"
+                v-for="(tramite, index) in tramites"
+                :key="index"
                 :sub-title="`Código de Expediente: ${tramite.codExpediente}`"
                 class="mb-3"
             >
                 <template v-slot:header>
-                    <h6 class="mb-0" v-text="`${tramite.grado_titulo} - ${tramite.modalidad}`"></h6>
+                    <h6 class="mb-0" v-text="`${tramite.nombre_tramite}`"></h6>
                 </template>
                 <b-card-text>
-                    Trámite presentado para la obtención de
-                    <b>{{ tramite.nombre_grado_titulo }}</b>, por medio de la modalidad de
-                    <b>{{ tramite.nombre_modalidad }}</b> del programa de estudios de
-                    <b>{{ tramite.nesc }}</b>
+                    Trámite presentado para la obtención de <b>{{ tramite.nombre_tramite }}</b> 
+                    del programa de estudios dec<b>{{ tramite.nesc }}</b>
                 </b-card-text>
                 <b-button variant="info" @click="verEstados(tramite)">Seguimiento de trámite</b-button>
             </b-card>
@@ -70,7 +68,7 @@ export default {
                 });
         },
         verEstados(tramite) {
-            this.$store.dispatch('setIdGradoModalidad', tramite.idgrado_modalidad)  
+            this.$store.dispatch('setIdTramite', tramite.idtramite)  
             this.$store.dispatch('setIdExpediente', tramite.idexpediente)              
             this.$router.push( {name: "estados"} );            
         }

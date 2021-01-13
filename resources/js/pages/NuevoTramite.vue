@@ -91,14 +91,10 @@
                             </b-col>
                         </b-row>
                     </b-tab>
-                    <b-tab
-                        :title="'2. Trámite'"
-                        title-item-class="disabledTab"
-                        :disabled="tabIndex2 < 1"
-                    >
+                    <b-tab :title="'2. Registrar Trámite'" title-item-class="disabledTab" :disabled="tabIndex2 < 1">
                         <b-form @submit.prevent="registrarTramite()">
                             <b-row>
-                                <b-col>
+                                <b-col lg="6" sm="12">
                                     <b-form-group
                                         id="input-group-3"
                                         label="Escuela o Programa:"
@@ -118,60 +114,30 @@
                                             </template>
                                         </b-form-select>
                                     </b-form-group>
-                                </b-col>
-                            </b-row>
-                            <b-row>
+                                </b-col>                            
                                 <b-col lg="6" sm="12">
                                     <b-form-group
                                         id="input-group-3"
-                                        label="Grado ó Título:"
+                                        label="Trámite:"
                                         label-for="input-3"
                                     >
                                         <b-form-select
                                             id="input-3"
-                                            v-model="idgrado"
-                                            :options="grados"
+                                            v-model="idtramite"
+                                            :options="tramites"
                                             required
                                         >
                                             <template v-slot:first>
                                                 <option :value="null" disabled>
-                                                    -- Por favor seleccione una
-                                                    opción --
+                                                    -- Por favor seleccione una opción --
                                                 </option>
                                             </template>
                                         </b-form-select>
                                     </b-form-group>
-                                </b-col>
-                                <b-col lg="6" sm="12">
-                                    <b-form-group
-                                        id="input-group-3"
-                                        label="Modalidad de obtención:"
-                                        label-for="input-3"
-                                    >
-                                        <b-form-select
-                                            id="input-3"
-                                            v-model="idgrado_modalidad"
-                                            :options="grado_modalidades"
-                                            required
-                                        >
-                                            <template v-slot:first>
-                                                <option :value="null" disabled>
-                                                    -- Por favor seleccione una
-                                                    opción --
-                                                </option>
-                                            </template>
-                                        </b-form-select>
-                                    </b-form-group>
-                                </b-col>
+                                </b-col>                                
                             </b-row>
                             <div class="mt-3">
-                                <b-button
-                                    :disabled="datos_correctos == 'no_acepto'"
-                                    type="submit"
-                                    variant="success"
-                                >
-                                    Registrar
-                                </b-button>
+                                <b-button :disabled="datos_correctos == 'no_acepto'" type="submit" variant="success">Registrar</b-button>
                             </div>
                         </b-form>
                     </b-tab>
@@ -208,10 +174,8 @@ export default {
             graduando: {},
             escuela: null,
             escuelas: [],
-            idgrado: null,
-            grados: [],
-            idgrado_modalidad: null,
-            grado_modalidades: [],
+            idtramite: null,
+            tramites: [],            
             datos_correctos: "no_acepto",
             tabIndex: 0,
             tabIndex2: 0,
@@ -222,34 +186,18 @@ export default {
         escuela: function(val) {
             this.idgrado = null;
 
-            axios.get(`${this.api_url}/GradoModalidad/getGrados`, {
-                    params: {
-                        nive: val.nive,
+            axios.get(`${this.api_url}/tramites`, {
+                    params: {                        
                         codigo: val.nues.substr(0, 1)
                     }
                 })
                 .then(response => {
-                    this.grados = response.data;
+                    this.tramites = response.data;
                 })
                 .catch(error => {
                     console.log(error);
                 });
-        },
-        idgrado: function(val) {
-            this.idgrado_modalidad = null;
-
-            axios.get(`${this.api_url}/GradoModalidad/getModalidades`, {
-                    params: {
-                        idgrado: val
-                    }
-                })
-                .then(response => {
-                    this.grado_modalidades = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }
+        },        
     },
     created() {
         this.getEscuelas();
@@ -283,7 +231,7 @@ export default {
 
             axios
                 .post(`${this.api_url}/expediente/registrar`, {
-                    idgrado_modalidad: this.idgrado_modalidad,
+                    idtramite: this.idtramite,
                     nues: this.escuela.nues,
                     espe: this.escuela.espe
                 })

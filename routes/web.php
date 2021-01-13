@@ -43,8 +43,8 @@ Route::post('/graduando/mover', 'GraduandoController@mover');
 
 Route::get('/escuela', 'EscuelaController@index');
 
-Route::get('/GradoModalidad/getGrados', 'GradoModalidadController@getGrados');
-Route::get('/GradoModalidad/getModalidades', 'GradoModalidadController@getModalidades');
+Route::get('/tramites', 'TramiteController@index');
+//Route::get('/GradoModalidad/getModalidades', 'GradoModalidadController@getModalidades');
 
 Route::get('/expediente/tramite', 'ExpedienteController@index');
 Route::post('/expediente/registrar', 'ExpedienteController@store');

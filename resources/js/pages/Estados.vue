@@ -101,7 +101,7 @@ export default {
     data() {
         return {
             api_url: this.$root.api_url,
-            idgrado_modalidad: this.$store.state.idgrado_modalidad,
+            idtramite: this.$store.state.idtramite,
             idexpediente: this.$store.state.idexpediente,            
             procedimiento_actual: null,            
             movimientos: [],            
@@ -110,7 +110,7 @@ export default {
         };
     },
     created() {
-        if (this.idgrado_modalidad != null && this.idexpediente != null) {
+        if (this.idtramite != null && this.idexpediente != null) {
             this.getMovimientos()
             this.getProcedimientoActual()            
         }
@@ -150,7 +150,7 @@ export default {
         getProcedimientosRestantes() {
             axios.get(`${this.api_url}/procedimiento/resto`, {
                     params: {
-                        idgrado_modalidad: this.idgrado_modalidad,
+                        idtramite: this.idtramite,
                         idprocedimiento_actual: this.procedimiento_actual.id
                     }
                 })

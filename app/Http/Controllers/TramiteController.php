@@ -5,24 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class GradoModalidadController extends Controller
+class TramiteController extends Controller
 {
-    public function getGrados(Request $request)
-    {
-        $nive = $request->nive;
+    public function index(Request $request)
+    {       
         $codigo = $request->codigo;
 
-        $grados = DB::table('gt_grados')
-                            ->select('id AS value', 'nombre AS text')
-                            ->where('nive', $nive)
+        $tramites = DB::table('gt_tramites')
+                            ->select('id AS value', 'nombre AS text')                            
                             ->where('codigo', $codigo)                            
                             ->orderby('nombre', 'asc')
                             ->get();
 
-        return $grados;
+        return $tramites;
     }
 
-    public function getModalidades(Request $request)
+    /*public function getModalidades(Request $request)
     {
         $idgrado = $request->idgrado;
 
@@ -34,5 +32,5 @@ class GradoModalidadController extends Controller
             ->get();
 
         return $grados_modalidades;
-    }
+    }*/
 }

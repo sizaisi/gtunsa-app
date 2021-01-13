@@ -30,7 +30,7 @@ class ProcedimientoController extends Controller
 
     public function getRestoProcedimientos(Request $request)
     {
-        $idgrado_modalidad = $request->idgrado_modalidad;
+        $idtramite = $request->idtramite;
         $idprocedimiento_actual = $request->idprocedimiento_actual;
 
         $nro_orden_proc_actual = DB::table('gt_procedimientos')
@@ -41,7 +41,7 @@ class ProcedimientoController extends Controller
 
         $resto_procedimientos = DB::table('gt_procedimientos')            
             ->select('nombre AS procedimiento')
-            ->where('idgradomodalidad', '=', $idgrado_modalidad)
+            ->where('idtramite', '=', $idtramite)
             ->where('orden', '>', $nro_orden_proc_actual)            
             ->orderby('orden', 'asc')
             ->get();

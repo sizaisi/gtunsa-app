@@ -14,17 +14,14 @@ class ExpedienteController extends Controller
         $tramites = DB::table('gt_expediente AS gt_e')            
             ->join('gt_graduando_expediente AS gt_ge', 'gt_e.id', '=', 'gt_ge.idexpediente')
             ->join('gt_procedimientos AS gt_p', 'gt_e.idprocedimiento', '=', 'gt_p.id')
-            ->join('gt_grado_modalidades AS gt_gm', 'gt_gm.id', '=', 'gt_p.idgradomodalidad')
-            ->join('gt_grados AS gt_g', 'gt_gm.idgrado', '=', 'gt_g.id')
-            ->join('gt_modalidades AS gt_m', 'gt_gm.idmodalidad', '=', 'gt_m.id')
+            ->join('gt_tramites AS gt_t', 'gt_t.id', '=', 'gt_p.idtramite')            
             ->join('actescu', 'actescu.nues', '=', 'gt_e.nues')
             ->select(
                 'gt_e.id AS idexpediente',
                 'gt_e.codigo AS codExpediente',
                 'gt_e.idprocedimiento',
-                'gt_gm.id AS idgrado_modalidad',
-                'gt_g.nombre AS grado_titulo',
-                'gt_m.nombre AS modalidad',
+                'gt_t.id AS idtramite',
+                'gt_t.nombre AS nombre_tramite',                
                 'actescu.nesc'
             )
             ->where('gt_ge.idgraduando', Auth::id())
@@ -36,7 +33,7 @@ class ExpedienteController extends Controller
     
     public function store(Request $request)
     {
-        $idgrado_modalidad = $request->idgrado_modalidad;
+        $idtramite = $request->idtramite;
         $nues = $request->nues;
         $espe = $request->espe;       
 
@@ -46,7 +43,7 @@ class ExpedienteController extends Controller
             $idprocedimiento = DB::table('gt_procedimientos AS gt_p')
                 ->join('gt_rutas AS gt_r', 'gt_p.id', '=', 'gt_r.idproc_destino')
                 ->select('gt_r.idproc_destino AS idprocedimiento')
-                ->where('gt_p.idgradomodalidad', '=', $idgrado_modalidad)
+                ->where('gt_p.idtramite', '=', $idtramite)
                 ->where('gt_r.etiqueta', '=', 'iniciar')
                 ->first()
                 ->idprocedimiento;
