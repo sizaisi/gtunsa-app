@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class GraduandoController extends Controller
 {    
     public function mover(Request $request)
-    {
+    {              
         $idruta = $request->idruta;
         $idexpediente = $request->idexpediente;
         $idproc_origen = $request->idproc_origen;
@@ -29,12 +29,19 @@ class GraduandoController extends Controller
 
             $mytime = Carbon::now('America/Lima');
 
+            $idlastmovimiento = \DB::table('gt_movimiento')                            
+                            ->where('idexpediente', $idexpediente)
+                            ->orderBy('id','DESC')
+                            ->first()
+                            ->id; 
+
             DB::table('gt_movimiento')
                 ->insert([
                     'idexpediente' => $idexpediente,
                     'idusuario' => $idusuario,
                     'fecha' => $mytime->format('Y-m-d H:i:s'),
                     'idruta' => $idruta,
+                    'idmov_anterior' => $idlastmovimiento
                 ]);
 
             DB::table('gt_expediente')
@@ -42,8 +49,11 @@ class GraduandoController extends Controller
                 ->update(['idprocedimiento' => $idproc_destino]);
 
             DB::commit();
-        } catch (Exception $e) {
+            $result = ['successMessage' => 'El expediente fue derivado satisfactoriamente.', 'error' => false];
+        } catch (\Exception $e) {
             DB::rollBack();
+            $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
+            \Log::error('GraduandoController@mover, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
         }
     }
 

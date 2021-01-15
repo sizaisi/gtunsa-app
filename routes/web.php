@@ -48,6 +48,9 @@ Route::get('/tramites', 'TramiteController@index');
 
 Route::get('/expediente/tramite', 'ExpedienteController@index');
 Route::post('/expediente/registrar', 'ExpedienteController@store');
+Route::put('/expediente/asesor', 'ExpedienteController@updateAsesor');
+Route::get('/expediente/asesor/{idexpediente}', 'ExpedienteController@getAsesor');
+Route::delete('/expediente/asesor', 'ExpedienteController@deleteAsesor');
 
 Route::get('/procedimiento/actual', 'ProcedimientoController@getProcedimientoActual');
 Route::get('/procedimiento/resto', 'ProcedimientoController@getRestoProcedimientos');
@@ -60,6 +63,11 @@ Route::post('/archivo/registrar', 'ArchivoController@store');
 Route::delete('/archivo/eliminar', 'ArchivoController@destroy');
 
 Route::get('/archivo/mostrar/{idrecurso}', 'ArchivoController@show');
+
+Route::get('/observaciones/get', 'ObservacionesController@get');
+
+Route::get('/docente/{idexpediente}', 'DocenteController@getDocentes');
+Route::get('/docente/getAsesor/{idexpediente}', 'DocenteController@getAsesor');
 
 
 Route::get('/auth/redirect/{provider}', 'SocialController@redirect');

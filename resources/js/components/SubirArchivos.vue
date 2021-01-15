@@ -74,8 +74,8 @@ export default {
       api_url: this.$root.api_url,  
       array_documento: [],
       columnas_documento: [
-        { key: "nombre_asignado", label: "Documento" },
-        { key: "nombre_archivo", label: "Archivo adjuntado" },
+        { key: "nombre_asignado", label: "Documento", class: "text-center"},
+        { key: "nombre_archivo", label: "Archivo adjuntado", class: "text-center" },
         { key: "acciones", label: "Acciones", class: "text-center" },
       ],
       opcion_documento: null,                        

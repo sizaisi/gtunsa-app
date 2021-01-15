@@ -184,7 +184,7 @@ export default {
     },
     watch: {
         escuela: function(val) {
-            this.idgrado = null;
+            this.idtramite = null;
 
             axios.get(`${this.api_url}/tramites`, {
                     params: {                        

@@ -103,7 +103,9 @@ import config from "../config";
 
 //titulo profesional sustentacion tesis
 import tp_st_registrar_proyecto_grado from "../procedimientos/titulo_profesional_sustentacion_tesis/registrar_proyecto_grado.vue";
-import tp_st_corregir_observacion_jurado from "../procedimientos/titulo_profesional_sustentacion_tesis/corregir_observacion_jurado.vue";
+import tp_st_evaluar_asesor_asignado from "../procedimientos/titulo_profesional_sustentacion_tesis/evaluar_asesor_asignado.vue";
+import tp_st_corregir_observaciones_jurado from "../procedimientos/titulo_profesional_sustentacion_tesis/corregir_observaciones_jurado.vue";
+import tp_st_registrar_requisitos_externos from "../procedimientos/titulo_profesional_sustentacion_tesis/registrar_requisitos_externos.vue";
 import tp_st_corregir_obs_post_sustentacion from "../procedimientos/titulo_profesional_sustentacion_tesis/corregir_obs_post_sustentacion.vue";
 
 //bachiller automatico
@@ -113,8 +115,10 @@ export default {
   name: "estado-component",
   components: {
     tp_st_registrar_proyecto_grado,
-    tp_st_corregir_observacion_jurado,
-    tp_st_corregir_obs_post_sustentacion,
+    tp_st_evaluar_asesor_asignado,
+    tp_st_corregir_observaciones_jurado,
+    tp_st_registrar_requisitos_externos,
+    tp_st_corregir_obs_post_sustentacion,    
     b_a_registrar_requisitos_externos
   },
   props: [
@@ -189,11 +193,13 @@ export default {
       else if (this.color == "enviar") this.color_mostrar = "4BB543";
       else if (this.color == "derivar") this.color_mostrar = "4BB543";
       else if (this.color == "aprobar") this.color_mostrar = "4BB543";
+      else if (this.color == "informar") this.color_mostrar = "4BB543";
       else if (this.color == "gray") this.color_mostrar = "7D7D7D";
       else if (this.color == "light_gray") this.color_mostrar = "CCC";
       else if (this.color == "denegar") this.color_mostrar = "CC0202";
       else if (this.color == "rechazar") this.color_mostrar = "FFC107";
       else if (this.color == "observar") this.color_mostrar = "FFC107";
+      else if (this.color == "cambiar") this.color_mostrar = "FFC107";
       else if (this.color == "actual") this.color_mostrar = "0D8ABC";
     },
     actualizarEstados() {
@@ -242,6 +248,12 @@ export default {
           break;
         case "derivar":
           return "DERIVADO";
+          break;
+        case "cambiar":
+          return "CAMBIADO";
+          break;
+        case "informar":
+          return "INFORMADO";
           break;
         case "observar":
           return "OBSERVADO";

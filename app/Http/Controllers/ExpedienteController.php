@@ -89,4 +89,57 @@ class ExpedienteController extends Controller
 
         return $result;
     }   
+
+    public function getAsesor($idexpediente) 
+    {               
+        $asesor = \DB::table('gt_expediente AS gt_e')            
+                            ->join('gt_usuario AS gt_u', 'gt_u.id', '=', 'gt_e.idasesor')        
+                            ->join('SIAC_DOC AS ac_doc', 'ac_doc.codper', '=', 'gt_u.codi_usuario')
+                            ->join('actdepa AS ac_depa', 'ac_depa.depa', '=', 'ac_doc.depend')
+                            ->select('ac_doc.correo', 'ac_depa.ndep as departamento',
+                                     \DB::raw('(REPLACE(ac_doc.apn, "/", " ")) AS apn')
+                                    )
+                            ->where('gt_e.id', $idexpediente)                        
+                            ->first();       
+        
+
+        return json_encode($asesor);
+    }
+
+    public function updateAsesor(Request $request) 
+    {
+        $idexpediente = $request->idexpediente;
+        $idasesor = $request->idasesor;
+
+        try {
+            DB::table('gt_expediente')
+                ->where('id', '=', $idexpediente)
+                ->update(['idasesor' => $idasesor]);
+
+            $result = ['successMessage' => 'Asesor propuesto registrado con éxito', 'error' => false];
+        } catch (\Exception $e) {            
+            $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
+            \Log::error('ExpedienteController@updateAsesor, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
+        }
+
+        return $result;
+    }
+
+    public function deleteAsesor(Request $request) 
+    {
+        $idexpediente = $request->idexpediente;        
+
+        try {
+            DB::table('gt_expediente')
+                ->where('id', '=', $idexpediente)
+                ->update(['idasesor' => NULL]);
+
+            $result = ['successMessage' => 'Asesor propuesto eliminado con éxito', 'error' => false];
+        } catch (\Exception $e) {            
+            $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
+            \Log::error('ExpedienteController@deleteAsesor, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
+        }
+
+        return $result;
+    }
 }
