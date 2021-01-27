@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MovimientoController extends Controller
 {           
@@ -35,5 +37,70 @@ class MovimientoController extends Controller
                     ->get();     
         
         return $rutas;
-    }       
+    }   
+    
+    public function mover(Request $request)
+    {              
+        $idruta = $request->idruta;
+        $idexpediente = $request->idexpediente;
+        $idproc_origen = $request->idproc_origen;
+        $idproc_destino = $request->idproc_destino;
+
+        try {
+            DB::beginTransaction();
+
+            $idusuario = DB::TABLE('gt_usuario')
+                ->SELECT('id AS idusuario')
+                ->WHERE('codi_usuario', '=', Auth::user()->cui)
+                ->FIRST()
+                ->idusuario;
+
+            $mytime = Carbon::now('America/Lima');
+
+            $lastmovimiento = \DB::table('gt_movimiento')                            
+                            ->where('idexpediente', $idexpediente)
+                            ->orderBy('id','DESC')
+                            ->first();
+
+            if ($lastmovimiento != null) {
+                $idlastmovimiento = $lastmovimiento->id;
+            }
+            else{
+                $idlastmovimiento = null;
+            }
+
+            $idmovimiento = DB::table('gt_movimiento')
+                ->insertGetId([
+                    'idexpediente' => $idexpediente,
+                    'idusuario' => $idusuario,
+                    'fecha' => $mytime->format('Y-m-d H:i:s'),
+                    'idruta' => $idruta,
+                    'idmov_anterior' => $idlastmovimiento
+                ]);
+
+            DB::table('gt_expediente')
+                ->where('id', '=', $idexpediente)
+                ->update(['idprocedimiento' => $idproc_destino]);          
+            
+            DB::table('gt_recurso')
+                ->where([
+                    ['idexpediente', '=', $idexpediente],
+                    ['idprocedimiento', '=', $idproc_origen],
+                    ['idusuario', '=', $idusuario]
+                ])                
+                ->update([
+                    'idmovimiento' => $idmovimiento,
+                    'idruta' => $idruta        
+                ]);
+
+            DB::commit();
+            $result = ['successMessage' => 'El expediente fue derivado satisfactoriamente.', 'error' => false];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
+            \Log::error('GraduandoController@mover, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
+        }
+
+        return $result;
+    }
 }

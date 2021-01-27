@@ -122,9 +122,7 @@ export default {
     methods: {
         getMovimientos() {            
             axios.get(`${this.api_url}/movimiento`, {
-                    params: {
-                        idexpediente: this.idexpediente
-                    }
+                    params: { idexpediente: this.idexpediente }
                 })
                 .then(response => {
                     this.movimientos = response.data;                                                        
@@ -135,9 +133,7 @@ export default {
         },  
         getProcedimientoActual() {            
             axios.get(`${this.api_url}/procedimiento/actual`, {
-                    params: {                        
-                        idexpediente: this.idexpediente
-                    }
+                    params: { idexpediente: this.idexpediente }
                 })
                 .then(response => {
                     this.procedimiento_actual = response.data;                    

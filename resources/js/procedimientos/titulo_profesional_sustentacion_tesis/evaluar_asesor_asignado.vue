@@ -3,15 +3,17 @@
         <div class="mb-4">
             <b>Asesor asignado: </b> {{ asesor.apn }}
         </div>
-        <b-button
-            v-for="(ruta, index) in array_ruta"
-            :key="index"
-            @click="mover(ruta)"
-            :variant="etiquetas[ruta.etiqueta]"  
-            class="mr-3"                    
-        >
-            {{ ruta.etiqueta | capitalize }}
-        </b-button>               
+        <div class="mt-3">                        
+            <b-button
+                v-for="ruta in rutas"
+                :key="ruta.id"         
+                @click="mover(ruta)"                   
+                :variant="etiquetas[ruta.etiqueta]"  
+                class="mr-3"                    
+            >
+                {{ ruta.etiqueta | capitalize }}
+            </b-button>
+        </div>            
     </div>
 </template>
 <script>
@@ -23,7 +25,7 @@ export default {
     data() {
         return {
             api_url: this.$root.api_url,
-            array_ruta: [],
+            rutas: [], 
             asesor: {},            
             etiquetas: config.etiquetas,            
         };
@@ -39,21 +41,7 @@ export default {
             return value.charAt(0).toUpperCase() + value.slice(1);
         }
     },
-    methods: {                 
-        getRutas() {
-            axios
-                .get(`${this.api_url}/movimiento/ruta`, {
-                    params: {
-                        idprocedimiento_actual: this.idprocedimiento_actual
-                    }
-                })
-                .then(response => {                                            
-                    this.array_ruta = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },
+    methods: {                        
         getAsesor() {
             axios
                 .get(`${this.api_url}/docente/getAsesor/${this.idexpediente}`)
@@ -64,41 +52,49 @@ export default {
                     console.log(error);
                 });
         },
-        mover(ruta) {          
-
-          axios
-            .post(`${this.api_url}/graduando/mover`, {
-              idexpediente: this.idexpediente,
-              idruta: ruta.id,
-              idproc_origen: ruta.idproc_origen,
-              idproc_destino: ruta.idproc_destino,
-            })
-            .then((response) => {
-              this.$vs.notify({
-                title: "Éxito",
-                text: "Su expediente se ha enviado correctamente",
-                color: "success",
-                icon: "done",
-                position: "top-center",
-                time: 4000,
-              });
-              this.$emit("reload-parent");
-            })
-            .catch((error) => {
-              console.log(error);
-              if (error.response.status == 422) {
-                //me.errors = error.response.data.errors;
-              } else {
-                this.$vs.notify({
-                  title: "Error",
-                  text: "No se pudo registrar su proyecto de tesis",
-                  color: "danger",
-                  icon: "error",
-                  position: "top-left",
-                  time: 4000,
+        getRutas() {
+            axios.get(`${this.api_url}/movimiento/ruta`, {
+                    params: {
+                        idprocedimiento_actual: this.idprocedimiento_actual
+                    }
+                })
+                .then(response => {                                                                
+                    this.rutas = response.data;                    
+                })
+                .catch(function(error) {
+                    console.log(error);
                 });
-              }
-            });
+        },        
+        mover(ruta) {                     
+
+            this.$bvModal.msgBoxConfirm(
+                '¿Seguro que quiere ' + ruta.etiqueta + ' este expediente?', {
+                title: ruta.etiqueta.charAt(0).toUpperCase()+ruta.etiqueta.slice(1) + ' Expediente',                    
+                okVariant: 'success',
+                okTitle: ruta.etiqueta.charAt(0).toUpperCase()+ruta.etiqueta.slice(1),
+                cancelTitle: 'Cancelar',          
+                centered: true
+            }).then(value => {
+                if (value) {
+                    axios.post(`${this.api_url}/movimiento/mover`, {
+                        idexpediente: this.idexpediente,
+                        idruta: ruta.id,
+                        idproc_origen: ruta.idproc_origen,
+                        idproc_destino: ruta.idproc_destino,
+                    })
+                    .then((response) => {                        
+                        if (!response.data.error) { 
+                            this.$store.dispatch('showAlert', { vm:this, 
+                                alert:{titulo:'Registro de plan de tesis', contenido:response.data.successMessage, tipo:'success', icono:'done'}})
+                        } 
+                        else {
+                            this.$store.dispatch('showAlert', {vm:this, 
+                                alert:{titulo:'Registro de plan de tesis', contenido:response.data.errorMessage, tipo:'danger', icono:'error'}})                        
+                        }   
+                        this.$emit("reload-parent");
+                    })
+                }                   
+            })    
         },
         resetChild() {
             this.errors = [];
@@ -106,8 +102,3 @@ export default {
     }
 };
 </script>
-<style scoped>
-    ul {
-        margin-bottom: 0px;    
-    }         
-</style>

@@ -68,14 +68,14 @@
 <script>
 export default {
   name: "subir-archivos",
-  props: ["idexpediente", "idprocedimiento", "idruta", "array_opciones", "max_docs"],
+  props: ["idexpediente", "idprocedimiento", "array_opciones", "max_docs"],
   data() {
     return {
       api_url: this.$root.api_url,  
       array_documento: [],
       columnas_documento: [
-        { key: "nombre_asignado", label: "Documento", class: "text-center"},
-        { key: "nombre_archivo", label: "Archivo adjuntado", class: "text-center" },
+        { key: "nombre_asignado", label: "Documento" },
+        { key: "nombre_archivo", label: "Archivo adjuntado" },
         { key: "acciones", label: "Acciones", class: "text-center" },
       ],
       opcion_documento: null,                        
@@ -114,8 +114,7 @@ export default {
       this.file.arrayBuffer().then((buffer) => {
         axios.post(`${this.api_url}/archivo/registrar`,{                    
             idexpediente: this.idexpediente,
-            idprocedimiento: this.idprocedimiento,
-            idruta: this.idruta,                      
+            idprocedimiento: this.idprocedimiento,                           
             file: this.getB64Str(buffer),
             type: this.file.type,
             nombre_asignado: this.opcion_documento,            
@@ -124,24 +123,12 @@ export default {
             this.resetearValores()
             
             if (!response.data.error) {
-              this.getArchivo()              
-              this.$vs.notify({
-                title: "Éxito",
-                text: response.data.successMessage,
-                color: "success",
-                icon: "done",
-                position: "top-right",
-                time: 4000
-              })               
+              this.getArchivo()                            
+              this.$store.dispatch('showAlert', 
+                {vm:this, alert:{titulo:'Registro de documento', contenido:response.data.successMessage, tipo:'success', posicion:'b-toaster-top-right'}})     
             } else {
-              this.$vs.notify({
-                title: "Aviso",
-                text: response.data.errorMessage,
-                color: "warning",
-                icon: "error",
-                position: "top-right",
-                time: 4000
-              });
+              this.$store.dispatch('showAlert', 
+                {vm:this, alert:{titulo:'Registro de documento', contenido:response.data.errorMessage, tipo:'danger', posicion:'b-toaster-top-right'}})                   
             }          
           });
       });
@@ -160,33 +147,19 @@ export default {
             this.estaOcupado = true;
 
             axios.delete(`${this.api_url}/archivo/eliminar`, {
-                params: {
-                  idrecurso: archivo.idrecurso                                        
-                }
+                params: { idrecurso: archivo.idrecurso }
               })
               .then(response => {
                 this.getArchivo()
                 this.resetearValores()
                 this.habilitarTipoDocumento(archivo.nombre_asignado)   
 
-                if (!response.data.error) {
-                   this.$vs.notify({
-                    title: "Éxito",
-                    text: response.data.successMessage,
-                    color: "success",
-                    icon: "done",
-                    position: "top-right",
-                    time: 4000
-                  });                   
+                if (!response.data.error) {                   
+                  this.$store.dispatch('showAlert', 
+                    {vm:this, alert:{titulo:'Eliminar documento', contenido:response.data.successMessage, tipo:'success', posicion:'b-toaster-top-right'}})                  
                 } else {
-                  this.$vs.notify({
-                    title: "Aviso",
-                    text: response.data.errorMessage,
-                    color: "warning",
-                    icon: "error",
-                    position: "top-right",
-                    time: 4000
-                  });
+                  this.$store.dispatch('showAlert', 
+                    {vm:this, alert:{titulo:'Eliminar documento', contenido:response.data.errorMessage, tipo:'success', posicion:'b-toaster-top-right'}})                  
                 }                                    
               })              
           }

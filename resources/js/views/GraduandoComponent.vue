@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div>        
         <b-card no-body>
             <div class="text-center">
                 <img                    
@@ -105,30 +105,18 @@ export default {
                 )
                 .then(response => {
                     this.edit_flag = false;
-                    if (!response.data.error) {                        
-                        this.$vs.notify({
-                            title: "Actualización de datos",
-                            text: response.data.successMessage,
-                            color: "success",
-                            icon: "done",
-                            position: "top-left",
-                            time: 4000
-                        })               
-                    } else {
-                        this.$vs.notify({
-                            title: "Actualización de datos",
-                            text: response.data.errorMessage,
-                            color: "warning",
-                            icon: "error",
-                            position: "top-left",
-                            time: 4000
-                        });
+                    if (!response.data.error) {                                                                         
+                        this.$store.dispatch('showAlert', { vm:this, 
+                            alert:{titulo:'Actualización de datos', contenido:response.data.successMessage, tipo:'success', icono: 'done'}})
+                    } else {                                         
+                        this.$store.dispatch('showAlert', { vm:this, 
+                            alert:{titulo:'Actualización de datos', contenido:response.data.errorMessage, tipo:'danger', icono: 'error'}})
                     }                      
                 })
                 .catch(error => {
                     if (error.response.status == 422) {
                         this.errors = error.response.data.errors;
-                    } 
+                    }
                 });
         },
         changeEdit() {
@@ -139,7 +127,7 @@ export default {
                 this.edit_flag = false;
                 this.contacto = Object.assign({}, this.tmp_contacto);
             }
-        }           
+        },              
     }
 };
 </script>

@@ -1,65 +1,48 @@
 <template>
     <div>          
         <b-card no-body>
-            <b-tabs
-                v-model="tabIndex"
-                card
-                active-nav-item-class="font-weight-bold text-uppercase text-danger"
-            >
+            <b-tabs v-model="tabIndex" card active-nav-item-class="font-weight-bold text-uppercase text-danger">
                 <b-tab
                     title="1. Registrar título"
                     title-item-class="disabledTab"
                     :disabled="tabIndex2 < 0"
                 >
-                    <b-form-group
-                        id="textarea-group-1"            
-                        label-for="textarea-1"
-                        description="Este título debe coincidir con el título de plan de tesis del archivo adjunto"
-                    >            
-                        <template v-slot:label>
-                            Título de plan de tesis <span style="color:red;">*</span>
-                        </template>  
-                        <b-form-textarea
-                            id="textarea-1"
-                            :state="titulo.length >= 30 && titulo.length <= 256"
-                            v-model="titulo"
-                            placeholder="Ingrese al menos 30 caracteres y un máximo de 256 caracteres"
-                            rows="2"                
-                            required
-                        >
-                        </b-form-textarea>
-                    </b-form-group> 
-                    <div v-if="errors.length" class="alert alert-danger" role="alert">
-                        <ul><li v-for="(error, i) in errors" :key="i">{{ error }}</li></ul>
-                    </div> 
+                    <registrar-titulo 
+                        ref="componente_registrar_titulo"
+                        :idexpediente="idexpediente"
+                        @reset="resetChild"
+                    />                                        
+                    <mostrar-errores :errors="errors"/>
                 </b-tab>
                 <b-tab :title="'2. Proponer Asesor'" title-item-class="disabledTab" :disabled="tabIndex2 < 1">
-                    <docentes-facultad 
+                    <registrar-asesor 
                         :idexpediente="idexpediente"
-                        ref="docente"
+                        ref="componente_registrar_asesor"
                         @reset="resetChild"
-                    >
-                    </docentes-facultad>
-                    <div v-if="errors.length" class="alert alert-danger" role="alert">
-                        <ul><li v-for="(error, i) in errors" :key="i">{{ error }}</li></ul>
-                    </div> 
+                    />                    
+                    <mostrar-errores :errors="errors"/>
                 </b-tab>
                 <b-tab :title="'3. Adjuntar Documentos'" title-item-class="disabledTab" :disabled="tabIndex2 < 2">
                     <subir-archivos
                         :idexpediente="idexpediente" 
-                        :idprocedimiento="idprocedimiento_actual"
-                        :idruta="ruta.id"                
+                        :idprocedimiento="idprocedimiento_actual"                               
                         :array_opciones="array_tipo_documento"
                         :max_docs="max_docs"
                         ref="documentos"
                         @reset="resetChild"
-                    ></subir-archivos>
-                    <div v-if="errors.length" class="alert alert-danger" role="alert">
-                        <ul><li v-for="(error, i) in errors" :key="i">{{ error }}</li></ul>
-                    </div> 
-                    <b-button @click="registrarProyectoTesis" :variant="etiquetas[ruta.etiqueta]">
-                        {{ ruta.etiqueta | capitalize }}
-                    </b-button>
+                    />                                              
+                    <mostrar-errores :errors="errors"/>                   
+                    <div class="mt-3">                        
+                        <b-button
+                            v-for="ruta in rutas"
+                            :key="ruta.id"         
+                            @click="mover(ruta)"                   
+                            :variant="etiquetas[ruta.etiqueta]"  
+                            class="mr-3"                    
+                        >
+                            {{ ruta.etiqueta | capitalize }}
+                        </b-button>
+                    </div>        
                 </b-tab>
             </b-tabs>
         </b-card>
@@ -81,27 +64,29 @@
                     Siguiente
                 </b-button>
             </b-button-group>
-        </div>
-        
+        </div>        
     </div>
 </template>
 <script>
 import config from "./../../config";
+import MostrarErrores from "./../../components/MostrarErrores";
 import SubirArchivos from "./../../components/SubirArchivos";
-import DocentesFacultad from "./../../components/DocentesFacultad";
+import RegistrarTitulo from "./../../components/titulo_profesional_sustentacion_tesis/RegistrarTitulo";
+import RegistrarAsesor from "./../../components/titulo_profesional_sustentacion_tesis/RegistrarAsesor";
 
 export default {
     name: "registrar_proyecto_grado",
-    components: {
+    components: {     
+        MostrarErrores,   
+        RegistrarTitulo,
+        RegistrarAsesor,
         SubirArchivos,
-        DocentesFacultad
     },
     props: ["idexpediente", "idprocedimiento_actual"],
     data() {
         return {
             api_url: this.$root.api_url,
-            ruta: {},
-            titulo: "",            
+            rutas: [],                  
             etiquetas: config.etiquetas,
             array_tipo_documento: [
                 { value: null, text: 'Tipo Documento', disabled: true },                
@@ -117,7 +102,7 @@ export default {
         };
     },
     created() {
-        this.getRuta();
+        this.getRutas();
     },
     filters: {
         capitalize: function(value) {
@@ -152,10 +137,14 @@ export default {
             }
         },
         validarTab1() {        
-            this.errors = [] 
+            this.errors = []              
+            
+            if (this.$refs.componente_registrar_titulo.titulo == "") {
+                this.errors.push("Debe ingresar el título de su plan de tesis.")
+            }   
 
-            if (this.titulo.length < 30 || this.titulo.length > 256) {
-                this.errors.push("El campo título debe contener entre 30 y 256 caracteres.")
+            if (this.$refs.componente_registrar_titulo.editar == true) {
+                this.errors.push("Debe guardar el título ingresado.")
             }   
                         
             if (!this.errors.length) {
@@ -165,10 +154,9 @@ export default {
             return false
         },
         validarTab2() {        
-            this.errors = [] 
-            let asesor = this.$refs.docente.asesor
+            this.errors = []             
 
-            if (asesor == null) { 
+            if (this.$refs.componente_registrar_asesor.asesor == null) { 
                 this.errors.push(`Debe elegir un asesor para su proyecto de tesis`)
             }           
 
@@ -190,62 +178,53 @@ export default {
             }      
 
             return false
-        },     
-        getRuta() {// unica ruta del procedimiento            
-            axios
-                .get(`${this.api_url}/movimiento/ruta`, {
+        },             
+        getRutas() {
+            axios.get(`${this.api_url}/movimiento/ruta`, {
                     params: {
                         idprocedimiento_actual: this.idprocedimiento_actual
                     }
                 })
-                .then(response => {                    
-                    this.ruta = response.data[0];
+                .then(response => {                                                                
+                    this.rutas = response.data;                    
                 })
                 .catch(function(error) {
                     console.log(error);
                 });
-        },
-        registrarProyectoTesis() {                          
+        },        
+        mover(ruta) {          
             if (!this.validarTab3()) {
                 return
-            }
-            
-            axios.post(`${this.api_url}/graduando/registrar_proyecto`, {
-                    titulo: this.titulo,                                        
-                    idexpediente: this.idexpediente,
-                    idruta: this.ruta.id,
-                    idproc_origen: this.ruta.idproc_origen,
-                    idproc_destino: this.ruta.idproc_destino
-                })
-                .then(response => {
-                    if (!response.data.error) {                        
-                        this.$vs.notify({
-                            title: "Registro de plan de tesis",
-                            text: response.data.successMessage,
-                            color: "success",
-                            icon: "done",
-                            position: "top-center",
-                            time: 4000
-                        })               
-                    } 
-                    else {
-                        this.$vs.notify({
-                            title: "Registro de plan de tesis",
-                            text: response.data.errorMessage,
-                            color: "warning",
-                            icon: "error",
-                            position: "top-center",
-                            time: 4000
-                        });
-                    }                  
-                    
-                    this.$emit("reload-parent");
-                })
-                .catch(error => {                    
-                    if (error.response.status == 422) {
-                        //me.errors = error.response.data.errors;
-                    } 
-                });            
+            }           
+
+            this.$bvModal.msgBoxConfirm(
+                '¿Seguro que quiere ' + ruta.etiqueta + ' este expediente?', {
+                title: ruta.etiqueta.charAt(0).toUpperCase()+ruta.etiqueta.slice(1) + ' Expediente',                    
+                okVariant: 'success',
+                okTitle: ruta.etiqueta.charAt(0).toUpperCase()+ruta.etiqueta.slice(1),
+                cancelTitle: 'Cancelar',          
+                centered: true
+            }).then(value => {
+                if (value) {
+                    axios.post(`${this.api_url}/movimiento/mover`, {
+                        idexpediente: this.idexpediente,
+                        idruta: ruta.id,
+                        idproc_origen: ruta.idproc_origen,
+                        idproc_destino: ruta.idproc_destino,
+                    })
+                    .then((response) => {                        
+                        if (!response.data.error) { 
+                            this.$store.dispatch('showAlert', { vm:this, 
+                                alert:{titulo:'Registro de plan de tesis', contenido:response.data.successMessage, tipo:'success', icono:'done'}})
+                        } 
+                        else {
+                            this.$store.dispatch('showAlert', {vm:this, 
+                                alert:{titulo:'Registro de plan de tesis', contenido:response.data.errorMessage, tipo:'danger', icono:'error'}})                        
+                        }   
+                        this.$emit("reload-parent");
+                    })
+                }                   
+            })    
         },
         resetChild() {
             this.errors = [];
@@ -253,8 +232,3 @@ export default {
     }
 };
 </script>
-<style scoped>
-    ul {
-        margin-bottom: 0px;    
-    }         
-</style>

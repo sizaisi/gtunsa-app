@@ -54,7 +54,7 @@
 
 <script>
 export default {
-    name: 'docentes-facultad',
+    name: 'registrar-asesor',
     props: ["idexpediente"],
     data() {
         return {             
@@ -76,38 +76,25 @@ export default {
                 })
         },        
         getAsesor() {            
-            axios.get(`${this.api_url}/expediente/asesor/${this.idexpediente}`)
-                .then(response => {
-                    console.log('getasesor')                                            
+            axios.get(`${this.api_url}/expediente_titulo_tesis/asesor/${this.idexpediente}`)
+                .then(response => {                                                                
                     this.asesor = response.data                    
                 })  
         },                  
         registrarAsesor() {                                            
-            axios.put(`${this.api_url}/expediente/asesor`, {
+            axios.put(`${this.api_url}/expediente_titulo_tesis/asesor`, {
                     idexpediente: this.idexpediente,
                     idasesor: this.idasesor,                    
                 })
                 .then(response => {                                                                                                  
-                    if (!response.data.error) {                        
-                        this.$vs.notify({
-                            title: "Registro de asesor propuesto",
-                            text: response.data.successMessage,
-                            color: "success",
-                            icon: "done",
-                            position: "bottom-right",
-                            time: 4000
-                        })            
+                    if (!response.data.error) {                                                
+                        this.$store.dispatch('showAlert', { vm:this, 
+                            alert:{titulo:'Registro de asesor propuesto', contenido:response.data.successMessage, tipo:'success', icono: 'done'}})   
                         this.getAsesor()   
                         this.resetearValores()
                     } else {
-                        this.$vs.notify({
-                            title: "Registro de asesor propuesto",
-                            text: response.data.errorMessage,
-                            color: "warning",
-                            icon: "error",
-                            position: "bottom-right",
-                            time: 4000
-                        });
+                        this.$store.dispatch('showAlert', { vm:this, 
+                            alert:{titulo:'Registro de asesor propuesto', contenido:response.data.errorMessage, tipo:'danger', icono: 'error'}})                           
                     }                           
                 })      
         },
@@ -121,52 +108,30 @@ export default {
             })
             .then((value) => {
                 if (value) {                   
-                    axios.delete(`${this.api_url}/expediente/asesor`, {
-                        params: {
-                            idexpediente: this.idexpediente
-                        }
+                    axios.delete(`${this.api_url}/expediente_titulo_tesis/asesor`, {
+                        params: { idexpediente: this.idexpediente }
                     })
                     .then(response => {                        
-                        if (!response.data.error) {                                                        
-                            this.$vs.notify({
-                                title: "Éxito",
-                                text: response.data.successMessage,
-                                color: "success",
-                                icon: "done",
-                                position: "top-right",
-                                time: 4000
-                            });                                               
-                            this.getAsesor()
-                            this.resetearValores()
+                        if (!response.data.error) {                                                                                             
+                            this.$store.dispatch('showAlert', { vm:this, 
+                                alert:{titulo:'Eliminar asesor', contenido:response.data.successMessage, tipo:'success', icono: 'done'}})
+                            this.getAsesor()    
                         } else {
-                            this.$vs.notify({
-                                title: "Aviso",
-                                text: response.data.errorMessage,
-                                color: "warning",
-                                icon: "error",
-                                position: "top-right",
-                                time: 4000
-                            });
-                        }                                    
+                            this.$store.dispatch('showAlert', { vm:this, 
+                                alert:{titulo:'Eliminar asesor', contenido:response.data.errorMessage, tipo:'danger', posicion: 'error'}})                            
+                        }                           
+                        this.resetearValores()                                 
                     })              
                 }
             });             
         },                        
         resetearValores() {          
             this.idasesor = null          
-            this.resetParent()
-        },
-        resetParent() {
             this.$emit('reset');
-        },
+        },        
     },        
 }
 </script>
-<style scoped>
-    ul {
-        margin-bottom: 0px;    
-    }         
-</style>
 <style>
     .disabledTab{
         pointer-events: none;

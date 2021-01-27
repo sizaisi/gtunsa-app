@@ -37,31 +37,35 @@ Route::get('/home', function () { // interfaz de inicio del sistema
 Route::get('/graduando', 'GraduandoController@show');
 Route::get('/graduando/contacto', 'GraduandoController@getContacto');
 Route::put('/graduando/actualizar', 'GraduandoController@update');
-Route::post('/graduando/registrar_proyecto', 'GraduandoController@registrarProyecto');
-Route::post('/graduando/registrar_requisitos', 'GraduandoController@registrarRequisitos');
-Route::post('/graduando/mover', 'GraduandoController@mover');
 
 Route::get('/escuela', 'EscuelaController@index');
 
 Route::get('/tramites', 'TramiteController@index');
-//Route::get('/GradoModalidad/getModalidades', 'GradoModalidadController@getModalidades');
 
+//Expedientes en general
 Route::get('/expediente/tramite', 'ExpedienteController@index');
-Route::post('/expediente/registrar', 'ExpedienteController@store');
-Route::put('/expediente/asesor', 'ExpedienteController@updateAsesor');
-Route::get('/expediente/asesor/{idexpediente}', 'ExpedienteController@getAsesor');
-Route::delete('/expediente/asesor', 'ExpedienteController@deleteAsesor');
+
+//Expedientes de bachiller automático
+Route::post('/expediente_bachiller_automatico', 'ExpedienteBachillerAutomaticoController@store');
+
+//Expedientes de titulo profesional por sustentación de tesis
+Route::post('/expediente_titulo_tesis', 'ExpedienteTituloTesisController@store');
+Route::get('/expediente_titulo_tesis/titulo/{idexpediente}', 'ExpedienteTituloTesisController@getTitulo');
+Route::put('/expediente_titulo_tesis/titulo', 'ExpedienteTituloTesisController@updateTitulo');
+Route::get('/expediente_titulo_tesis/asesor/{idexpediente}', 'ExpedienteTituloTesisController@getAsesor');
+Route::put('/expediente_titulo_tesis/asesor', 'ExpedienteTituloTesisController@updateAsesor');
+Route::delete('/expediente_titulo_tesis/asesor', 'ExpedienteTituloTesisController@deleteAsesor');
 
 Route::get('/procedimiento/actual', 'ProcedimientoController@getProcedimientoActual');
 Route::get('/procedimiento/resto', 'ProcedimientoController@getRestoProcedimientos');
 
 Route::get('/movimiento', 'MovimientoController@getMovimientos');
 Route::get('/movimiento/ruta', 'MovimientoController@getRutas');
+Route::post('/movimiento/mover', 'MovimientoController@mover');
 
 Route::get('/archivo/get', 'ArchivoController@get');
 Route::post('/archivo/registrar', 'ArchivoController@store');
 Route::delete('/archivo/eliminar', 'ArchivoController@destroy');
-
 Route::get('/archivo/mostrar/{idrecurso}', 'ArchivoController@show');
 
 Route::get('/observaciones/get', 'ObservacionesController@get');

@@ -14,7 +14,7 @@
                 </template>
                 <b-card-text>
                     Trámite presentado para la obtención de <b>{{ tramite.nombre_tramite }}</b> 
-                    del programa de estudios dec<b>{{ tramite.nesc }}</b>
+                    del programa de estudios de <b>{{ tramite.nesc }}</b>
                 </b-card-text>
                 <b-button variant="info" @click="verEstados(tramite)">Seguimiento de trámite</b-button>
             </b-card>
@@ -39,15 +39,9 @@ export default {
             axios.get(`${this.api_url}/graduando/contacto`)
                 .then(response => {
                     let contacto = response.data;
-                    if (!contacto.telefono_movil || !contacto.direccion) {
-                        this.$vs.notify({
-                            title: "Nuevo trámite",
-                            text: "Debe actualizar su información de contacto",
-                            color: "warning",
-                            icon: "error",
-                            position: "top-left",
-                            time: 4000
-                        });
+                    if (!contacto.telefono_movil || !contacto.direccion) {                                                
+                        this.$store.dispatch('showAlert', { vm:this, 
+                            alert:{titulo:'Nuevo trámite', contenido:'Debe actualizar su información de contacto', tipo:'warning', icono: 'error'}})                   
                     } else {
                         this.$router.push({
                             name: "nuevo-tramite"
@@ -71,7 +65,7 @@ export default {
             this.$store.dispatch('setIdTramite', tramite.idtramite)  
             this.$store.dispatch('setIdExpediente', tramite.idexpediente)              
             this.$router.push( {name: "estados"} );            
-        }
+        },        
     }
 };
 </script>

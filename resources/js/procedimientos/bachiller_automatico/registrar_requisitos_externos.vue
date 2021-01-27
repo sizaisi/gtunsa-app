@@ -1,5 +1,5 @@
 <template>    
-    <b-form @submit.prevent="registrarRequisitos()">                  
+     <div>
         <subir-archivos
             :idexpediente="idexpediente" 
             :idprocedimiento="idprocedimiento_actual"
@@ -9,28 +9,36 @@
             ref="documentos"
             @reset="resetChild"
         ></subir-archivos>
-        <div v-if="errors.length" class="alert alert-danger" role="alert">
-            <ul><li v-for="(error, i) in errors" :key="i">{{ error }}</li></ul>
+        <mostrar-errores :errors="errors"/>
+        <div class="mt-3">                        
+            <b-button
+                v-for="ruta in rutas"
+                :key="ruta.id"         
+                @click="mover(ruta)"                   
+                :variant="etiquetas[ruta.etiqueta]"  
+                class="mr-3"                    
+            >
+                {{ ruta.etiqueta | capitalize }}
+            </b-button>
         </div>    
-        <b-button type="submit" :variant="etiquetas[ruta.etiqueta]">
-            {{ ruta.etiqueta | capitalize }}
-        </b-button>
-    </b-form>              
+    </div>            
 </template>
 <script>
 import config from "./../../config";
+import MostrarErrores from "./../../components/MostrarErrores";
 import SubirArchivos from "./../../components/SubirArchivos";
 
 export default {
     name: "b_a_registrar_requisitos_externos",
     components: {
+        MostrarErrores,
         SubirArchivos
     },
     props: ["idexpediente", "idprocedimiento_actual"],
     data() {
         return {
             api_url: this.$root.api_url,
-            ruta: {},            
+            rutas: [],            
             etiquetas: config.etiquetas,
             array_tipo_documento: [
                 { value: null, text: 'Tipo Documento', disabled: true },                
@@ -44,12 +52,11 @@ export default {
         };
     },
     created() {
-        this.getRuta();
+        this.getRutas();
     },
     methods: {
         validarDocumentos() {        
-            this.errors = []             
-
+            this.errors = []  
             let totalDocs = this.$refs.documentos.cantidadDocumentos();
 
             if (totalDocs < this.max_docs) { //referencia al metodo del componente hijo
@@ -76,46 +83,49 @@ export default {
                     console.log(error);
                 });
         },
-        registrarRequisitos() {                 
-            if (!this.validarDocumentos()) {
-                return
-            }
-            
-            axios.post(`${this.api_url}/graduando/registrar_requisitos`, {                                                
-                    idexpediente: this.idexpediente,
-                    idruta: this.ruta.id,
-                    idproc_origen: this.ruta.idproc_origen,
-                    idproc_destino: this.ruta.idproc_destino
+        getRutas() {
+            axios.get(`${this.api_url}/movimiento/ruta`, {
+                    params: {
+                        idprocedimiento_actual: this.idprocedimiento_actual
+                    }
                 })
-                .then(response => {
-                    if (!response.data.error) {                        
-                        this.$vs.notify({
-                            title: "Registro de requisitos externos",
-                            text: response.data.successMessage,
-                            color: "success",
-                            icon: "done",
-                            position: "top-center",
-                            time: 4000
-                        })               
-                    } 
-                    else {
-                        this.$vs.notify({
-                            title: "Registro de requisitos externos",
-                            text: response.data.errorMessage,
-                            color: "warning",
-                            icon: "error",
-                            position: "top-center",
-                            time: 4000
-                        });
-                    }                  
-                    
-                    this.$emit("reload-parent");
+                .then(response => {                                                                
+                    this.rutas = response.data;                    
                 })
-                .catch(error => {                    
-                    if (error.response.status == 422) {
-                        //me.errors = error.response.data.errors;
-                    } 
-                });            
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },        
+        mover(ruta) {                    
+
+            this.$bvModal.msgBoxConfirm(
+                '¿Seguro que quiere ' + ruta.etiqueta + ' este expediente?', {
+                title: ruta.etiqueta.charAt(0).toUpperCase()+ruta.etiqueta.slice(1) + ' Expediente',                    
+                okVariant: 'success',
+                okTitle: ruta.etiqueta.charAt(0).toUpperCase()+ruta.etiqueta.slice(1),
+                cancelTitle: 'Cancelar',          
+                centered: true
+            }).then(value => {
+                if (value) {
+                    axios.post(`${this.api_url}/movimiento/mover`, {
+                        idexpediente: this.idexpediente,
+                        idruta: ruta.id,
+                        idproc_origen: ruta.idproc_origen,
+                        idproc_destino: ruta.idproc_destino,
+                    })
+                    .then((response) => {                        
+                        if (!response.data.error) { 
+                            this.$store.dispatch('showAlert', { vm:this, 
+                                alert:{titulo:'Registro de plan de tesis', contenido:response.data.successMessage, tipo:'success', icono:'done'}})
+                        } 
+                        else {
+                            this.$store.dispatch('showAlert', {vm:this, 
+                                alert:{titulo:'Registro de plan de tesis', contenido:response.data.errorMessage, tipo:'danger', icono:'error'}})                        
+                        }   
+                        this.$emit("reload-parent");
+                    })
+                }                   
+            })    
         },
         resetChild() {
             this.errors = [];
@@ -130,8 +140,3 @@ export default {
     }
 };
 </script>
-<style scoped>
-    ul {
-        margin-bottom: 0px;    
-    }         
-</style>

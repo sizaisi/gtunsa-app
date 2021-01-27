@@ -12,12 +12,20 @@ class TramiteController extends Controller
         $codigo = $request->codigo;
 
         $tramites = DB::table('gt_tramites')
-                            ->select('id AS value', 'nombre AS text')                            
+                            ->select('id', 'nombre', 'componente')                            
                             ->where('codigo', $codigo)                            
                             ->orderby('nombre', 'asc')
                             ->get();
 
-        return $tramites;
+
+        $tramites2= array();
+
+        foreach ($tramites as $indice => $tramite) {
+            $tramites2[$indice]['text'] = $tramite->nombre;
+            $tramites2[$indice]['value'] = array('id'=>$tramite->id, 'componente'=>$tramite->componente);            
+        }
+
+        return json_encode($tramites2);
     }
 
     /*public function getModalidades(Request $request)

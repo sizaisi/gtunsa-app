@@ -52,7 +52,7 @@ class ArchivoController extends Controller
                             'idprocedimiento' => $request->idprocedimiento,
                             'idusuario' => $idusuario,
                             'idmovimiento' => null,
-                            'idruta' => $request->idruta
+                            'idruta' => null
                         ]);      
             
             DB::table('gt_archivo')
@@ -65,7 +65,7 @@ class ArchivoController extends Controller
                 ]);
             
             DB::commit();
-            $result = ['successMessage' => 'Archivo creado con éxito', 'error' => false];            
+            $result = ['successMessage' => 'Archivo registrado con éxito', 'error' => false];            
         } catch (\Exception $e) {
             DB::rollBack();            
             $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];

@@ -7,21 +7,13 @@
                 </b-button>
             </div>
             <b-card no-body>
-                <b-tabs
-                    v-model="tabIndex"
-                    card
-                    active-nav-item-class="font-weight-bold text-uppercase text-danger"
-                >
-                    <b-tab
-                        title="1. Validar datos"
-                        title-item-class="disabledTab"
-                        :disabled="tabIndex2 < 0"
-                    >
+                <b-tabs v-model="tabIndex" card active-nav-item-class="font-weight-bold text-uppercase text-danger">
+                    <b-tab title="1. Validar datos" title-item-class="disabledTab" :disabled="tabIndex2 < 0">
                         <b-row>
                             <b-col sm="12" lg="2">
                                 <b-form-group
                                     id="lbl-1"
-                                    label="Nro. Documento:"
+                                    label="DNI:"
                                     label-for="nro_documento"
                                 >
                                     <b-form-input
@@ -73,12 +65,10 @@
                                     value="acepto"
                                     unchecked-value="no_acepto"
                                 >
-                                    <b
-                                        >Confirmo que mis datos están correctos
-                                        (<span style="color:red;">*</span>) y asi deben mostrarse en los
-                                        documentos que se generen en trámites de
-                                        grados y títulos.</b
-                                    >
+                                    <b>
+                                        Confirmo que mis datos están correctos (<span style="color:red;">*</span>)
+                                        y asi deben mostrarse en los documentos que se generen en trámites de grados y títulos.
+                                    </b>
                                 </b-form-checkbox>
                             </b-col>
                         </b-row>
@@ -96,12 +86,12 @@
                             <b-row>
                                 <b-col lg="6" sm="12">
                                     <b-form-group
-                                        id="input-group-3"
+                                        id="input-group-1"
                                         label="Escuela o Programa:"
-                                        label-for="input-3"
+                                        label-for="input-1"
                                     >
                                         <b-form-select
-                                            id="input-3"
+                                            id="input-1"
                                             v-model="escuela"
                                             :options="escuelas"
                                             required
@@ -117,13 +107,13 @@
                                 </b-col>                            
                                 <b-col lg="6" sm="12">
                                     <b-form-group
-                                        id="input-group-3"
+                                        id="input-group-2"
                                         label="Trámite:"
-                                        label-for="input-3"
+                                        label-for="input-2"
                                     >
                                         <b-form-select
-                                            id="input-3"
-                                            v-model="idtramite"
+                                            id="input-2"
+                                            v-model="tramite"
                                             :options="tramites"
                                             required
                                         >
@@ -145,19 +135,10 @@
             </b-card>
             <div class="text-center">
                 <b-button-group class="mt-3">
-                    <b-button
-                        variant="primary"
-                        class="mr-1"
-                        @click="prevTab"
-                        :disabled="tabIndex == 0"
-                    >
+                    <b-button variant="secondary" class="mr-1" @click="prevTab" :disabled="tabIndex == 0">
                         Anterior
                     </b-button>
-                    <b-button
-                        variant="primary"
-                        @click="nextTab"
-                        :disabled="tabIndex == 1 || datos_correctos == 'no_acepto'"
-                    >
+                    <b-button variant="secondary" @click="nextTab" :disabled="tabIndex == 1 || datos_correctos == 'no_acepto'">
                         Siguiente
                     </b-button>
                 </b-button-group>
@@ -174,7 +155,7 @@ export default {
             graduando: {},
             escuela: null,
             escuelas: [],
-            idtramite: null,
+            tramite: null,
             tramites: [],            
             datos_correctos: "no_acepto",
             tabIndex: 0,
@@ -185,14 +166,13 @@ export default {
     watch: {
         escuela: function(val) {
             this.idtramite = null;
-
             axios.get(`${this.api_url}/tramites`, {
                     params: {                        
                         codigo: val.nues.substr(0, 1)
                     }
                 })
-                .then(response => {
-                    this.tramites = response.data;
+                .then(response => {                    
+                    this.tramites = response.data;                    
                 })
                 .catch(error => {
                     console.log(error);
@@ -224,38 +204,33 @@ export default {
                     console.log(error);
                 });
         },
-        registrarTramite() {
+        registrarTramite() {            
             //validar que cui nues y espe no tenga registro en proceso en gt_expediente
             //si hay por lo menos un registro no mostrar mensaje de error con respectivo mensaje
             //warning ud tiene un expediente en proceso para la escuela o programa seleccionado
 
-            axios
-                .post(`${this.api_url}/expediente/registrar`, {
-                    idtramite: this.idtramite,
+            let url;
+            
+            if (this.tramite.componente == 'Bachiller-Automatico') {
+                url = `${this.api_url}/expediente_bachiller_automatico`
+            }
+            else if (this.tramite.componente == 'TituloProfesional-SustentacionTesis') {
+                url = `${this.api_url}/expediente_titulo_tesis`
+            }
+
+            axios.post(url, {
+                    idtramite: this.tramite.id,
                     nues: this.escuela.nues,
                     espe: this.escuela.espe
                 })
-                .then(response => {
-                    if (!response.data.error) {
-                        this.$vs.notify({
-                            title: "Registro de trámite",
-                            text: response.data.successMessage,
-                            color: "success",
-                            icon: "done",
-                            position: "top-center",
-                            time: 4000
-                        });
-                    } else {
-                        this.$vs.notify({
-                            title: "Registro de trámite",
-                            text: response.data.errorMessage,
-                            color: "warning",
-                            icon: "error",
-                            position: "top-center",
-                            time: 4000
-                        });
+                .then(response => {                    
+                    if (!response.data.error) { 
+                        this.$store.dispatch('showAlert', { vm:this, 
+                            alert:{titulo:'Registro de trámite', contenido:response.data.successMessage, tipo:'success', icono: 'done'}})
+                    } else {                                                                              
+                        this.$store.dispatch('showAlert', { vm:this, 
+                            alert:{titulo:'Registro de trámite', contenido:response.data.errorMessage, tipo:'danger', icono: 'error'}})
                     }
-
                     this.$router.push({ name: "inicio" });
                 });
         },
