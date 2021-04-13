@@ -34,6 +34,11 @@ Route::get('/home', function () { // interfaz de inicio del sistema
     return view('auth.login');
 })->name('home');
 
+Route::get('/api_dni/{dni}', function ($dni) {                
+    return file_get_contents("https://dniruc.apisperu.com/api/v1/dni/$dni?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InJzaXphQHVuc2EuZWR1LnBlIn0._33jLRFR1pvHFv0z7Lzh6ZysOUfZSYlu7uxxE5Wagwo");
+});
+
+
 Route::get('/graduando', 'GraduandoController@show');
 Route::get('/graduando/contacto', 'GraduandoController@getContacto');
 Route::put('/graduando/actualizar', 'GraduandoController@update');

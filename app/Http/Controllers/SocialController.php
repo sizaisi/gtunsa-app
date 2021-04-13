@@ -10,7 +10,6 @@ use App\CodigoMail;
 
 class SocialController extends Controller
 {
-
 	public function redirect($provider)
 	{
 		return Socialite::driver($provider)->with(['hd' => 'unsa.edu.pe'])->redirect();
@@ -29,7 +28,7 @@ class SocialController extends Controller
 		else {
 			$cui = $alumno_unsa->cui;
 			$user = $this->createUser($getInfo, $provider, $cui);
-			auth()->login($user);			
+			auth()->login($user);	
 		}		
 
 		return redirect()->to('/home');

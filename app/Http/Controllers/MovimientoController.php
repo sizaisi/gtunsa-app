@@ -28,7 +28,7 @@ class MovimientoController extends Controller
     }
     
     public function getRutas(Request $request)
-    {
+    {       
         $idprocedimiento_actual = $request->idprocedimiento_actual;
 
         $rutas = DB::table('gt_rutas')

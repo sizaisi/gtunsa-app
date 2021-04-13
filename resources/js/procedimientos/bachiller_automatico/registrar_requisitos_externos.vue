@@ -20,7 +20,7 @@
             >
                 {{ ruta.etiqueta | capitalize }}
             </b-button>
-        </div>    
+        </div>   
     </div>            
 </template>
 <script>
@@ -38,6 +38,7 @@ export default {
     data() {
         return {
             api_url: this.$root.api_url,
+            ruta: {},
             rutas: [],            
             etiquetas: config.etiquetas,
             array_tipo_documento: [
@@ -52,7 +53,8 @@ export default {
         };
     },
     created() {
-        this.getRutas();
+        this.getRuta();
+        this.getRutas();        
     },
     methods: {
         validarDocumentos() {        
@@ -76,7 +78,7 @@ export default {
                         idprocedimiento_actual: this.idprocedimiento_actual
                     }
                 })
-                .then(response => {                    
+                .then(response => {                              
                     this.ruta = response.data[0];
                 })
                 .catch(function(error) {
@@ -89,7 +91,8 @@ export default {
                         idprocedimiento_actual: this.idprocedimiento_actual
                     }
                 })
-                .then(response => {                                                                
+                .then(response => {                
+                    //console.log(response.data)                                                          
                     this.rutas = response.data;                    
                 })
                 .catch(function(error) {

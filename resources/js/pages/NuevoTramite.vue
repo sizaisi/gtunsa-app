@@ -19,7 +19,7 @@
                                     <b-form-input
                                         class="text-center"
                                         id="nro_documento"
-                                        :value="graduando.dni"
+                                        v-model="graduando.dni"
                                         type="text"
                                         readonly
                                     ></b-form-input>
@@ -34,7 +34,7 @@
                                     <b-form-input
                                         class="text-center"
                                         id="nombres"
-                                        :value="graduando.nombres"
+                                        v-model="graduando.nombres"
                                         type="text"
                                         readonly
                                     ></b-form-input>
@@ -49,7 +49,7 @@
                                     <b-form-input
                                         class="text-center"
                                         id="apellidos"
-                                        :value="graduando.apellidos"
+                                        v-model="graduando.apellidos"
                                         type="text"
                                         readonly
                                     ></b-form-input>
@@ -177,7 +177,23 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
-        },        
+        },
+        'graduando.dni': function (val) {            
+            if (val.length == 8) {                    
+                axios.get(`${this.api_url}/api_dni/${val}`)
+                    .then(response => {            
+                        if (response.data) {                                                       
+                            this.graduando.nombres = response.data.nombres
+                            let apPaterno = response.data.apellidoPaterno
+                            let apMaterno = response.data.apellidoMaterno
+                            this.graduando.apellidos = `${apPaterno} ${apMaterno}` 
+                        }                                                                                 
+                    })
+                    .catch(error => {                    
+                        console.log(error);
+                    });
+            }            
+        }        
     },
     created() {
         this.getEscuelas();
@@ -185,10 +201,9 @@ export default {
     },
     methods: {
         getGraduando() {
-            axios
-                .get(`${this.api_url}/graduando`)
+            axios.get(`${this.api_url}/graduando`)
                 .then(response => {
-                    this.graduando = response.data;
+                    this.graduando = response.data                    
                 })
                 .catch(function(error) {
                     console.log(error);
