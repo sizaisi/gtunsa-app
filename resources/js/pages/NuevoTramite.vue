@@ -151,8 +151,13 @@ export default {
     name: "nuevo-tramite",
     data() {
         return {
-            api_url: this.$root.api_url,
-            graduando: {},
+            api_url: this.$root.api_url,            
+            graduando_dni: '',
+            graduando: {
+                dni: '',
+                nombres: '',
+                apellidos: ''
+            },
             escuela: null,
             escuelas: [],
             tramite: null,
@@ -177,33 +182,45 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },        
+    },
+    created() {
+        this.getDNI();
+        this.getEscuelas();        
+    },
+    methods: {
+        getDNI() {
+            axios.get(`${this.api_url}/graduando_dni`)
+                .then(response => {
+                    this.graduando_dni = response.data   
+                    this.getInfoApi()                                     
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         },
-        'graduando.dni': function (val) {            
-            if (val.length == 8) {                    
-                axios.get(`${this.api_url}/api_dni/${val}`)
-                    .then(response => {            
-                        if (response.data) {                                                       
-                            this.graduando.nombres = response.data.nombres
+        getInfoApi() {                        
+            axios.get(`${this.api_url}/api_dni/${this.graduando_dni}`)
+                    .then(response => {                              
+                        if (!response.data.hasOwnProperty('success')) {                            
+                            this.graduando.dni = response.data.dni      
+                            this.graduando.nombres = response.data.nombres                            
                             let apPaterno = response.data.apellidoPaterno
                             let apMaterno = response.data.apellidoMaterno
-                            this.graduando.apellidos = `${apPaterno} ${apMaterno}` 
-                        }                                                                                 
+                            this.graduando.apellidos = `${apPaterno} ${apMaterno}`                             
+                        }      
+                        else {
+                            this.getGraduando()
+                        }                                                                                     
                     })
                     .catch(error => {                    
                         console.log(error);
                     });
-            }            
-        }        
-    },
-    created() {
-        this.getEscuelas();
-        this.getGraduando();
-    },
-    methods: {
-        getGraduando() {
+        },
+        getGraduando() {          
             axios.get(`${this.api_url}/graduando`)
                 .then(response => {
-                    this.graduando = response.data                    
+                    this.graduando = response.data                                        
                 })
                 .catch(function(error) {
                     console.log(error);
@@ -236,7 +253,8 @@ export default {
             axios.post(url, {
                     idtramite: this.tramite.id,
                     nues: this.escuela.nues,
-                    espe: this.escuela.espe
+                    espe: this.escuela.espe,
+                    graduando: this.graduando
                 })
                 .then(response => {                    
                     if (!response.data.error) { 

@@ -32,7 +32,7 @@
         .navbar-text-unsa:hover {
             color: #CCC !important;
         }
-    </style>
+    </style>    
 </head>
 
 <body>

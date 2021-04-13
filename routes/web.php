@@ -40,6 +40,7 @@ Route::get('/api_dni/{dni}', function ($dni) {
 
 
 Route::get('/graduando', 'GraduandoController@show');
+Route::get('/graduando_dni', 'GraduandoController@getDNI');
 Route::get('/graduando/contacto', 'GraduandoController@getContacto');
 Route::put('/graduando/actualizar', 'GraduandoController@update');
 

@@ -10,10 +10,18 @@ use Illuminate\Support\Facades\Auth;
 class ExpedienteBachillerAutomaticoController extends Controller
 {
     public function store(Request $request)
-    {
+    {             
         $idtramite = $request->idtramite;
         $nues = $request->nues;
         $espe = $request->espe;       
+        
+        $dni = $request->graduando['dni'];
+        $nombres = $request->graduando['nombres'];
+        $apellidos = $request->graduando['apellidos'];
+
+        $array_apellidos = explode(" ", $apellidos);
+        $ap_paterno = $array_apellidos[0];
+        $ap_materno = $array_apellidos[1];
 
         try {
             DB::beginTransaction();
@@ -60,7 +68,17 @@ class ExpedienteBachillerAutomaticoController extends Controller
             DB::table('gt_exp_bachiller_automatico')
                 ->insert([                    
                     'idexpediente' => $idexpediente,
-                ]);        
+                ]);     
+                
+            
+            DB::table('gt_graduando')
+                ->where('id', Auth::id())
+                ->update([
+                    'dni' => $dni,
+                    'nombres' => $nombres,
+                    'ap_paterno' => $ap_paterno,
+                    'ap_materno' => $ap_materno,
+                ]);
 
             DB::commit();
             $result = ['successMessage' => 'Trámite registrado con éxito', 'error' => false];

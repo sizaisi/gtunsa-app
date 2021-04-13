@@ -25,6 +25,17 @@ class GraduandoController extends Controller
         return json_encode($graduando);
     }
 
+    public function getDNI()
+    {        
+        $dni = User::join('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
+                        ->select(DB::raw('(SUBSTRING(acdiden.dic, 2)) AS dni'))
+                        ->where('gt_graduando.id', '=', Auth::id())
+                        ->first()
+                        ->dni;        
+
+        return $dni;
+    }
+
     public function getContacto()
     {        
         $contacto = User::select('telefono_fijo', 'telefono_movil', 'direccion')
