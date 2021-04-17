@@ -36,7 +36,8 @@ class SocialController extends Controller
 
 	function createUser($getInfo, $provider, $cui)
 	{		
-		$user = User::where('email', $getInfo->email)->first();
+		//$user = User::where('email', $getInfo->email)->first();
+		$user = User::where('cui', $cui)->first();
 
 		if (!$user) {
 			$user = User::create([
