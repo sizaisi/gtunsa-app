@@ -12,7 +12,7 @@
                         <estado-component
                             title="Inicio"
                             number="."
-                            color="light_gray"
+                            color="CCC"
                             :hideDescription="true"
                             :tail="true"
                         />
@@ -23,7 +23,8 @@
                         <estado-component
                             :title="movimiento.procedimiento"
                             number="+"
-                            :color="movimiento.estado"
+                            :accion="movimiento.accion"
+                            :color="movimiento.color"
                             :componente="movimiento.componente"                            
                             :rol="movimiento.rol"
                             :tipo_rol="movimiento.tipo_rol"
@@ -40,7 +41,8 @@
                             :title="procedimiento_actual.procedimiento"
                             :idprocedimiento_actual="procedimiento_actual.id"
                             number=""
-                            color="actual"
+                            accion="actual"
+                            color="0D8ABC"
                             :componente="procedimiento_actual.componente"                            
                             :rol="procedimiento_actual.rol"
                             :tipo_rol="procedimiento_actual.tipo_rol"
@@ -57,7 +59,7 @@
                         <estado-component
                             :title="'Procedimientos restantes...'"
                             number=".."
-                            color="gray"
+                            color="7D7D7D"
                             click="displayAll"
                             @displayAll="displayRest"
                             :tail="true"
@@ -70,7 +72,7 @@
                             <estado-component
                                 :title="proc_rest.procedimiento"
                                 number=""
-                                color="gray"
+                                color="7D7D7D"
                                 :hideDescription="true"
                                 :tail="true"
                             />
@@ -82,7 +84,7 @@
                         <estado-component
                             title="Fin"
                             number="."
-                            color="light_gray"
+                            color="CCC"
                             :hideDescription="true"
                         />
                     </b-col>
@@ -116,8 +118,7 @@ export default {
         }
         else {
             this.$router.push({ name: 'inicio' }); 
-        } 
-           
+        }           
     },
     methods: {
         getMovimientos() {            

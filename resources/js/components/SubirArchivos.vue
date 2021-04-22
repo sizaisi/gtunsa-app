@@ -68,7 +68,7 @@
 <script>
 export default {
   name: "subir-archivos",
-  props: ["idexpediente", "idprocedimiento", "array_opciones", "max_docs"],
+  props: ["idexpediente", "idprocedimiento", "idruta", "array_opciones", "max_docs"],
   data() {
     return {
       api_url: this.$root.api_url,  
@@ -83,16 +83,22 @@ export default {
       estaOcupado: false,
       modal: 0,
       nombre_documento: "",
-      opcion_documento: null,
+      opcion_documento: null,      
     };
   },
   created () {
     this.getArchivo();
   },
-  methods: { 
-    cantidadDocumentos() {
-      return this.array_documento.length;
-    },       
+  methods: {     
+    validarDocumentos() {        
+        let errors = []  
+
+        if (this.array_documento.length < this.max_docs) { 
+            errors.push(`Debe registrar ${this.max_docs} documentos para este procedimiento.`)            
+        }                      
+
+        this.$store.dispatch('setErrors', errors)
+    },                
     getArchivo() {                  
       axios.get(`${this.api_url}/archivo/get`, {
           params: {
@@ -101,7 +107,8 @@ export default {
           }
         })
         .then(response => {                
-          this.array_documento = response.data       
+          this.array_documento = response.data     
+          this.validarDocumentos()  
           
           for (let i in this.array_documento) {                                    
             this.deshabilitarTipoDocumento(this.array_documento[i].nombre_asignado)
@@ -115,6 +122,7 @@ export default {
         axios.post(`${this.api_url}/archivo/registrar`,{                    
             idexpediente: this.idexpediente,
             idprocedimiento: this.idprocedimiento,                           
+            idruta: this.idruta,                           
             file: this.getB64Str(buffer),
             type: this.file.type,
             nombre_asignado: this.opcion_documento,            
@@ -125,7 +133,7 @@ export default {
             if (!response.data.error) {
               this.getArchivo()                            
               this.$store.dispatch('showAlert', 
-                {vm:this, alert:{titulo:'Registro de documento', contenido:response.data.successMessage, tipo:'success', posicion:'b-toaster-top-right'}})     
+                {vm:this, alert:{titulo:'Registro de documento', contenido:response.data.successMessage, tipo:'success', posicion:'b-toaster-top-right'}})                  
             } else {
               this.$store.dispatch('showAlert', 
                 {vm:this, alert:{titulo:'Registro de documento', contenido:response.data.errorMessage, tipo:'danger', posicion:'b-toaster-top-right'}})                   
@@ -195,12 +203,8 @@ export default {
     resetearValores() {
       this.file = null;      
       this.opcion_documento = null;
-      this.estaOcupado = false;
-      this.resetParent();
-    }, 
-    resetParent() {
-      this.$emit('reset');
-    },
+      this.estaOcupado = false;      
+    },     
     mostrarDocumento(idrecurso) {
       window.open(`${this.api_url}/archivo/mostrar/${idrecurso}`,'_blank');     
     } 

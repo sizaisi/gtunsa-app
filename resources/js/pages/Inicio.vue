@@ -16,7 +16,7 @@
                     Trámite presentado para la obtención de <b>{{ tramite.nombre_tramite }}</b> 
                     del programa de estudios de <b>{{ tramite.nesc }}</b>
                 </b-card-text>
-                <b-button variant="info" @click="verEstados(tramite)">Seguimiento de trámite</b-button>
+                <b-button variant="info" @click="verEstados(tramite)">Seguir trámite</b-button>
             </b-card>
         </b-card>
     </div>

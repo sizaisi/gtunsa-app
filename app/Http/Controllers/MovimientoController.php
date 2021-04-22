@@ -15,9 +15,10 @@ class MovimientoController extends Controller
 
         $movimientos = DB::table('gt_movimiento AS gt_m')
                             ->join('gt_rutas AS gt_r', 'gt_m.idruta', '=', 'gt_r.id')
+                            ->join('gt_acciones AS gt_a', 'gt_r.idaccion', '=', 'gt_a.id')
                             ->join('gt_procedimientos AS gt_p', 'gt_r.idproc_origen', '=', 'gt_p.id')
                             ->join('gt_roles AS gt_ro', 'gt_p.idrol', '=', 'gt_ro.id')
-                            ->select('gt_m.*', 'gt_r.idproc_origen', 'gt_r.etiqueta AS estado',
+                            ->select('gt_m.*', 'gt_r.idproc_origen', 'gt_a.nombre AS accion', 'gt_a.color AS color',
                                      'gt_p.nombre AS procedimiento', 'gt_p.descripcion',
                                      'gt_ro.nombre AS rol', 'gt_p.tipo_rol', 'gt_p.componente')
                             ->where('gt_m.idexpediente', $idexpediente)
@@ -28,13 +29,14 @@ class MovimientoController extends Controller
     }
     
     public function getRutas(Request $request)
-    {       
-        $idprocedimiento_actual = $request->idprocedimiento_actual;
+    {           
+        $idprocedimiento_actual = $request->idprocedimiento_actual;        
 
-        $rutas = DB::table('gt_rutas')
-                    ->select('*')
-                    ->where('idproc_origen', $idprocedimiento_actual)
-                    ->get();     
+        $rutas = DB::table('gt_rutas AS gt_r')
+                    ->join('gt_acciones AS gt_a', 'gt_r.idaccion', '=', 'gt_a.id')
+                    ->select('gt_r.*', 'gt_a.nombre AS accion')
+                    ->where('gt_r.idproc_origen', $idprocedimiento_actual)
+                    ->get();
         
         return $rutas;
     }   

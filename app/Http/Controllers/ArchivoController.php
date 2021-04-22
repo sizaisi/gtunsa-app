@@ -52,7 +52,7 @@ class ArchivoController extends Controller
                             'idprocedimiento' => $request->idprocedimiento,
                             'idusuario' => $idusuario,
                             'idmovimiento' => null,
-                            'idruta' => null
+                            'idruta' => $request->idruta
                         ]);      
             
             DB::table('gt_archivo')

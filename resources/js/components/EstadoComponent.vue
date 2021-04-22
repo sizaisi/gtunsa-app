@@ -31,52 +31,7 @@
               <b-card-body>
                 <b-card-sub-title class="mb-2">{{ desc }}</b-card-sub-title>
                 <br />
-                <template v-if="rol != 'Graduando' || color != 'actual'">
-                  <div class="container">
-                    <div class="row">
-                      <div
-                        class="text-lg-right text-md-right text-sm-left py-2 col-lg-3 col-md-4 col-sm-12 border bg-light"
-                      >
-                        <b>Responsable:</b>
-                      </div>
-                      <div
-                        v-if="tipo_rol == 'asesor' || tipo_rol == 'jurado'"
-                        class="py-2 col-lg-9 col-md-8 col-sm-12 border"
-                      >
-                        {{ tipo_rol.toUpperCase() }}
-                      </div>
-                      <div
-                        v-else
-                        class="py-2 col-lg-9 col-md-8 col-sm-12 border"
-                      >
-                        {{ rol }}
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div
-                        class="text-lg-right text-md-right text-sm-left py-2 col-lg-3 col-md-4 col-sm-12 border bg-light"
-                      >
-                        <b>Estado:</b>
-                      </div>
-                      <div class="py-2 col-lg-9 col-md-8 col-sm-12 border">
-                        <b-badge :variant="etiquetas[color]">{{
-                          color | estado
-                        }}</b-badge>
-                      </div>
-                    </div>
-                    <div class="row" v-if="fecha != ''">
-                      <div
-                        class="text-lg-right text-md-right text-sm-left py-2 col-lg-3 col-md-4 col-sm-12 border bg-light"
-                      >
-                        <b>Fecha - Hora:</b>
-                      </div>
-                      <div class="py-2 col-lg-9 col-md-8 col-sm-12 border">
-                        {{ fecha }}
-                      </div>
-                    </div>
-                  </div>
-                </template>
-                <template v-else>
+                <template v-if="rol == 'Graduando' && accion == 'actual'">
                   <component
                     :is="componente"
                     :idexpediente="idexpediente"
@@ -84,6 +39,33 @@
                     @reload-parent="actualizarEstados"
                   />
                 </template>
+                <template v-else>
+                  <div class="container">
+                    <div class="row">
+                      <div class="text-lg-right text-md-right text-sm-left py-2 col-lg-3 col-md-4 col-sm-12 border bg-light">
+                        <b>Responsable:</b>
+                      </div>
+                      <div v-if="tipo_rol == 'asesor' || tipo_rol == 'jurado'" class="py-2 col-lg-9 col-md-8 col-sm-12 border">
+                        {{ tipo_rol.toUpperCase() }}
+                      </div>
+                      <div v-else class="py-2 col-lg-9 col-md-8 col-sm-12 border">{{ rol }}</div>
+                    </div>
+                    <div class="row">
+                      <div class="text-lg-right text-md-right text-sm-left py-2 col-lg-3 col-md-4 col-sm-12 border bg-light">
+                        <b>Acción realizada:</b>
+                      </div>
+                       <div v-if="fecha != ''" class="py-2 col-lg-9 col-md-8 col-sm-12 border">{{ accion }}</div>
+                       <div v-else class="py-2 col-lg-9 col-md-8 col-sm-12 border"></div>
+                    </div>
+                    <div class="row">
+                      <div class="text-lg-right text-md-right text-sm-left py-2 col-lg-3 col-md-4 col-sm-12 border bg-light">
+                        <b>Fecha - Hora:</b>
+                      </div>
+                      <div v-if="fecha != ''" class="py-2 col-lg-9 col-md-8 col-sm-12 border">{{ fecha }}</div>
+                      <div v-else class="py-2 col-lg-9 col-md-8 col-sm-12 border"></div>
+                    </div>
+                  </div>
+                </template>                
               </b-card-body>
             </b-collapse>
           </b-card>
@@ -99,7 +81,9 @@
 </template>
 
 <script>
-import config from "../config";
+
+//bachiller automatico
+import b_a_registrar_requisitos_externos from "../procedimientos/bachiller_automatico/registrar_requisitos_externos.vue";
 
 //titulo profesional sustentacion tesis
 import tp_st_registrar_proyecto_grado from "../procedimientos/titulo_profesional_sustentacion_tesis/registrar_proyecto_grado.vue";
@@ -108,11 +92,11 @@ import tp_st_corregir_observaciones_jurado from "../procedimientos/titulo_profes
 import tp_st_registrar_requisitos_externos from "../procedimientos/titulo_profesional_sustentacion_tesis/registrar_requisitos_externos.vue";
 import tp_st_corregir_obs_post_sustentacion from "../procedimientos/titulo_profesional_sustentacion_tesis/corregir_obs_post_sustentacion.vue";
 
-//bachiller automatico
-import b_a_registrar_requisitos_externos from "../procedimientos/bachiller_automatico/registrar_requisitos_externos.vue";
-
 export default {
   name: "estado-component",
+  props: ["idexpediente", "title", "idprocedimiento_actual", "number", "color",
+          "accion", "click", "showDescription", "hideDescription", "componente", 
+          "rol", "tipo_rol", "desc", "fecha", "tail"],
   components: {
     tp_st_registrar_proyecto_grado,
     tp_st_evaluar_asesor_asignado,
@@ -120,88 +104,55 @@ export default {
     tp_st_registrar_requisitos_externos,
     tp_st_corregir_obs_post_sustentacion,    
     b_a_registrar_requisitos_externos
-  },
-  props: [
-    "idexpediente",
-    "title",
-    "idprocedimiento_actual",
-    "number",
-    "color",
-    "click",
-    "showDescription",
-    "hideDescription",
-    "componente",        
-    "rol",
-    "tipo_rol",
-    "desc",
-    "fecha",
-    "tail",
-  ],
+  },  
   data() {
     return {
       image: "",
       showDescription_: false,
-      rutas: [],
-      color_mostrar: "",
+      rutas: [],      
       titulo: "",
       file: [],
-      etiquetas: config.etiquetas,
     };
   },
-  created() {
+  created() {    
     if (this.showDescription) {
       this.showDescription_ = true;
-    }
-
-    this.getColor();
+    }   
 
     if (this.number == "+") {
       this.image =
         "https://ui-avatars.com/api/?background=" +
-        this.color_mostrar +
+        this.color +
         "&color=fff&name=" +
         "%2B" +
         "&rounded=true&size=50";
-    } else if (this.number == "..") {
+    } 
+    else if (this.number == "..") {
       this.image =
         "https://ui-avatars.com/api/?background=" +
-        this.color_mostrar +
+        this.color +
         "&color=fff&name=" +
         "%C2%B7 %C2%B7" +        
         "&rounded=true&size=50";  
-    } else if (this.number == ".") {
+    } 
+    else if (this.number == ".") {
       this.image =
         "https://ui-avatars.com/api/?background=" +
-        this.color_mostrar +
+        this.color +
         "&color=fff&name=" +
         "%E2%80%A2" +
         "&rounded=true&size=50";
-    } else {
+    } 
+    else {
       this.image =
         "https://ui-avatars.com/api/?background=" +
-        this.color_mostrar +
+        this.color +
         "&color=fff&name=" +
         "" +
         "&rounded=true&size=50";
     }
   },
-  methods: {
-    getColor() {
-      if (!this.color) this.color_mostrar = "0D8ABC";
-      else if (this.color == "success") this.color_mostrar = "4BB543";
-      else if (this.color == "aceptar") this.color_mostrar = "4BB543";
-      else if (this.color == "enviar") this.color_mostrar = "4BB543";
-      else if (this.color == "derivar") this.color_mostrar = "4BB543";
-      else if (this.color == "aprobar") this.color_mostrar = "4BB543";
-      else if (this.color == "informar") this.color_mostrar = "4BB543";
-      else if (this.color == "gray") this.color_mostrar = "7D7D7D";
-      else if (this.color == "light_gray") this.color_mostrar = "CCC";
-      else if (this.color == "denegar") this.color_mostrar = "CC0202";
-      else if (this.color == "rechazar") this.color_mostrar = "FFC107";
-      else if (this.color == "observar") this.color_mostrar = "FFC107";
-      else if (this.color == "cambiar") this.color_mostrar = "FFC107";
-      else if (this.color == "actual") this.color_mostrar = "0D8ABC";
-    },
+  methods: {    
     actualizarEstados() {
       this.$emit("reload-parent");
     },
@@ -212,7 +163,7 @@ export default {
         if (this.showDescription_) {
           this.image =
           "https://ui-avatars.com/api/?background=" +
-          this.color_mostrar +
+          this.color +
           "&color=fff&name=" +
           "%E2%80%93" +
           "&rounded=true&size=50";
@@ -220,7 +171,7 @@ export default {
         else {
           this.image =
           "https://ui-avatars.com/api/?background=" +
-          this.color_mostrar +
+          this.color +
           "&color=fff&name=" +
           "%2B" +
           "&rounded=true&size=50";
@@ -230,45 +181,6 @@ export default {
         this.$emit(this.click);
       }
     },
-  },
-  filters: {
-    estado: function (value) {
-      switch (value) {
-        case "actual":
-          return "EN CALIFICACIÓN";
-          break;
-        case "enviar":
-          return "REGISTRADO";
-          break;
-        case "aprobar":
-          return "APROBADO";
-          break;
-        case "aceptar":
-          return "ACEPTADO";
-          break;
-        case "derivar":
-          return "DERIVADO";
-          break;
-        case "cambiar":
-          return "CAMBIADO";
-          break;
-        case "informar":
-          return "INFORMADO";
-          break;
-        case "observar":
-          return "OBSERVADO";
-          break;
-        case "devolver":
-          return "DEVUELTO";
-          break;
-        case "denegar":
-          return "DENEGADO";
-          break;
-        case "rechazar":
-          return "RECHAZADO";
-          break;
-      }
-    },
-  },
+  },  
 };
 </script>

@@ -28,9 +28,10 @@ class ExpedienteBachillerAutomaticoController extends Controller
 
             $idprocedimiento = DB::table('gt_procedimientos AS gt_p')
                 ->join('gt_rutas AS gt_r', 'gt_p.id', '=', 'gt_r.idproc_destino')
+                ->join('gt_acciones AS gt_a', 'gt_a.id', '=', 'gt_r.idaccion')
                 ->select('gt_r.idproc_destino AS idprocedimiento')
-                ->where('gt_p.idtramite', '=', $idtramite)
-                ->where('gt_r.etiqueta', '=', 'iniciar')
+                ->where('gt_p.idtramite', $idtramite)
+                ->where('gt_a.nombre', 'Iniciar')
                 ->first()
                 ->idprocedimiento;
 
