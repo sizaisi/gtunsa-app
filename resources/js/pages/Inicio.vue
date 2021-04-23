@@ -4,19 +4,19 @@
             <b-button variant="primary" @click="nuevoTramite">Nuevo trámite</b-button>
             <hr />
             <b-card
-                v-for="(tramite, index) in tramites"
+                v-for="(expediente, index) in expedientes"
                 :key="index"
-                :sub-title="`Código de Expediente: ${tramite.codExpediente}`"
+                :sub-title="`Código de Expediente: ${expediente.codigo}`"
                 class="mb-3"
             >
                 <template v-slot:header>
-                    <h6 class="mb-0" v-text="`${tramite.nombre_tramite}`"></h6>
+                    <h6 class="mb-0" v-text="`${expediente.tramite.nombre}`"></h6>
                 </template>
                 <b-card-text>
-                    Trámite presentado para la obtención de <b>{{ tramite.nombre_tramite }}</b> 
-                    del programa de estudios de <b>{{ tramite.nesc }}</b>
+                    Trámite presentado para la obtención de <b>{{ expediente.tramite.nombre }}</b> 
+                    del programa de estudios de <b>{{ expediente.escuela.nesc }}</b>
                 </b-card-text>
-                <b-button variant="info" @click="verEstados(tramite)">Seguir trámite</b-button>
+                <b-button variant="info" @click="verEstados(expediente)">Seguir trámite</b-button>
             </b-card>
         </b-card>
     </div>
@@ -28,7 +28,7 @@ export default {
     data() {
         return {
             api_url: this.$root.api_url,
-            tramites: []
+            expedientes: []
         };
     },
     created() {
@@ -54,16 +54,16 @@ export default {
         },
         getTramites() {
             axios.get(`${this.api_url}/expediente/tramite`)
-                .then(response => {
-                    this.tramites = response.data;
+                .then(response => {                    
+                    this.expedientes = response.data;
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
-        verEstados(tramite) {
-            this.$store.dispatch('setIdTramite', tramite.idtramite)  
-            this.$store.dispatch('setIdExpediente', tramite.idexpediente)              
+        verEstados(expediente) {
+            this.$store.dispatch('setIdTramite', expediente.idtramite)  
+            this.$store.dispatch('setIdExpediente', expediente.id)              
             this.$router.push( {name: "estados"} );            
         },        
     }

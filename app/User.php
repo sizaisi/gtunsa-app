@@ -39,4 +39,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function expedientes()
+    {
+        return $this->belongsToMany(Expediente::class, 'gt_graduando_expediente', 'idgraduando', 'idexpediente');
+    }
 }

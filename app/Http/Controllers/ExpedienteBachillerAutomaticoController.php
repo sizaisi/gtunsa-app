@@ -39,6 +39,7 @@ class ExpedienteBachillerAutomaticoController extends Controller
 
             $idexpediente = DB::table('gt_expediente')
                 ->insertGetId([
+                    'idtramite' => $idtramite,
                     'idprocedimiento' => $idprocedimiento,
                     'nues' => $nues,
                     'espe' => $espe,
