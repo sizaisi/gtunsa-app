@@ -31,7 +31,7 @@ class ExpedienteBachillerAutomaticoController extends Controller
                 ->join('gt_acciones AS gt_a', 'gt_a.id', '=', 'gt_r.idaccion')
                 ->select('gt_r.idproc_destino AS idprocedimiento')
                 ->where('gt_p.idtramite', $idtramite)
-                ->where('gt_a.nombre', 'Iniciar')
+                ->where('gt_a.nombre', 'Iniciar Expediente')
                 ->first()
                 ->idprocedimiento;
 

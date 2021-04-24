@@ -20,6 +20,6 @@ class Expediente extends Model
 
     public function graduandos()
     {
-        return $this->belongsToMany(User::class, 'gt_graduando_expediente', 'idgraduando', 'idexpediente');
+        return $this->belongsToMany(User::class, 'gt_graduando_expediente', 'idexpediente', 'idgraduando');
     }
 }
