@@ -169,72 +169,87 @@ export default {
         };
     },
     watch: {
-        escuela: function(val) {
-            this.idtramite = null;
-            axios.get(`${this.api_url}/tramites`, {
-                    params: {                        
-                        codigo: val.nues.substr(0, 1)
-                    }
-                })
-                .then(response => {                    
-                    this.tramites = response.data;                    
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        escuela: async function(val) {
+            this.idtramite = null
+
+            try {
+                const response = await axios.get(`${this.api_url}/tramites`, {
+                                        params: {                        
+                                            codigo: val.nues.substr(0, 1)
+                                        }
+                                    })
+                this.tramites = response.data;                    
+            } catch (error) {
+                console.log(error)
+            }               
         },        
     },
     created() {
-        this.getDNI();
-        this.getEscuelas();        
+        this.getDNI()
+        this.getEscuelas()
     },
     methods: {
-        getDNI() {
-            axios.get(`${this.api_url}/graduando_dni`)
-                .then(response => {
-                    this.graduando_dni = response.data   
-                    this.getInfoApi()                                     
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
+        prevTab() {
+            this.errors = []
+            this.tabIndex2--
+            this.tabIndex--
         },
-        getInfoApi() {                        
-            axios.get(`${this.api_url}/api_dni/${this.graduando_dni}`)
-                    .then(response => {                              
-                        if (!response.data.hasOwnProperty('success')) {                            
-                            this.graduando.dni = response.data.dni      
-                            this.graduando.nombres = response.data.nombres                            
-                            let apPaterno = response.data.apellidoPaterno
-                            let apMaterno = response.data.apellidoMaterno
-                            this.graduando.apellidos = `${apPaterno} ${apMaterno}`                             
-                        }      
-                        else {
-                            this.getGraduando()
-                        }                                                                                     
-                    })
-                    .catch(error => {                    
-                        console.log(error);
-                    });
-        },
-        getGraduando() {          
-            axios.get(`${this.api_url}/graduando`)
-                .then(response => {
-                    this.graduando = response.data                                        
-                })
-                .catch(function(error) {
-                    console.log(error);
+        nextTab() {
+            this.errors = []
+            let pasar = false
+
+            if (this.tabIndex == 0) {
+                pasar = true
+            }
+
+            if (pasar) {
+                this.tabIndex2++
+                this.$nextTick(function() {
+                    this.tabIndex++
                 });
+            }
         },
-        getEscuelas() {
-            axios
-                .get(`${this.api_url}/escuela`)
-                .then(response => {
-                    this.escuelas = response.data;
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
+        async getDNI() {
+            try {
+                const response = await axios.get(`${this.api_url}/graduando_dni`)
+                this.graduando_dni = response.data   
+                this.getInfoApi()                 
+            } catch (error) {
+                console.log(error)
+            }                  
+        },
+        async getInfoApi() {                        
+            try {
+                const response = await axios.get(`${this.api_url}/api_dni/${this.graduando_dni}`)
+                if (!response.data.hasOwnProperty('success')) {                            
+                    this.graduando.dni = response.data.dni      
+                    this.graduando.nombres = response.data.nombres                            
+                    let apPaterno = response.data.apellidoPaterno
+                    let apMaterno = response.data.apellidoMaterno
+                    this.graduando.apellidos = `${apPaterno} ${apMaterno}`                             
+                }      
+                else {
+                    this.getGraduando()
+                }
+            } catch (error) {
+                console.log(error)
+            }               
+        },
+        async getGraduando() {     
+            try {
+                const response = await axios.get(`${this.api_url}/graduando`)
+                this.graduando = response.data                          
+            } catch (error) {
+                console.log(error)
+            }                      
+        },
+        async getEscuelas() {
+            try {
+                const response = await axios.get(`${this.api_url}/escuela`)
+                this.escuelas = response.data
+            } catch (error) {
+                console.log(error)
+            }                  
         },
         registrarTramite() {            
             //validar que cui nues y espe no tenga registro en proceso en gt_expediente
@@ -266,27 +281,7 @@ export default {
                     }
                     this.$router.push({ name: "inicio" });
                 });
-        },
-        prevTab() {
-            this.errors = [];
-            this.tabIndex2--;
-            this.tabIndex--;
-        },
-        nextTab() {
-            this.errors = [];
-            let pasar = false;
-
-            if (this.tabIndex == 0) {
-                pasar = true;
-            }
-
-            if (pasar) {
-                this.tabIndex2++;
-                this.$nextTick(function() {
-                    this.tabIndex++;
-                });
-            }
-        }
+        },        
     }
 };
 </script>

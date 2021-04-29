@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Estudiante;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,25 +12,22 @@ use Illuminate\Support\Facades\Auth;
 class GraduandoController extends Controller
 {      
     public function show()
-    {        
-        $graduando = User::join('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
-                        ->select(                
-                            'gt_graduando.cui', 
-                            DB::raw('(SUBSTRING(acdiden.dic, 2)) AS dni'),
-                            DB::raw('(SUBSTRING_INDEX(REPLACE(acdiden.apn, "/", " "), ",", 1)) AS apellidos'),
-                            DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(acdiden.apn, "/", " "), ",", 2), ",", -1)) AS nombres')
-                        )
-                        ->where('gt_graduando.id', '=', Auth::id())
-                        ->first();        
+    {          
+        $graduando = Estudiante::where('cui', Auth::user()->cui)
+                                ->select(                                                    
+                                    DB::raw('(SUBSTRING(dic, 2)) AS dni'),
+                                    DB::raw('(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 1)) AS apellidos'),
+                                    DB::raw('(SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(apn, "/", " "), ",", 2), ",", -1)) AS nombres')
+                                )
+                                ->first();    
 
         return json_encode($graduando);
     }
 
     public function getDNI()
     {        
-        $dni = User::join('acdiden', 'gt_graduando.cui', '=', 'acdiden.cui')
-                        ->select(DB::raw('(SUBSTRING(acdiden.dic, 2)) AS dni'))
-                        ->where('gt_graduando.id', '=', Auth::id())
+        $dni = Estudiante::select(DB::raw('(SUBSTRING(dic, 2)) AS dni'))
+                        ->where('cui', Auth::user()->cui)
                         ->first()
                         ->dni;        
 

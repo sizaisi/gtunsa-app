@@ -39,7 +39,7 @@
                                 label-for="input-tel-movil"
                             >                   
                                 <template v-slot:label>
-                                    Teléfono móvil <span style="color:red;">*</span>
+                                    Teléfono móvil <span class="text-danger">*</span>
                                 </template>             
                                 <b-form-input id="input-tel-movil" v-model="contacto.telefono_movil" required autocomplete="off"></b-form-input>
                                 <span v-if="errors.telefono_movil" class="text-danger">{{ errors.telefono_movil[0] }}</span>
@@ -49,7 +49,7 @@
                                 label-for="input-direccion"
                             >
                                 <template v-slot:label>
-                                    Dirección <span style="color:red;">*</span>
+                                    Dirección <span class="text-danger">*</span>
                                 </template>   
                                 <b-form-input id="input-direccion" v-model="contacto.direccion" required autocomplete="off"></b-form-input>
                                 <span v-if="errors.direccion" class="text-danger">{{ errors.direccion[0] }}</span>
@@ -85,14 +85,13 @@ export default {
         this.getContacto()
     },
     methods: {
-        getContacto() {
-            axios.get(`${this.api_url}/graduando/contacto`)
-                .then(response => {
-                    this.contacto = response.data;                    
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
+        async getContacto() {            
+            try {
+                const response = await axios.get(`${this.api_url}/graduando/contacto`)
+                this.contacto = response.data
+            } catch (error) {
+                console.log(error)
+            }      
         },
         actualizarDatos() {
             this.errors = [];
@@ -131,9 +130,3 @@ export default {
     }
 };
 </script>
-<style>
-    .form-group.required > label:after {
-    content: " *";
-    color: red;
-}
-</style>
