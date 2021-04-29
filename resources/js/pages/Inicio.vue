@@ -1,22 +1,29 @@
 <template>
     <div>
-        <b-card>            
-            <b-button variant="primary" @click="nuevoTramite">Nuevo trámite</b-button>
+        <b-card>
+            <div class="text-right">
+                <b-button variant="primary" @click="nuevoTramite">Nuevo trámite</b-button>
+            </div>            
             <hr />
+            <b-card-title>Trámites</b-card-title>
             <b-card
+                no-body
                 v-for="(expediente, index) in expedientes"
-                :key="index"
-                :sub-title="`Código de Expediente: ${expediente.codigo}`"
-                class="mb-3"
+                :key="index"                
+                class="mb-3"                
             >
                 <template v-slot:header>
                     <h6 class="mb-0" v-text="`${expediente.tramite.nombre}`"></h6>
-                </template>
-                <b-card-text>
-                    Trámite presentado para la obtención de <b>{{ expediente.tramite.nombre }}</b> 
-                    del programa de estudios de <b>{{ expediente.escuela.nesc }}</b>
-                </b-card-text>
-                <b-button variant="info" @click="verEstados(expediente)">Seguir trámite</b-button>
+                </template>                
+                <b-card-body>                                
+                    <b-card-sub-title class="mb-2"><b>Código de Expediente:</b> {{ expediente.codigo }}</b-card-sub-title>
+                    <b-card-sub-title class="mb-2"><b>Fecha de creación:</b> {{ expediente.fecha }}</b-card-sub-title>
+                    <b-card-text>
+                        Trámite presentado para la obtención de <b>{{ expediente.tramite.nombre }}</b> 
+                        del programa de estudios de <b>{{ expediente.escuela.nesc }}</b>
+                    </b-card-text>
+                    <b-button variant="info" @click="verEstados(expediente)">Seguir trámite</b-button>
+                </b-card-body>                                
             </b-card>
         </b-card>
     </div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Estudiante;
+use App\Matricula;
+use App\Escuela;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +44,28 @@ class GraduandoController extends Controller
 
         return json_encode($contacto);
     }  
+
+    public function getEscuelas()
+    {
+        $matriculas = Matricula::select('nues', 'espe')
+                        ->with(['escuela' => function($query) {
+                            $query->select('nesc', 'nues', 'nive');                                
+                        }])                        
+                        ->where('cui', '=', Auth::user()->cui)                        
+                        ->orderBy('nues', 'desc')
+                        ->get();        
+
+        $escuelas= array();
+
+        foreach ($matriculas as $indice => $matricula) {
+            $escuelas[$indice]['text'] = $matricula->escuela->nesc;
+            $escuelas[$indice]['value'] = array('nues'=>$matricula->nues, 
+                                                 'espe'=>$matricula->espe, 
+                                                 'nive'=>$matricula->escuela->nive);            
+        }
+
+        return json_encode($escuelas);
+    }
         
     public function update(Request $request)
     {        

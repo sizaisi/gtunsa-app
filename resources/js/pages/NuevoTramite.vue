@@ -245,7 +245,7 @@ export default {
         },
         async getEscuelas() {
             try {
-                const response = await axios.get(`${this.api_url}/escuela`)
+                const response = await axios.get(`${this.api_url}/graduando_escuelas`)                   
                 this.escuelas = response.data
             } catch (error) {
                 console.log(error)
