@@ -9,7 +9,7 @@
           <b-form-file
             v-model="file"
             placeholder="Seleccione un archivo..."
-            accept=".jpg, .png, .pdf"
+            accept=".pdf"
             required
           ></b-form-file>
         </b-col>
@@ -62,13 +62,19 @@
         </div>
       </template>
     </b-table>    
+    <mostrar-errores :errors="errors"/>
   </div>
 </template>
 
 <script>
+import MostrarErrores from "./MostrarErrores";
+
 export default {
   name: "subir-archivos",
   props: ["idexpediente", "idprocedimiento", "idruta", "array_opciones", "max_docs"],
+  components: {
+    MostrarErrores     
+  },
   data() {
     return {
       api_url: this.$root.api_url,  
@@ -84,20 +90,40 @@ export default {
       modal: 0,
       nombre_documento: "",
       opcion_documento: null,      
+      errors: []
     };
   },
   created () {
     this.getArchivo();
   },
   methods: {     
-    validarDocumentos() {        
+    validarCantidadDocumentos() {        
         let errors = []  
 
         if (this.array_documento.length < this.max_docs) { 
-            errors.push(`Debe registrar ${this.max_docs} documentos para este procedimiento.`)            
+          errors.push(`Debe registrar ${this.max_docs} documentos para este procedimiento.`)            
         }                      
 
         this.$store.dispatch('setErrors', errors)
+    }, 
+    errorTamanioArchivo() {        
+        this.errors = []       
+        
+        if (this.file.type !== 'application/pdf') { //si es mayor a un 1MB
+          this.errors.push(`El archivo ${this.file.name} debe ser un documento en formato PDF.`)
+        }   
+        //else if (this.file.size > 1048576) { //si es mayor a un 1MB
+        else if (this.file.size > 500000) { //si es mayor a un 1/2MB
+          this.errors.push(`El archivo ${this.file.name} no debe pesar más de 0.5 megabytes.`)
+        }                                                
+
+        this.$store.dispatch('setErrors', this.errors)
+
+        if (this.errors.length) {
+          return true
+        }      
+
+        return false
     },                
     getArchivo() {                  
       axios.get(`${this.api_url}/archivo/get`, {
@@ -108,7 +134,7 @@ export default {
         })
         .then(response => {                
           this.array_documento = response.data     
-          this.validarDocumentos()  
+          this.validarCantidadDocumentos()  
           
           for (let i in this.array_documento) {                                    
             this.deshabilitarTipoDocumento(this.array_documento[i].nombre_asignado)
@@ -116,10 +142,14 @@ export default {
         });
     },
     registrarArchivo() {                
-      this.estaOcupado = true;
+      if (this.errorTamanioArchivo()) {
+        return
+      }
 
+      this.estaOcupado = true
+      
       this.file.arrayBuffer().then((buffer) => {
-        axios.post(`${this.api_url}/archivo/registrar`,{                    
+        axios.post(`${this.api_url}/archivo/registrar`, {                    
             idexpediente: this.idexpediente,
             idprocedimiento: this.idprocedimiento,                           
             idruta: this.idruta,                           
@@ -138,7 +168,7 @@ export default {
               this.$store.dispatch('showAlert', 
                 {vm:this, alert:{titulo:'Registro de documento', contenido:response.data.errorMessage, tipo:'danger', posicion:'b-toaster-top-right'}})                   
             }          
-          });
+        })
       });
     },
     eliminarArchivo(archivo) {     
