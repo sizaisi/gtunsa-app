@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CodigoMail extends Model
+class AlumnoEmail extends Model
 {
+    protected $connection = "mysql2";
     protected $table = 'actmail';
 }

@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    protected $table = 'gt_graduando';    
+    protected $table = 'users';    
     
     use Notifiable;
 
@@ -19,7 +19,7 @@ class User extends Authenticatable
      */   
 
     protected $fillable = [
-         'cui', 'name', 'email', 'password', 'provider', 'provider_id', 'telefono_fijo', 'telefono_movil', 'direccion'
+        'name', 'tipo_administrado', 'administrado_id', 'email', 'google_id',
     ];
 
     /**
@@ -38,15 +38,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
+    ];  
     
-    public function estudiante()
-    {
-        return $this->hasOne(Estudiante::class, 'cui', 'cui');
-    }
-
-    public function expedientes()
-    {
-        return $this->belongsToMany(Expediente::class, 'gt_graduando_expediente', 'idgraduando', 'idexpediente');
-    }
 }

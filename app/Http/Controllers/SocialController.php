@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Validator, Redirect, Response, File;
 use Socialite;
 use App\User;
-use App\CodigoMail;
+use App\Graduando;
+use App\AlumnoEmail;
 
 class SocialController extends Controller
 {
@@ -18,7 +19,10 @@ class SocialController extends Controller
 	public function callback($provider)
 	{
 		$getInfo = Socialite::driver($provider)->user();
-		$alumno_unsa = CodigoMail::where('mail', $getInfo->email)->first();
+
+		$parts_email = explode('@', $getInfo->email);
+        $email_name = current($parts_email);           
+		$alumno_unsa = AlumnoEmail::where('mail', $email_name)->first();
 
 		if (!$alumno_unsa) {
 			\Session::flash('login_message', "Lo sentimos, su correo aún no esta habilitado o registrado en el Sistema Académico");			
@@ -27,7 +31,10 @@ class SocialController extends Controller
 		}
 		else {
 			$cui = $alumno_unsa->cui;
-			$user = $this->createUser($getInfo, $provider, $cui);
+
+			//dd($cui);
+			//$user = $this->createUser($getInfo, $provider, $cui);
+			$user = $this->crearGraduando($getInfo, $cui);			
 			auth()->login($user);	
 		}		
 
@@ -57,6 +64,27 @@ class SocialController extends Controller
 					]
 				);
 		}		
+
+		return $user;
+	}
+
+	function crearGraduando($getInfo, $cui)
+	{		
+		$user = User::where('email', $getInfo->email)->first();		
+
+		if (!$user) {
+			$graduando = Graduando::create([				
+				'cui' => $cui,				
+			]);			
+
+			$user = User::create([				
+				'name' => $getInfo->name,
+				'tipo_administrado' => 'Graduando',
+				'administrado_id' => $graduando->id,
+				'email'    => $getInfo->email,				
+				'google_id' => $getInfo->id,				
+			]);
+		}	
 
 		return $user;
 	}
