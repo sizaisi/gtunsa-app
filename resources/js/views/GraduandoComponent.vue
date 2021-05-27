@@ -17,8 +17,8 @@
                     <h5>Información de contacto:</h5>
                     
                     <div v-if="!edit_flag">
-                        <label><b>Teléfono fijo:</b> {{ contacto.telefono_fijo }}</label><br />
-                        <label><b>Teléfono móvil:</b> {{ contacto.telefono_movil }}</label><br />
+                        <label><b>Teléfono:</b> {{ contacto.telefono }}</label><br />
+                        <label><b>E-mail personal:</b> {{ contacto.email_personal }}</label><br />
                         <label><b>Dirección:</b> {{ contacto.direccion }}</label><br />
                         <b-button variant="warning" @click="changeEdit">
                             <b-icon icon="pencil-square"></b-icon> Editar
@@ -28,21 +28,21 @@
                         <b-form @submit.prevent="actualizarDatos">
                             <b-form-group
                                 id="input-group-tel-fijo"
-                                label="Teléfono fijo"
+                                label="Teléfono"
                                 label-for="input-tel-fijo"                                
                             >                                
-                                <b-form-input id="input-tel-fijo" v-model="contacto.telefono_fijo" autocomplete="off"></b-form-input>
-                                <span v-if="errors.telefono_fijo" class="text-danger">{{ errors.telefono_fijo[0] }}</span>
+                                <b-form-input id="input-tel-fijo" v-model="contacto.telefono" autocomplete="off"></b-form-input>
+                                <span v-if="errors.telefono" class="text-danger">{{ errors.telefono[0] }}</span>
                             </b-form-group>
                             <b-form-group
-                                id="input-group-tel-movil"                                
-                                label-for="input-tel-movil"
+                                id="input-group-email-personal"                                
+                                label-for="input-email-personal"
                             >                   
                                 <template v-slot:label>
-                                    Teléfono móvil <span class="text-danger">*</span>
+                                    E-mail personal <span class="text-danger">*</span>
                                 </template>             
-                                <b-form-input id="input-tel-movil" v-model="contacto.telefono_movil" required autocomplete="off"></b-form-input>
-                                <span v-if="errors.telefono_movil" class="text-danger">{{ errors.telefono_movil[0] }}</span>
+                                <b-form-input type="email" id="input-email-personal" v-model="contacto.email_personal" required autocomplete="off"></b-form-input>
+                                <span v-if="errors.email_personal" class="text-danger">{{ errors.email_personal[0] }}</span>
                             </b-form-group>
                             <b-form-group
                                 id="input-group-direccion"                                
@@ -88,6 +88,7 @@ export default {
         async getContacto() {            
             try {
                 const response = await axios.get(`${this.api_url}/graduando/contacto`)
+                console.log(response.data);
                 this.contacto = response.data
             } catch (error) {
                 console.log(error)
@@ -97,8 +98,8 @@ export default {
             this.errors = [];
             axios.put(`${this.api_url}/graduando/actualizar`,
                     {
-                        telefono_fijo: this.contacto.telefono_fijo,
-                        telefono_movil: this.contacto.telefono_movil,
+                        telefono: this.contacto.telefono,
+                        email_personal: this.contacto.email_personal,
                         direccion: this.contacto.direccion
                     }
                 )

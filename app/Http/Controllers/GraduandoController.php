@@ -38,7 +38,7 @@ class GraduandoController extends Controller
 
     public function getContacto()
     {        
-        $contacto = User::select('telefono_fijo', 'telefono_movil', 'direccion')
+        $contacto = User::select('telefono', 'email', 'direccion')
                             ->where('id', Auth::id())
                             ->first();        
 
@@ -71,8 +71,8 @@ class GraduandoController extends Controller
     {        
         $this->validate($request, 
             [
-                'telefono_fijo' => 'nullable|digits_between:6, 10',
-                'telefono_movil' => 'required|digits_between:9, 15',
+                'telefono' => 'nullable|digits_between:6, 10',
+                'email_personal' => 'nullable',
                 'direccion' => 'required|max:150'
             ]
         );
@@ -84,8 +84,8 @@ class GraduandoController extends Controller
                 ->where('id', $user_id)
                 ->update(
                     [
-                        'telefono_fijo' => $request->telefono_fijo,
-                        'telefono_movil' => $request->telefono_movil,
+                        'telefono' => $request->telefono,
+                        'email_personal' => $request->email_personal, 
                         'direccion' => $request->direccion
                     ]
                 );      
