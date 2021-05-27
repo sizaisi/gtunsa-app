@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'apn' => ['required', 'string', 'max:70'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:gt_graduando'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'telefono_fijo' => ['nullable', 'string', 'max:10'],
+            'telefono' => ['nullable', 'string', 'max:10'],
             'telefono_movil' => ['required', 'string', 'max:15'],
             'direccion' => ['required', 'string', 'max:150'],
         ],                
@@ -79,7 +79,7 @@ class RegisterController extends Controller
             'apn' => $data['apn'],
             'email' => $data['email'],            
             'password' => Hash::make($data['password']),
-            'telefono_fijo' => $data['telefono_fijo'],
+            'telefono' => $data['telefono'],
             'telefono_movil' => $data['telefono_movil'],
             'direccion' => $data['direccion'],
         ]);

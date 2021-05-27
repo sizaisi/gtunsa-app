@@ -76,12 +76,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="telefono_fijo" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono fijo') }}</label>
+                            <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono') }}</label>
 
                             <div class="col-md-6">
-                                <input id="telefono_fijo" type="text" class="form-control @error('telefono_fijo') is-invalid @enderror" name="telefono_fijo" value="{{ old('telefono_fijo') }}" autocomplete="telefono_fijo" autofocus>
+                                <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono') }}" autocomplete="telefono" autofocus>
 
-                                @error('telefono_fijo')
+                                @error('telefono')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
