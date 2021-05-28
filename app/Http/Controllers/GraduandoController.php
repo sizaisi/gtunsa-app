@@ -38,9 +38,7 @@ class GraduandoController extends Controller
 
     public function getContacto()
     {        
-        $contacto = User::select('telefono', 'email', 'direccion')
-                            ->where('id', Auth::id())
-                            ->first();        
+        $contacto = User::with('administrado')->where('id', Auth::id())->select('tipo_administrado', 'administrado_id')->first();
 
         return json_encode($contacto);
     }  
@@ -71,17 +69,15 @@ class GraduandoController extends Controller
     {        
         $this->validate($request, 
             [
-                'telefono' => 'nullable|digits_between:6, 10',
-                'email_personal' => 'nullable',
+                'telefono' => 'required|digits_between:6, 10',
+                'email_personal' => 'required|email',
                 'direccion' => 'required|max:150'
             ]
         );
 
-        try {         
-            $user_id = Auth::id();
-
+        try {                    
             DB::table('gt_graduando')
-                ->where('id', $user_id)
+                ->where('id', $request->graduando_id)
                 ->update(
                     [
                         'telefono' => $request->telefono,

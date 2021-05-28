@@ -21,4 +21,9 @@ class Graduando extends Model
     {
         return $this->belongsToMany(Expediente::class, 'gt_graduando_expediente', 'idgraduando', 'idexpediente');
     }
+
+    public function usuario()
+    {
+        return $this->morphOne(User::class, 'administrado');
+    }
 }

@@ -57,17 +57,17 @@
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <!--<a class="nav-link navbar-text-unsa" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>-->
+                            <a class="nav-link navbar-text-unsa" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>
                         </li>
                         @if (Route::has('register'))
-                        <!--<li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link navbar-text-unsa" href="{{ route('register') }}">{{ __('Registrarse') }}</a>
-                        </li>-->
+                        </li>
                         @endif
                         @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link navbar-text-unsa dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                {{ Auth::user()->email }} <span class="caret"></span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -19,7 +19,7 @@ class User extends Authenticatable
      */   
 
     protected $fillable = [
-        'name', 'tipo_administrado', 'administrado_id', 'email', 'google_id',
+        'name', 'email', 'password', 'tipo_administrado', 'administrado_id', 'google_id',
     ];
 
     /**
@@ -39,5 +39,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];  
+
+    public function administrado()
+    {
+        return $this->morphTo(__FUNCTION__, 'tipo_administrado', 'administrado_id');
+    }
     
 }

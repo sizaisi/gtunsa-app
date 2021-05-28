@@ -10,16 +10,15 @@
             <b-card-body>
                 <b-card-text>
                     <p>
-                        <label> <b>CUI:</b> {{ cui }} </label><br />                                        
-                        <label> <b>E-mail:</b> {{ email }} </label>
+                        <label> <b>CUI:</b> {{ contacto.cui }} </label><br />                                                                
                     </p>                   
                     
                     <h5>Información de contacto:</h5>
                     
                     <div v-if="!edit_flag">
-                        <label><b>Teléfono:</b> {{ contacto.telefono }}</label><br />
+                        <label><b>Teléfono móvil:</b> {{ contacto.telefono }}</label><br />
                         <label><b>E-mail personal:</b> {{ contacto.email_personal }}</label><br />
-                        <label><b>Dirección:</b> {{ contacto.direccion }}</label><br />
+                        <label><b>Domicilio:</b> {{ contacto.direccion }}</label><br />
                         <b-button variant="warning" @click="changeEdit">
                             <b-icon icon="pencil-square"></b-icon> Editar
                         </b-button>
@@ -27,10 +26,13 @@
                     <div v-else>
                         <b-form @submit.prevent="actualizarDatos">
                             <b-form-group
-                                id="input-group-tel-fijo"
+                                id="input-group-tel-movil"
                                 label="Teléfono"
-                                label-for="input-tel-fijo"                                
+                                label-for="input-tel-movil"                                
                             >                                
+                                <template v-slot:label>
+                                    Teléfono móvil <span class="text-danger">*</span>
+                                </template>             
                                 <b-form-input id="input-tel-fijo" v-model="contacto.telefono" autocomplete="off"></b-form-input>
                                 <span v-if="errors.telefono" class="text-danger">{{ errors.telefono[0] }}</span>
                             </b-form-group>
@@ -49,7 +51,7 @@
                                 label-for="input-direccion"
                             >
                                 <template v-slot:label>
-                                    Dirección <span class="text-danger">*</span>
+                                    Domicilio <span class="text-danger">*</span>
                                 </template>   
                                 <b-form-input id="input-direccion" v-model="contacto.direccion" required autocomplete="off"></b-form-input>
                                 <span v-if="errors.direccion" class="text-danger">{{ errors.direccion[0] }}</span>
@@ -88,8 +90,8 @@ export default {
         async getContacto() {            
             try {
                 const response = await axios.get(`${this.api_url}/graduando/contacto`)
-                console.log(response.data);
-                this.contacto = response.data
+                console.log(response.data.administrado);
+                this.contacto = response.data.administrado
             } catch (error) {
                 console.log(error)
             }      
@@ -98,6 +100,7 @@ export default {
             this.errors = [];
             axios.put(`${this.api_url}/graduando/actualizar`,
                     {
+                        graduando_id: this.contacto.id,
                         telefono: this.contacto.telefono,
                         email_personal: this.contacto.email_personal,
                         direccion: this.contacto.direccion

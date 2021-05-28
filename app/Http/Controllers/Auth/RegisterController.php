@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Graduando;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,17 +50,17 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            //'cui' => ['required', 'string', 'max:8', 'unique:gt_graduando', 'exists:acdiden,cui'],
+            'cui' => ['required', 'string', 'max:8', 'unique:gt_graduando', 'exists:mysql2.acdiden,cui'],
             //'email' => ['required', 'string', 'email', 'max:255', 'unique:gt_graduando', 'unique:actmail,mail'],
-            'apn' => ['required', 'string', 'max:70'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:gt_graduando'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'telefono' => ['nullable', 'string', 'max:10'],
+            //'apn' => ['required', 'string', 'max:70'],
+            //'email' => ['required', 'string', 'email', 'max:191', 'unique:users'],
+            //'password' => ['required', 'string', 'min:8', 'confirmed'],
+            /*'telefono' => ['nullable', 'string', 'max:10'],
             'telefono_movil' => ['required', 'string', 'max:15'],
-            'direccion' => ['required', 'string', 'max:150'],
+            'direccion' => ['required', 'string', 'max:150'],*/
         ],                
         /*[            
-            'email.unique' => 'Ya existe un usuario con esa dirección de correo en el sistema. Solicita una contraseña olvidada o selecciona otra dirección de correo electrónico.',
+            'email.unique' => 'Ya existe este email en la usuarios del sistema.',
         ]*/
     );
 
@@ -74,14 +75,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            //'cui' => $data['cui'],
-            'apn' => $data['apn'],
-            'email' => $data['email'],            
-            'password' => Hash::make($data['password']),
-            'telefono' => $data['telefono'],
-            'telefono_movil' => $data['telefono_movil'],
-            'direccion' => $data['direccion'],
+        $graduando = Graduando::create([				
+            'cui' => $data['cui'],
+        ]);			
+
+        return User::create([            
+            'name' => 'Graduando Prueba ' . $data['cui'],
+            'tipo_administrado' => 'Graduando',
+            'administrado_id' => $graduando->id,
+            //'apn' => $data['apn'],
+            //'email' => $data['email'],            
+            'email' => $data['cui'] . '@unsa.pe',            
+            //'password' => Hash::make($data['password']),            
+            'password' => Hash::make('password'),            
         ]);
     }
 }
