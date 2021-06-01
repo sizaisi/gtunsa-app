@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tramite extends Model
 {
-    protected $table = 'gt_tramites';
+    protected $table = 'gt_tramite';
 
     public function expedientes()
     {        

@@ -32,7 +32,7 @@ Route::get('/graduando', 'GraduandoController@show');
 Route::get('/graduando_dni', 'GraduandoController@getDNI');
 Route::get('/graduando_escuelas', 'GraduandoController@getEscuelas');
 Route::get('/graduando/contacto', 'GraduandoController@getContacto');
-Route::put('/graduando/actualizar', 'GraduandoController@update');
+Route::put('/graduando/actualizar/{graduando}', 'GraduandoController@update');
 
 Route::get('/tramites', 'TramiteController@index');
 

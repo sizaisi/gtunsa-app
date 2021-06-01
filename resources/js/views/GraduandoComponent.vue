@@ -89,25 +89,19 @@ export default {
     methods: {
         async getContacto() {            
             try {
-                const response = await axios.get(`${this.api_url}/graduando/contacto`)
-                console.log(response.data.administrado);
+                const response = await axios.get(`${this.api_url}/graduando/contacto`)                
                 this.contacto = response.data.administrado
             } catch (error) {
                 console.log(error)
             }      
         },
         actualizarDatos() {
-            this.errors = [];
-            axios.put(`${this.api_url}/graduando/actualizar`,
-                    {
-                        graduando_id: this.contacto.id,
-                        telefono: this.contacto.telefono,
-                        email_personal: this.contacto.email_personal,
-                        direccion: this.contacto.direccion
-                    }
-                )
+            this.errors = []
+            
+            axios.put(`${this.api_url}/graduando/actualizar/${this.contacto.id}`, this.contacto)
                 .then(response => {
-                    this.edit_flag = false;
+                    this.edit_flag = false      
+
                     if (!response.data.error) {                                                                         
                         this.$store.dispatch('showAlert', { vm:this, 
                             alert:{titulo:'Actualización de datos', contenido:response.data.successMessage, tipo:'success', icono: 'done'}})
@@ -119,6 +113,10 @@ export default {
                 .catch(error => {
                     if (error.response.status == 422) {
                         this.errors = error.response.data.errors;
+                    }
+                    else {
+                        this.$store.dispatch('showAlert', { vm:this, 
+                            alert:{titulo:'Actualización de datos', contenido:'Se ha producido un error al actualizar sus datos', tipo:'danger', icono: 'error'}})
                     }
                 });
         },

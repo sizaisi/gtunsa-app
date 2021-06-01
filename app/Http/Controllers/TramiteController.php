@@ -12,7 +12,7 @@ class TramiteController extends Controller
         $codigo = $request->codigo;
 
         $tramites = Tramite::select('id', 'nombre', 'componente')                            
-                            ->where('codigo', $codigo)                            
+                            //->where('codigo', $codigo)                            
                             ->orderby('nombre', 'asc')
                             ->get();
 

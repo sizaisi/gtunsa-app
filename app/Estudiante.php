@@ -12,6 +12,6 @@ class Estudiante extends Model
 
     public function graduando()
     {
-        return $this->belongsTo(User::class, 'cui', 'cui');
+        return $this->belongsTo(Graduando::class, 'cui', 'cui');
     }
 }

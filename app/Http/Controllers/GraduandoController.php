@@ -6,6 +6,7 @@ use App\User;
 use App\Estudiante;
 use App\Matricula;
 use App\Escuela;
+use App\Graduando;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,17 +29,16 @@ class GraduandoController extends Controller
 
     public function getDNI()
     {        
-        $dni = Estudiante::select(DB::raw('(SUBSTRING(dic, 2)) AS dni'))
-                        ->where('cui', Auth::user()->cui)
-                        ->first()
-                        ->dni;        
+        $dni = substr(User::find(Auth::id())->administrado->estudiante->dic, 1);
 
         return $dni;
     }
 
     public function getContacto()
     {        
-        $contacto = User::with('administrado')->where('id', Auth::id())->select('tipo_administrado', 'administrado_id')->first();
+        $contacto = User::with('administrado')->where('id', Auth::id())
+                        ->select('tipo_administrado', 'administrado_id')
+                        ->first();
 
         return json_encode($contacto);
     }  
@@ -49,7 +49,7 @@ class GraduandoController extends Controller
                         ->with(['escuela' => function($query) {
                             $query->select('nesc', 'nues', 'nive');                                
                         }])                        
-                        ->where('cui', '=', Auth::user()->cui)                        
+                        ->where('cui', User::find(Auth::id())->administrado->cui)                        
                         ->orderBy('nues', 'desc')
                         ->get();        
 
@@ -65,8 +65,9 @@ class GraduandoController extends Controller
         return json_encode($escuelas);
     }
         
-    public function update(Request $request)
-    {        
+    public function update(Request $request, Graduando $graduando)
+    {                      
+        
         $this->validate($request, 
             [
                 'telefono' => 'required|digits_between:6, 10',
@@ -75,16 +76,12 @@ class GraduandoController extends Controller
             ]
         );
 
-        try {                    
-            DB::table('gt_graduando')
-                ->where('id', $request->graduando_id)
-                ->update(
-                    [
-                        'telefono' => $request->telefono,
-                        'email_personal' => $request->email_personal, 
-                        'direccion' => $request->direccion
-                    ]
-                );      
+        try {        
+            $graduando->telefono = $request->telefono;
+            $graduando->email_personal = $request->email_personal;
+            $graduando->direccion = $request->direccion;
+
+            $graduando->update();
 
             $result = ['successMessage' => 'Información de contacto actualizado con éxito', 'error' => false]; 
             

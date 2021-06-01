@@ -210,8 +210,8 @@ export default {
             }
         },
         async getDNI() {
-            try {
-                const response = await axios.get(`${this.api_url}/graduando_dni`)
+            try {                
+                const response = await axios.get(`${this.api_url}/graduando_dni`)                                
                 this.graduando_dni = response.data   
                 this.getInfoApi()                 
             } catch (error) {
@@ -258,15 +258,18 @@ export default {
 
             let url;
             
-            if (this.tramite.componente == 'Bachiller-Automatico') {
+            
+            /*if (this.tramite.componente == 'Bachiller-Automatico') {                */
                 url = `${this.api_url}/expediente_bachiller_automatico`
-            }
+            /*}
             else if (this.tramite.componente == 'TituloProfesional-SustentacionTesis') {
                 url = `${this.api_url}/expediente_titulo_tesis`
-            }
+            }*/
+
+            console.log(url)    
 
             axios.post(url, {
-                    idtramite: this.tramite.id,
+                    tramite_id: this.tramite.id,
                     nues: this.escuela.nues,
                     espe: this.escuela.espe,
                     graduando: this.graduando
