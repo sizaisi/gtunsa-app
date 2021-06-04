@@ -27,7 +27,7 @@ class ExpedienteBachillerAutomaticoController extends Controller
         try {
             DB::beginTransaction();
 
-            $procedimiento_id = 1;
+            $procedimiento_id = 2;
 
             /*$idprocedimiento = DB::table('gt_procedimiento AS gt_p')
                 ->join('gt_rutas AS gt_r', 'gt_p.id', '=', 'gt_r.idproc_destino')
