@@ -5,9 +5,8 @@
     <b-row>
         <b-col lg="3" md="12" sm="12">
             <graduando-component                 
-                anio_cui = "{{ substr(Auth::user()->cui, 0, 4) }}" 
-                cui = "{{ Auth::user()->cui }}" 
-                email = "{{ Auth::user()->email }}"                 
+                cui_year = "{{ substr(Auth::user()->administrado->cui, 0, 4) }}" 
+                cui = "{{ Auth::user()->administrado->cui }}"                                 
             />            
         </b-col>
         <b-col lg="9" md="12" sm="12">

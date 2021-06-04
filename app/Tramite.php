@@ -10,6 +10,6 @@ class Tramite extends Model
 
     public function expedientes()
     {        
-        return $this->hasMany(Expediente::class, 'idtramite');
+        return $this->hasMany(Expediente::class);
     }
 }

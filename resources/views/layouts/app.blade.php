@@ -20,15 +20,12 @@
         body {
             background-color: #EFEFE7 !important;
         }
-
         .navbar-unsa {
-            background-color: #C3473F;
+            background-color: #990537;
         }
-
         .navbar-text-unsa {
             color: #FFF !important;
         }
-
         .navbar-text-unsa:hover {
             color: #CCC !important;
         }

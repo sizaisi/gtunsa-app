@@ -5,7 +5,7 @@
                 <b-button variant="primary" @click="nuevoTramite">Nuevo trámite</b-button>
             </div>            
             <hr />
-            <b-card-title>Trámites</b-card-title>
+            <b-card-title>Mis trámites</b-card-title>
             <b-card
                 no-body
                 v-for="(expediente, index) in expedientes"
@@ -17,7 +17,7 @@
                 </template>                
                 <b-card-body>                                
                     <b-card-sub-title class="mb-2"><b>Código de Expediente:</b> {{ expediente.codigo }}</b-card-sub-title>
-                    <b-card-sub-title class="mb-2"><b>Fecha de creación:</b> {{ expediente.fecha }}</b-card-sub-title>
+                    <b-card-sub-title class="mb-2"><b>Fecha de creación:</b> {{ expediente.created_at }}</b-card-sub-title>
                     <b-card-text>
                         Trámite presentado para la obtención de <b>{{ expediente.tramite.nombre }}</b> 
                         del programa de estudios de <b>{{ expediente.escuela.nesc }}</b>
@@ -59,7 +59,7 @@ export default {
         },
         getTramites() {
             axios.get(`${this.api_url}/expediente/tramite`)
-                .then(response => {                    
+                .then(response => {                                        
                     this.expedientes = response.data;
                 })
                 .catch(error => {
@@ -67,7 +67,7 @@ export default {
                 });
         },
         verEstados(expediente) {
-            this.$store.dispatch('setIdTramite', expediente.idtramite)  
+            this.$store.dispatch('setIdTramite', expediente.tramite_id)  
             this.$store.dispatch('setIdExpediente', expediente.id)              
             this.$router.push( {name: "estados"} );            
         },        

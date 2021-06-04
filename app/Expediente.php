@@ -10,7 +10,7 @@ class Expediente extends Model
 
     public function tramite()
     {        
-        return $this->belongsTo(Tramite::class, 'idtramite');   
+        return $this->belongsTo(Tramite::class);   
     }
 
     public function escuela()
@@ -20,6 +20,6 @@ class Expediente extends Model
 
     public function graduandos()
     {
-        return $this->belongsToMany(User::class, 'gt_graduando_expediente', 'idexpediente', 'idgraduando');
+        return $this->belongsToMany(Graduando::class, 'gt_graduando_expediente', 'expediente_id', 'graduando_id');
     }
 }

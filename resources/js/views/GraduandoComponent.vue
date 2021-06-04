@@ -4,17 +4,13 @@
             <div class="text-center">
                 <img                    
                     class="avatar border-gray"
-                    :src="`http://190.119.145.150:8023/fotos/${anio_cui}/${cui}.jpg`"
+                    :src="`http://190.119.145.150:8023/fotos/${cui_year}/${cui}.jpg`"
                 />
             </div>
             <b-card-body>
                 <b-card-text>
-                    <p>
-                        <label> <b>CUI:</b> {{ contacto.cui }} </label><br />                                                                
-                    </p>                   
-                    
-                    <h5>Información de contacto:</h5>
-                    
+                    <div class="text-center"><b>CUI:</b> {{ cui }}</div>                                       
+                    <hr>                          
                     <div v-if="!edit_flag">
                         <label><b>Teléfono móvil:</b> {{ contacto.telefono }}</label><br />
                         <label><b>E-mail personal:</b> {{ contacto.email_personal }}</label><br />
@@ -68,17 +64,13 @@
 
 <script>
 export default {
-    name: "graduando",
-    props : [        
-        'anio_cui', 
-        'cui', 
-        'email'        
-    ],
+    name: "graduando",   
+    props: ['cui_year', 'cui'],
     data() {
         return {
             api_url: this.$root.api_url,            
-            contacto: {},
-            tmp_contacto: {},
+            contacto: {},            
+            tmp_contacto: {},            
             edit_flag: false,
             errors: []                    
         };
@@ -90,7 +82,7 @@ export default {
         async getContacto() {            
             try {
                 const response = await axios.get(`${this.api_url}/graduando/contacto`)                
-                this.contacto = response.data.administrado
+                this.contacto = response.data.administrado                                  
             } catch (error) {
                 console.log(error)
             }      

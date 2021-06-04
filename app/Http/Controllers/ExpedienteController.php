@@ -13,11 +13,8 @@ use Illuminate\Support\Facades\Auth;
 class ExpedienteController extends Controller
 {    
     public function index()
-    {
-        //para mostrar los expedientes del graduando que ingresa al sistema
-        $expedientes = User::find(Auth::id())
-                                ->expedientes()->with('tramite')->with('escuela')
-                                ->get();         
+    {        
+        $expedientes = User::find(Auth::id())->administrado->expedientes()->with('tramite')->with('escuela')->get();         
         
         return $expedientes;    
     }    
