@@ -12,9 +12,9 @@ class Graduando extends Model
         'cui', 'nombres', 'apellidos', 'telefono', 'email_personal',
     ];
 
-    public function estudiante()
+    public function alumno()
     {
-        return $this->hasOne(Estudiante::class, 'cui', 'cui');
+        return $this->hasOne(Alumno::class, 'cui', 'cui');
     }
 
     public function expedientes()

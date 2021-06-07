@@ -4,11 +4,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    graduando: null,
     idtramite: null,
     idexpediente: null, 
     errors: []   
   },
   mutations: {
+    SET_GRADUANDO(state, graduando) {
+      state.graduando = graduando
+    },
     SET_IDTRAMITE(state, id) {
       state.idtramite = id
     },
@@ -20,6 +24,9 @@ export default new Vuex.Store({
     }    
   },
   actions: {
+    setGraduando({commit}, graduando) {
+      commit('SET_GRADUANDO', graduando)
+    },
     setIdTramite({commit}, id) {
       commit('SET_IDTRAMITE', id)
     },
@@ -41,6 +48,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    getGraduando: state => {
+      return state.graduando;
+    },    
     getErrors: state => {
       return state.errors;
     },        

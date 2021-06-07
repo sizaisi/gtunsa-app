@@ -117,7 +117,7 @@ export default {
             this.getProcedimientoActual()            
         }
         else {
-            this.$router.push({ name: 'inicio' }); 
+            this.$router.push({ name: 'tramites' }); 
         }           
     },
     methods: {

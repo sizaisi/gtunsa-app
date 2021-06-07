@@ -43,10 +43,7 @@ const router = new VueRouter({
     routes // short for `routes: routes`
 });
 
-Vue.component(
-    "graduando-component",
-    require("./views/GraduandoComponent.vue").default
-);
+Vue.component("graduando", require("./views/Graduando.vue").default);
 
 const app = new Vue({
     el: "#app",

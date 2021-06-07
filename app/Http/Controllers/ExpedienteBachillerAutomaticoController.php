@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,15 +13,10 @@ class ExpedienteBachillerAutomaticoController extends Controller
     {                       
         $tramite_id = $request->tramite_id;
         $nues = $request->nues;
-        $espe = $request->espe;       
+        $espe = $request->espe;              
         
-        $dni = $request->graduando['dni'];
         $nombres = $request->graduando['nombres'];
         $apellidos = $request->graduando['apellidos'];
-
-        /*$array_apellidos = explode(" ", $apellidos);
-        $ap_paterno = $array_apellidos[0];
-        $ap_materno = $array_apellidos[1];*/
 
         try {
             DB::beginTransaction();
@@ -37,9 +31,7 @@ class ExpedienteBachillerAutomaticoController extends Controller
                 ->where('gt_a.nombre', 'Iniciar Expediente')
                 ->first()
                 ->idprocedimiento;*/
-
-            $mytime = Carbon::now('America/Lima');
-
+            
             $bachiller_automatico_id = DB::table('gt_bachiller_automatico')
                                             ->insertGetId([
                                                 'nro_resolucion' => 'resolucion prueba',                                                
@@ -52,10 +44,8 @@ class ExpedienteBachillerAutomaticoController extends Controller
                     'procedimiento_id' => $procedimiento_id,
                     'nues' => $nues,
                     'espe' => $espe,
-                    'codigo' => '',
-                    //'fecha' => $mytime->format('Y-m-d H:i:s'),
-                    'estado' => 'iniciado',
-                    //'fing' => $mytime->format('Y-m-d H:i:s')
+                    'codigo' => '',                    
+                    'estado' => 'iniciado',                    
                 ]);
 
             $digitos = strlen(strval($expediente_id));

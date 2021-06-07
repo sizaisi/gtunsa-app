@@ -2,7 +2,7 @@
     <div>
         <b-card title="Nuevo trámite:">
             <div class="d-flex justify-content-center mb-3">
-                <b-button variant="outline-warning" :to="{ name: 'inicio' }"
+                <b-button variant="outline-warning" :to="{ name: 'tramites' }"
                     ><b-icon icon="arrow-left-circle-fill"></b-icon> Volver
                 </b-button>
             </div>
@@ -19,7 +19,7 @@
                                     <b-form-input
                                         class="text-center"
                                         id="nro_documento"
-                                        v-model="graduando.dni"
+                                        v-model="dni"
                                         type="text"
                                         readonly
                                     ></b-form-input>
@@ -34,7 +34,7 @@
                                     <b-form-input
                                         class="text-center"
                                         id="nombres"
-                                        v-model="graduando.nombres"
+                                        v-model="nombres"
                                         type="text"
                                         readonly
                                     ></b-form-input>
@@ -49,7 +49,7 @@
                                     <b-form-input
                                         class="text-center"
                                         id="apellidos"
-                                        v-model="graduando.apellidos"
+                                        v-model="apellidos"
                                         type="text"
                                         readonly
                                     ></b-form-input>
@@ -149,15 +149,13 @@
 <script>
 export default {
     name: "nuevo-tramite",
+    props:['graduando'],
     data() {
         return {
-            api_url: this.$root.api_url,            
-            graduando_dni: '',
-            graduando: {
-                dni: '',
-                nombres: '',
-                apellidos: ''
-            },
+            api_url: this.$root.api_url,                                    
+            dni: this.graduando.alumno.dic.substring(1),
+            nombres: '',
+            apellidos: '',
             escuela: null,
             escuelas: [],
             tramite: null,
@@ -185,7 +183,7 @@ export default {
         },        
     },
     created() {
-        this.getDNI()
+        this.getDataReniec()        
         this.getEscuelas()
     },
     methods: {
@@ -208,41 +206,24 @@ export default {
                     this.tabIndex++
                 });
             }
-        },
-        async getDNI() {
-            try {                
-                const response = await axios.get(`${this.api_url}/graduando_dni`)                                
-                this.graduando_dni = response.data   
-                this.getInfoApi()                 
-            } catch (error) {
-                console.log(error)
-            }                  
-        },
-        async getInfoApi() {                        
+        },        
+        async getDataReniec() {                                 
             try {
-                const response = await axios.get(`${this.api_url}/api_dni/${this.graduando_dni}`)
-                if (!response.data.hasOwnProperty('success')) {                            
-                    this.graduando.dni = response.data.dni      
-                    this.graduando.nombres = response.data.nombres                            
-                    let apPaterno = response.data.apellidoPaterno
-                    let apMaterno = response.data.apellidoMaterno
-                    this.graduando.apellidos = `${apPaterno} ${apMaterno}`                             
+                const response = await axios.get(`${this.api_url}/api_dni/${this.dni}`)
+                
+                if (response.data.hasOwnProperty('success')) {                                                    
+                    this.nombres = response.data.nombres                                                
+                    this.apellidos = `${response.data.apellidoPaterno} ${response.data.apellidoMaterno}`                             
                 }      
                 else {
-                    this.getGraduando()
+                    let array_apn = this.graduando.alumno.apn.split(",").map(item => item.trim().replace('/', ' '))
+                    this.nombres = array_apn[1]
+                    this.apellidos = array_apn[0]                
                 }
             } catch (error) {
                 console.log(error)
-            }               
-        },
-        async getGraduando() {     
-            try {
-                const response = await axios.get(`${this.api_url}/graduando`)
-                this.graduando = response.data                          
-            } catch (error) {
-                console.log(error)
-            }                      
-        },
+            } 
+        },        
         async getEscuelas() {
             try {
                 const response = await axios.get(`${this.api_url}/graduando_escuelas`)                   
@@ -282,7 +263,7 @@ export default {
                         this.$store.dispatch('showAlert', { vm:this, 
                             alert:{titulo:'Registro de trámite', contenido:response.data.errorMessage, tipo:'danger', icono: 'error'}})
                     }
-                    this.$router.push({ name: "inicio" });
+                    this.$router.push({ name: "tramites" });
                 });
         },        
     }

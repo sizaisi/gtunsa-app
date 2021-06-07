@@ -4,7 +4,7 @@
 <b-container fluid>
     <b-row>
         <b-col lg="3" md="12" sm="12">
-            <graduando-component                 
+            <graduando               
                 cui_year = "{{ substr(Auth::user()->administrado->cui, 0, 4) }}" 
                 cui = "{{ Auth::user()->administrado->cui }}"                                 
             />            

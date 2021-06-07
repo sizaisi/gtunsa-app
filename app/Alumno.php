@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Estudiante extends Model
+class Alumno extends Model
 {
     protected $connection = "mysql2";
     protected $table = 'acdiden';
