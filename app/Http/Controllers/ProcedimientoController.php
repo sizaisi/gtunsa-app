@@ -12,18 +12,18 @@ class ProcedimientoController extends Controller
         $idexpediente = $request->idexpediente;
 
         $idprocedimiento_actual = DB::table('gt_expediente')
-                                        ->select('idprocedimiento AS idprocedimiento_actual')
+                                        ->select('procedimiento_id AS idprocedimiento_actual')
                                         ->where('id', $idexpediente)
                                         ->first()
                                         ->idprocedimiento_actual;    
 
-        $procedimiento_actual = DB::table('gt_procedimientos AS gt_p')            
-            ->join('gt_roles AS gt_r', 'gt_p.idrol', '=', 'gt_r.id')
-            ->select('gt_p.id', 'gt_p.nombre AS procedimiento',
-                     'gt_p.idrol', 'gt_p.componente', 'gt_p.descripcion',
-                     'gt_r.nombre AS rol', 'gt_p.tipo_rol')
-            ->where('gt_p.id', '=', $idprocedimiento_actual)
-            ->first();
+        $procedimiento_actual = DB::table('gt_procedimiento AS gt_p')            
+                                    ->join('roles AS gt_r', 'gt_p.rol_id', '=', 'gt_r.id')
+                                    ->select('gt_p.id', 'gt_p.nombre AS procedimiento',
+                                            'gt_p.rol_id', 'gt_p.descripcion',
+                                            'gt_r.name AS rol', 'gt_p.tipo_rol_docente as tipo_rol')
+                                    ->where('gt_p.id', '=', $idprocedimiento_actual)
+                                    ->first();
 
         return json_encode($procedimiento_actual);
     }
@@ -33,18 +33,18 @@ class ProcedimientoController extends Controller
         $idtramite = $request->idtramite;
         $idprocedimiento_actual = $request->idprocedimiento_actual;
 
-        $nro_orden_proc_actual = DB::table('gt_procedimientos')
-            ->select('orden')
-            ->where('id', '=', $idprocedimiento_actual)
-            ->first()
-            ->orden;
+        $nro_orden_proc_actual = DB::table('gt_procedimiento')
+                                    ->select('orden')
+                                    ->where('id', $idprocedimiento_actual)
+                                    ->first()
+                                    ->orden;
 
-        $resto_procedimientos = DB::table('gt_procedimientos')            
-            ->select('nombre AS procedimiento')
-            ->where('idtramite', '=', $idtramite)
-            ->where('orden', '>', $nro_orden_proc_actual)            
-            ->orderby('orden', 'asc')
-            ->get();
+        $resto_procedimientos = DB::table('gt_procedimiento')            
+                                    ->select('nombre AS procedimiento')
+                                    ->where('tramite_id', $idtramite)
+                                    ->where('orden', '>', $nro_orden_proc_actual)            
+                                    ->orderby('orden', 'asc')
+                                    ->get();
 
         return $resto_procedimientos;
     }  

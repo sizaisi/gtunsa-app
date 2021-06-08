@@ -32,14 +32,16 @@ Route::get('/graduando_escuelas', 'GraduandoController@getEscuelas');
 
 Route::get('/tramites', 'TramiteController@index');
 
-Route::post('/expediente_bachiller_automatico', 'ExpedienteBachillerAutomaticoController@store');
+Route::get('/expediente/tramite', 'ExpedienteController@index');
 
-Route::post('/expediente_titulo_tesis', 'ExpedienteTituloTesisController@store');
-Route::get('/expediente_titulo_tesis/titulo/{idexpediente}', 'ExpedienteTituloTesisController@getTitulo');
-Route::put('/expediente_titulo_tesis/titulo', 'ExpedienteTituloTesisController@updateTitulo');
-Route::get('/expediente_titulo_tesis/asesor/{idexpediente}', 'ExpedienteTituloTesisController@getAsesor');
-Route::put('/expediente_titulo_tesis/asesor', 'ExpedienteTituloTesisController@updateAsesor');
-Route::delete('/expediente_titulo_tesis/asesor', 'ExpedienteTituloTesisController@deleteAsesor');
+Route::post('/bachiller_automatico', 'BachillerAutomaticoController@store');
+
+/*Route::post('/titulo_tesis', 'TituloTesisController@store');
+Route::get('/titulo_tesis/titulo/{idexpediente}', 'TituloTesisController@getTitulo');
+Route::put('/titulo_tesis/titulo', 'TituloTesisController@updateTitulo');
+Route::get('/titulo_tesis/asesor/{idexpediente}', 'TituloTesisController@getAsesor');
+Route::put('/titulo_tesis/asesor', 'TituloTesisController@updateAsesor');
+Route::delete('/titulo_tesis/asesor', 'TituloTesisController@deleteAsesor');*/
 
 Route::get('/procedimiento/actual', 'ProcedimientoController@getProcedimientoActual');
 Route::get('/procedimiento/resto', 'ProcedimientoController@getRestoProcedimientos');

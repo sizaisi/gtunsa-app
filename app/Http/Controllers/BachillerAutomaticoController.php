@@ -7,30 +7,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class ExpedienteBachillerAutomaticoController extends Controller
+class BachillerAutomaticoController extends Controller
 {
     public function store(Request $request)
-    {                       
+    {          
         $tramite_id = $request->tramite_id;
         $nues = $request->nues;
-        $espe = $request->espe;              
+        $espe = $request->espe;                     
         
-        $nombres = $request->graduando['nombres'];
-        $apellidos = $request->graduando['apellidos'];
-
         try {
-            DB::beginTransaction();
+            DB::beginTransaction();            
 
-            $procedimiento_id = 2;
-
-            /*$idprocedimiento = DB::table('gt_procedimiento AS gt_p')
-                ->join('gt_rutas AS gt_r', 'gt_p.id', '=', 'gt_r.idproc_destino')
-                ->join('gt_acciones AS gt_a', 'gt_a.id', '=', 'gt_r.idaccion')
-                ->select('gt_r.idproc_destino AS idprocedimiento')
-                ->where('gt_p.idtramite', $idtramite)
+            $procedimiento_id = DB::table('gt_procedimiento AS gt_p')
+                ->join('gt_ruta AS gt_r', 'gt_p.id', '=', 'gt_r.procedimiento_destino_id')
+                ->join('gt_accion AS gt_a', 'gt_a.id', '=', 'gt_r.accion_id')
+                ->select('gt_r.procedimiento_destino_id AS procedimiento_id')
+                ->where('gt_p.tramite_id', $tramite_id)
                 ->where('gt_a.nombre', 'Iniciar Expediente')
                 ->first()
-                ->idprocedimiento;*/
+                ->procedimiento_id;
             
             $bachiller_automatico_id = DB::table('gt_bachiller_automatico')
                                             ->insertGetId([
@@ -45,7 +40,7 @@ class ExpedienteBachillerAutomaticoController extends Controller
                     'nues' => $nues,
                     'espe' => $espe,
                     'codigo' => '',                    
-                    'estado' => 'iniciado',                    
+                    'estado' => 'En trámite',                    
                 ]);
 
             $digitos = strlen(strval($expediente_id));
@@ -70,8 +65,8 @@ class ExpedienteBachillerAutomaticoController extends Controller
             DB::table('gt_graduando')
                 ->where('id', User::find(Auth::id())->administrado->id)
                 ->update([                    
-                    'nombres' => $nombres,
-                    'apellidos' => $apellidos,                    
+                    'nombres' => $request->nombres,
+                    'apellidos' => $request->apellidos,                    
                 ]);
 
             DB::commit();

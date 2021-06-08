@@ -31,9 +31,9 @@
               <b-card-body>
                 <b-card-sub-title class="mb-2">{{ desc }}</b-card-sub-title>
                 <br />
-                <template v-if="rol == 'Graduando' && accion == 'actual'">
+                <template v-if="rol_id == 3 && accion == 'actual'">
                   <component
-                    :is="componente"
+                    :is="'b_a_registrar_requisitos_externos'"
                     :idexpediente="idexpediente"
                     :idprocedimiento_actual="idprocedimiento_actual"
                     @reload-parent="actualizarEstados"
@@ -96,7 +96,7 @@ export default {
   name: "estado-component",
   props: ["idexpediente", "title", "idprocedimiento_actual", "number", "color",
           "accion", "click", "showDescription", "hideDescription", "componente", 
-          "rol", "tipo_rol", "desc", "fecha", "tail"],
+          "rol_id", "rol", "tipo_rol", "desc", "fecha", "tail"],
   components: {
     tp_st_registrar_proyecto_grado,
     tp_st_evaluar_asesor_asignado,

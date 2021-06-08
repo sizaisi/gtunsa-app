@@ -45,7 +45,7 @@ export default {
         this.getRutas();        
     },
     methods: {
-        getRutas() {
+        getRutas() {            
             axios.get(`${this.api_url}/movimiento/ruta`, {
                     params: {
                         idprocedimiento_actual: this.idprocedimiento_actual

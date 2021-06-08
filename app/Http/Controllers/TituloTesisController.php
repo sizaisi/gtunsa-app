@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class ExpedienteTituloTesisController extends Controller
+class TituloTesisController extends Controller
 {
     public function store(Request $request)
     {

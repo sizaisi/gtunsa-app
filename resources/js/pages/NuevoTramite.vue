@@ -241,7 +241,7 @@ export default {
             
             
             /*if (this.tramite.componente == 'Bachiller-Automatico') {                */
-                url = `${this.api_url}/expediente_bachiller_automatico`
+                url = `${this.api_url}/bachiller_automatico`
             /*}
             else if (this.tramite.componente == 'TituloProfesional-SustentacionTesis') {
                 url = `${this.api_url}/expediente_titulo_tesis`
@@ -253,7 +253,8 @@ export default {
                     tramite_id: this.tramite.id,
                     nues: this.escuela.nues,
                     espe: this.escuela.espe,
-                    graduando: this.graduando
+                    nombres: this.nombres,
+                    apellidos: this.apellidos,
                 })
                 .then(response => {                    
                     if (!response.data.error) { 

@@ -23,10 +23,10 @@ export default {
     },
     methods: {
         mover() {                     
-            if (this.$store.state.errors.length > 0) {
+            /*if (this.$store.state.errors.length > 0) {
                 this.errors = this.$store.state.errors
                 return
-            }    
+            }*/    
 
             this.$bvModal.msgBoxConfirm(
                 '¿Seguro que quiere derivar este expediente?', {
@@ -40,8 +40,8 @@ export default {
                     axios.post(`${this.api_url}/movimiento/mover`, {
                         idexpediente: this.idexpediente,
                         idruta: this.ruta.id,
-                        idproc_origen: this.ruta.idproc_origen,
-                        idproc_destino: this.ruta.idproc_destino,
+                        idproc_origen: this.ruta.procedimiento_origen_id,
+                        idproc_destino: this.ruta.procedimiento_destino_id,
                     })
                     .then((response) => {                        
                         if (!response.data.error) { 

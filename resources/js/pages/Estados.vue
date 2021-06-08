@@ -2,7 +2,7 @@
     <div>
         <b-card class="principal-card" title="Estado de su trámite:">
             <div class="d-flex justify-content-center mb-3">
-                <b-button variant="outline-warning" :to="{ name: 'inicio' }">
+                <b-button variant="outline-warning" :to="{ name: 'tramites' }">
                     <b-icon icon="arrow-left-circle-fill"></b-icon> Volver
                 </b-button>
             </div>
@@ -29,7 +29,7 @@
                             :rol="movimiento.rol"
                             :tipo_rol="movimiento.tipo_rol"
                             :desc="movimiento.descripcion"
-                            :fecha="movimiento.fecha"
+                            :fecha="movimiento.created_at"
                             :tail="true"
                         />
                     </b-col>                        
@@ -44,7 +44,7 @@
                             accion="actual"
                             color="0D8ABC"
                             :componente="procedimiento_actual.componente"                            
-                            :rol="procedimiento_actual.rol"
+                            :rol_id="procedimiento_actual.rol_id"
                             :tipo_rol="procedimiento_actual.tipo_rol"
                             :desc="procedimiento_actual.descripcion"
                             :fecha="''"

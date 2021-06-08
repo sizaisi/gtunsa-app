@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
+use App\Movimiento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -14,14 +14,15 @@ class MovimientoController extends Controller
         $idexpediente = $request->idexpediente;
 
         $movimientos = DB::table('gt_movimiento AS gt_m')
-                            ->join('gt_rutas AS gt_r', 'gt_m.idruta', '=', 'gt_r.id')
-                            ->join('gt_acciones AS gt_a', 'gt_r.idaccion', '=', 'gt_a.id')
-                            ->join('gt_procedimientos AS gt_p', 'gt_r.idproc_origen', '=', 'gt_p.id')
-                            ->join('gt_roles AS gt_ro', 'gt_p.idrol', '=', 'gt_ro.id')
-                            ->select('gt_m.*', 'gt_r.idproc_origen', 'gt_a.nombre AS accion', 'gt_a.color AS color',
+                            ->join('gt_ruta AS gt_r', 'gt_m.ruta_id', '=', 'gt_r.id')
+                            ->join('gt_accion AS gt_a', 'gt_r.accion_id', '=', 'gt_a.id')
+                            ->join('gt_procedimiento AS gt_p', 'gt_r.procedimiento_origen_id', '=', 'gt_p.id')
+                            ->join('roles AS gt_ro', 'gt_p.rol_id', '=', 'gt_ro.id')
+                            ->select('gt_m.*', 'gt_r.procedimiento_origen_id as idproc_origen', 
+                                     'gt_a.nombre AS accion', 'gt_a.color AS color',
                                      'gt_p.nombre AS procedimiento', 'gt_p.descripcion',
-                                     'gt_ro.nombre AS rol', 'gt_p.tipo_rol', 'gt_p.componente')
-                            ->where('gt_m.idexpediente', $idexpediente)
+                                     'gt_ro.name AS rol', 'gt_ro.id AS rol_id', 'gt_p.tipo_rol_docente as tipo_rol')
+                            ->where('gt_m.expediente_id', $idexpediente)
                             ->orderby('gt_m.id', 'asc')
                             ->get();
 
@@ -32,10 +33,10 @@ class MovimientoController extends Controller
     {           
         $idprocedimiento_actual = $request->idprocedimiento_actual;        
 
-        $rutas = DB::table('gt_rutas AS gt_r')
-                    ->join('gt_acciones AS gt_a', 'gt_r.idaccion', '=', 'gt_a.id')
+        $rutas = DB::table('gt_ruta AS gt_r')
+                    ->join('gt_accion AS gt_a', 'gt_r.accion_id', '=', 'gt_a.id')
                     ->select('gt_r.*', 'gt_a.nombre AS accion')
-                    ->where('gt_r.idproc_origen', $idprocedimiento_actual)
+                    ->where('gt_r.procedimiento_origen_id', $idprocedimiento_actual)
                     ->get();
         
         return $rutas;
@@ -50,41 +51,26 @@ class MovimientoController extends Controller
 
         try {
             DB::beginTransaction();
-
-            $idusuario = DB::TABLE('gt_usuario')
-                ->SELECT('id AS idusuario')
-                ->WHERE('codi_usuario', '=', Auth::user()->cui)
-                ->FIRST()
-                ->idusuario;
-
-            $mytime = Carbon::now('America/Lima');
-
-            $lastmovimiento = \DB::table('gt_movimiento')                            
-                            ->where('idexpediente', $idexpediente)
-                            ->orderBy('id','DESC')
-                            ->first();
-
-            if ($lastmovimiento != null) {
-                $idlastmovimiento = $lastmovimiento->id;
-            }
-            else{
-                $idlastmovimiento = null;
-            }
-
-            $idmovimiento = DB::table('gt_movimiento')
+            
+            /*$idmovimiento = DB::table('gt_movimiento')
                 ->insertGetId([
-                    'idexpediente' => $idexpediente,
-                    'idusuario' => $idusuario,
-                    'fecha' => $mytime->format('Y-m-d H:i:s'),
-                    'idruta' => $idruta,
-                    'idmov_anterior' => $idlastmovimiento
-                ]);
+                    'expediente_id' => $idexpediente,
+                    'user_id' => \Auth::id(),                    
+                    'ruta_id' => $idruta,                    
+                ]);*/
+
+            $movimiento = new Movimiento();
+            $movimiento->user_id = \Auth::id();
+            $movimiento->expediente_id = $idexpediente;
+            $movimiento->ruta_id = $idruta;
+
+            $movimiento->save();
 
             DB::table('gt_expediente')
-                ->where('id', '=', $idexpediente)
-                ->update(['idprocedimiento' => $idproc_destino]);          
+                ->where('id', $idexpediente)
+                ->update(['procedimiento_id' => $idproc_destino]);          
             
-            DB::table('gt_recurso')
+            /*DB::table('gt_recurso')
                 ->where([
                     ['idexpediente', '=', $idexpediente],
                     ['idprocedimiento', '=', $idproc_origen],
@@ -93,7 +79,7 @@ class MovimientoController extends Controller
                 ->update([
                     'idmovimiento' => $idmovimiento,
                     'idruta' => $idruta        
-                ]);
+                ]);*/
 
             DB::commit();
             $result = ['successMessage' => 'El expediente fue derivado satisfactoriamente.', 'error' => false];
