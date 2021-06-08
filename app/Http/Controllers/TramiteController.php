@@ -9,10 +9,10 @@ class TramiteController extends Controller
 {
     public function index(Request $request)
     {       
-        $codigo = $request->codigo;
+        $prefijo_escuela = $request->prefijo_escuela;
 
         $tramites = Tramite::select('id', 'nombre', 'componente')                            
-                            //->where('codigo', $codigo)                            
+                            ->where('prefijo_escuela', $prefijo_escuela)                            
                             ->orderby('nombre', 'asc')
                             ->get();
 

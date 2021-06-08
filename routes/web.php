@@ -28,7 +28,7 @@ Route::get('/api_dni/{dni}', function ($dni) {
 
 Route::get('/graduando', 'GraduandoController@show');
 Route::put('/graduando/{graduando}', 'GraduandoController@update');
-Route::get('/graduando_escuelas', 'GraduandoController@getEscuelas');
+Route::get('/escuelas', 'GraduandoController@getEscuelas');
 
 Route::get('/tramites', 'TramiteController@index');
 

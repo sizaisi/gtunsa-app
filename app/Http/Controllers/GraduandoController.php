@@ -62,10 +62,8 @@ class GraduandoController extends Controller
 
     public function getEscuelas()
     {
-        $matriculas = Matricula::select('nues', 'espe')
-                        ->with(['escuela' => function($query) {
-                            $query->select('nesc', 'nues', 'nive');                                
-                        }])                        
+        $matriculas = Matricula::select('nues', 'espe')                        
+                        ->with('escuela:nesc,nues,nive')
                         ->where('cui', User::find(\Auth::id())->administrado->cui)                        
                         ->orderBy('nues', 'desc')
                         ->get();        

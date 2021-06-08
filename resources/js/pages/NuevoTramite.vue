@@ -153,7 +153,7 @@ export default {
     data() {
         return {
             api_url: this.$root.api_url,                                    
-            dni: this.graduando.alumno.dic.substring(1),
+            dni: '',
             nombres: '',
             apellidos: '',
             escuela: null,
@@ -167,13 +167,11 @@ export default {
         };
     },
     watch: {
-        escuela: async function(val) {
-            this.idtramite = null
-
+        escuela: async function(val) {           
             try {
                 const response = await axios.get(`${this.api_url}/tramites`, {
                                         params: {                        
-                                            codigo: val.nues.substr(0, 1)
+                                            prefijo_escuela: val.nues.substr(0, 1)
                                         }
                                     })
                 this.tramites = response.data;                    
@@ -181,10 +179,16 @@ export default {
                 console.log(error)
             }               
         },        
-    },
+    },    
     created() {
-        this.getDataReniec()        
-        this.getEscuelas()
+        if (this.graduando != null) {
+            this.dni = this.graduando.alumno.dic.substring(1)
+            this.getDataReniec()        
+            this.getEscuelas()
+        }
+        else {
+            this.$router.push({ name: 'tramites' }); 
+        }           
     },
     methods: {
         prevTab() {
@@ -207,7 +211,8 @@ export default {
                 });
             }
         },        
-        async getDataReniec() {                                 
+        async getDataReniec() {                        
+            console.log('conexion a reniec')         
             try {
                 const response = await axios.get(`${this.api_url}/api_dni/${this.dni}`)
                 
@@ -226,28 +231,21 @@ export default {
         },        
         async getEscuelas() {
             try {
-                const response = await axios.get(`${this.api_url}/graduando_escuelas`)                   
+                const response = await axios.get(`${this.api_url}/escuelas`)                   
                 this.escuelas = response.data
             } catch (error) {
                 console.log(error)
             }                  
         },
-        registrarTramite() {            
-            //validar que cui nues y espe no tenga registro en proceso en gt_expediente
-            //si hay por lo menos un registro no mostrar mensaje de error con respectivo mensaje
-            //warning ud tiene un expediente en proceso para la escuela o programa seleccionado
-
-            let url;
-            
-            
-            /*if (this.tramite.componente == 'Bachiller-Automatico') {                */
+        registrarTramite() {                        
+            let url;                   
+                        
+            if (this.tramite.componente == 'Bachiller-Automatico') {                
                 url = `${this.api_url}/bachiller_automatico`
-            /*}
+            }
             else if (this.tramite.componente == 'TituloProfesional-SustentacionTesis') {
                 url = `${this.api_url}/expediente_titulo_tesis`
-            }*/
-
-            console.log(url)    
+            }                    
 
             axios.post(url, {
                     tramite_id: this.tramite.id,
@@ -265,7 +263,7 @@ export default {
                             alert:{titulo:'Registro de trámite', contenido:response.data.errorMessage, tipo:'danger', icono: 'error'}})
                     }
                     this.$router.push({ name: "tramites" });
-                });
+                });                     
         },        
     }
 };
