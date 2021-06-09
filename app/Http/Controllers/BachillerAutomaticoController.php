@@ -23,7 +23,7 @@ class BachillerAutomaticoController extends Controller
                 ->join('gt_accion AS gt_a', 'gt_a.id', '=', 'gt_r.accion_id')
                 ->select('gt_r.procedimiento_destino_id AS procedimiento_id')
                 ->where('gt_p.tramite_id', $tramite_id)
-                ->where('gt_a.nombre', 'Iniciar Expediente')
+                ->where('gt_a.nombre', 'Iniciar')
                 ->first()
                 ->procedimiento_id;
             
