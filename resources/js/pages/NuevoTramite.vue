@@ -211,8 +211,7 @@ export default {
                 });
             }
         },        
-        async getDataReniec() {                        
-            console.log('conexion a reniec')         
+        async getDataReniec() {                                    
             try {
                 const response = await axios.get(`${this.api_url}/api_dni/${this.dni}`)
                 
@@ -243,8 +242,8 @@ export default {
             if (this.tramite.componente == 'Bachiller-Automatico') {                
                 url = `${this.api_url}/bachiller_automatico`
             }
-            else if (this.tramite.componente == 'TituloProfesional-SustentacionTesis') {
-                url = `${this.api_url}/expediente_titulo_tesis`
+            else if (this.tramite.componente == 'Titulo-Tesis') {
+                url = `${this.api_url}/titulo_tesis`
             }                    
 
             axios.post(url, {

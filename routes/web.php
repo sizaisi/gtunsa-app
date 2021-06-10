@@ -36,12 +36,12 @@ Route::get('/expediente/tramite', 'ExpedienteController@index');
 
 Route::post('/bachiller_automatico', 'BachillerAutomaticoController@store');
 
-/*Route::post('/titulo_tesis', 'TituloTesisController@store');
+Route::post('/titulo_tesis', 'TituloTesisController@store');
 Route::get('/titulo_tesis/titulo/{idexpediente}', 'TituloTesisController@getTitulo');
 Route::put('/titulo_tesis/titulo', 'TituloTesisController@updateTitulo');
 Route::get('/titulo_tesis/asesor/{idexpediente}', 'TituloTesisController@getAsesor');
 Route::put('/titulo_tesis/asesor', 'TituloTesisController@updateAsesor');
-Route::delete('/titulo_tesis/asesor', 'TituloTesisController@deleteAsesor');*/
+Route::delete('/titulo_tesis/asesor', 'TituloTesisController@deleteAsesor');
 
 Route::get('/procedimiento/actual', 'ProcedimientoController@getProcedimientoActual');
 Route::get('/procedimiento/resto', 'ProcedimientoController@getRestoProcedimientos');

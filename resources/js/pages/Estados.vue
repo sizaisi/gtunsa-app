@@ -136,7 +136,7 @@ export default {
             axios.get(`${this.api_url}/procedimiento/actual`, {
                     params: { idexpediente: this.idexpediente }
                 })
-                .then(response => {
+                .then(response => {                    
                     this.procedimiento_actual = response.data;                    
                     this.getProcedimientosRestantes();    
                 })

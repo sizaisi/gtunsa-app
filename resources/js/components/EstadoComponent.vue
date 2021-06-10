@@ -33,7 +33,7 @@
                 <br />
                 <template v-if="rol_id == 3 && accion == 'actual'">
                   <component
-                    :is="'b_a_registrar_requisitos_externos'"
+                    :is="componente"
                     :idexpediente="idexpediente"
                     :idprocedimiento_actual="idprocedimiento_actual"
                     @reload-parent="actualizarEstados"
@@ -86,7 +86,8 @@
 import b_a_registrar_requisitos_externos from "../procedimientos/bachiller_automatico/registrar_requisitos_externos.vue";
 
 //titulo profesional sustentacion tesis
-import tp_st_registrar_proyecto_grado from "../procedimientos/titulo_profesional_sustentacion_tesis/registrar_proyecto_grado.vue";
+import tp_st_registrar_proyecto_grado from "../procedimientos/bachiller_automatico/registrar_requisitos_externos.vue";
+//import tp_st_registrar_proyecto_grado from "../procedimientos/titulo_profesional_sustentacion_tesis/registrar_proyecto_grado.vue";
 import tp_st_evaluar_asesor_asignado from "../procedimientos/titulo_profesional_sustentacion_tesis/evaluar_asesor_asignado.vue";
 import tp_st_corregir_observaciones_jurado from "../procedimientos/titulo_profesional_sustentacion_tesis/corregir_observaciones_jurado.vue";
 import tp_st_registrar_requisitos_externos from "../procedimientos/titulo_profesional_sustentacion_tesis/registrar_requisitos_externos.vue";

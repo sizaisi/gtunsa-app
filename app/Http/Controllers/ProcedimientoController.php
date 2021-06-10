@@ -20,7 +20,7 @@ class ProcedimientoController extends Controller
         $procedimiento_actual = DB::table('gt_procedimiento AS gt_p')            
                                     ->join('roles AS gt_r', 'gt_p.rol_id', '=', 'gt_r.id')
                                     ->select('gt_p.id', 'gt_p.nombre AS procedimiento',
-                                            'gt_p.rol_id', 'gt_p.descripcion',
+                                            'gt_p.rol_id', 'gt_p.descripcion', 'gt_p.componente',
                                             'gt_r.name AS rol', 'gt_p.tipo_rol_docente as tipo_rol')
                                     ->where('gt_p.id', '=', $idprocedimiento_actual)
                                     ->first();

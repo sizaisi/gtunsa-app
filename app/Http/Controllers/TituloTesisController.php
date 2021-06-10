@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -10,68 +10,75 @@ use Illuminate\Support\Facades\Auth;
 class TituloTesisController extends Controller
 {
     public function store(Request $request)
-    {
-        $idtramite = $request->idtramite;
+    {          
+        $tramite_id = $request->tramite_id;
         $nues = $request->nues;
-        $espe = $request->espe;       
-
+        $espe = $request->espe;                     
+        
         try {
-            DB::beginTransaction();
+            DB::beginTransaction();            
 
-            $idprocedimiento = DB::table('gt_procedimientos AS gt_p')
-                ->join('gt_rutas AS gt_r', 'gt_p.id', '=', 'gt_r.idproc_destino')
-                ->select('gt_r.idproc_destino AS idprocedimiento')
-                ->where('gt_p.idtramite', '=', $idtramite)
-                ->where('gt_r.etiqueta', '=', 'iniciar')
+            $procedimiento_id = DB::table('gt_procedimiento AS gt_p')
+                ->join('gt_ruta AS gt_r', 'gt_p.id', '=', 'gt_r.procedimiento_destino_id')
+                ->join('gt_accion AS gt_a', 'gt_a.id', '=', 'gt_r.accion_id')
+                ->select('gt_r.procedimiento_destino_id AS procedimiento_id')
+                ->where('gt_p.tramite_id', $tramite_id)
+                ->where('gt_a.nombre', 'Iniciar')
                 ->first()
-                ->idprocedimiento;
+                ->procedimiento_id;
+            
+            $titulo_tesis_id = DB::table('gt_titulo_tesis')
+                                            ->insertGetId([
+                                                'fecha_sustentacion' => '2021-06-09',                                                
+                                            ]);
 
-            $mytime = Carbon::now('America/Lima');
-
-            $idexpediente = DB::table('gt_expediente')
+            $expediente_id = DB::table('gt_expediente')
                 ->insertGetId([
-                    'idprocedimiento' => $idprocedimiento,
+                    'tramite_id' => $tramite_id,
+                    'expedienteable_id' => $titulo_tesis_id,
+                    'procedimiento_id' => $procedimiento_id,
                     'nues' => $nues,
                     'espe' => $espe,
-                    'fecha' => $mytime->format('Y-m-d H:i:s'),
-                    'estado' => 'iniciado',
-                    'fing' => $mytime->format('Y-m-d H:i:s')
+                    'codigo' => '',                    
+                    'estado' => 'En trámite',                    
                 ]);
 
-            $digitos = strlen(strval($idexpediente));
+            $digitos = strlen(strval($expediente_id));
             $codExpediente = 'E-';
 
             for ($i = 0; $i < 7 - $digitos; $i++) {
                 $codExpediente .= '0';
             }
 
-            $codExpediente .= strval($idexpediente);
+            $codExpediente .= strval($expediente_id);
 
             DB::table('gt_expediente')
-                ->where('id', '=', $idexpediente)
+                ->where('id', $expediente_id)
                 ->update(['codigo' => $codExpediente]);
 
             DB::table('gt_graduando_expediente')
                 ->insert([
-                    'idgraduando' => Auth::id(),
-                    'idexpediente' => $idexpediente,
-                ]);        
-                
-            DB::table('gt_expediente_titulo_tesis')
-                ->insert([                    
-                    'idexpediente' => $idexpediente,
-                ]);        
+                    'graduando_id' => User::find(Auth::id())->administrado->id,
+                    'expediente_id' => $expediente_id,
+                ]);                                                  
+            
+            DB::table('gt_graduando')
+                ->where('id', User::find(Auth::id())->administrado->id)
+                ->update([                    
+                    'nombres' => $request->nombres,
+                    'apellidos' => $request->apellidos,                    
+                ]);
 
             DB::commit();
             $result = ['successMessage' => 'Trámite registrado con éxito', 'error' => false];
         } catch (\Exception $e) {
             DB::rollBack();
             $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
-            \Log::error('ExpedienteTituloTesisController@store, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
+            \Log::error('TituloTesisController@store, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
         }
 
         return $result;
-    }   
+    }  
 
     public function getTitulo($idexpediente) 
     {               
