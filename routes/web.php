@@ -63,5 +63,5 @@ Route::get('/docente/getAsesor/{idexpediente}', 'DocenteController@getAsesor');
 Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
 Route::get('/callback/{provider}', 'SocialController@callback');
 
-Route::post('files/upload-photo', 'GraduandoController@uploadPhoto');
+Route::post('files/upload-photo/{graduando}', 'GraduandoController@uploadPhoto');
 

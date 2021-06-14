@@ -23,7 +23,7 @@ class GraduandoController extends Controller
     {
         //
     }
- 
+
     public function create()
     {
         //
@@ -40,7 +40,7 @@ class GraduandoController extends Controller
 
         return $graduando;
     }
-   
+    
     public function edit($id)
     {
         //
@@ -64,7 +64,7 @@ class GraduandoController extends Controller
         return $result;
     }
 
-    public function uploadPhoto(Request $request)
+    public function uploadPhoto(Request $request, Graduando $graduando)
     {
         $this->validate($request, [
             'foto' => 'required|file|mimes:jpeg,jpg|max:1024',
@@ -85,6 +85,8 @@ class GraduandoController extends Controller
             $path = '/fotos';
             $file->move(storage_path('app/public').'/'.$path, $name);
             $url = Storage::url('app/public/fotos/'.$name);
+            $graduando->foto = $url;
+            $graduando->save();
         } else {
             return response()->json(['errors' => 'No ha subido el archivo correctamente'], 500);
         }

@@ -101,7 +101,7 @@ export default {
             errors_foto: [],
             status_foto: false,
             file_foto: "",
-            url: null,               
+            url: null,              
         };
     },
     created() {        
@@ -118,12 +118,12 @@ export default {
             this.status_foto = false;
             this.url = null;
             this.file_foto = "";
+            this.errors_foto = [];
         },
         async getGraduando() {            
             try {
                 const response = await axios.get(`${this.api_url}/graduando`)                 
                 this.graduando = response.data
-                console.log(this.graduando.cui);
                 this.$store.dispatch('setGraduando', this.graduando)   
             } catch (error) {
                 console.log(error)
@@ -133,11 +133,37 @@ export default {
             this.errors = []
             this.errors_foto = []
             if(this.url != null)
-                this.subir_foto(this.file_foto);
+                this.actualizar_foto(this.file_foto);
+            else
+                this.actualizar_datos();
+        },
+        actualizar_foto(file){
+            var self = this;
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            };
+            // form data
+            let formData = new FormData();
+            formData.append('cui', this.graduando.cui);
+            formData.append('foto', file);
             
-            /*axios.put(`${this.api_url}/graduando/${this.graduando.id}`, this.graduando)
+            axios.post(`files/upload-photo/${this.graduando.id}`, formData, config).then(function (response) {
+                self.actualizar_datos();
+            })
+            .catch(error => {
+                if (error.response) {
+                    this.errors_foto = error.response.data.errors.foto;
+                }
+                console.log("Error subiendo la foto: "+ error);
+            });
+        },
+        actualizar_datos(){
+            axios.put(`${this.api_url}/graduando/${this.graduando.id}`, this.graduando)
                 .then(response => {
-                    this.edit_flag = false
+                    this.reiniciar_variables();
                     if (!response.data.error) {                                                                         
                         this.$store.dispatch('showAlert', { vm:this, 
                             alert:{titulo:'Actualización de datos', contenido:response.data.successMessage, tipo:'success', icono: 'done'}})
@@ -155,32 +181,8 @@ export default {
                         this.$store.dispatch('showAlert', { vm:this, 
                             alert:{titulo:'Actualización de datos', contenido:'Se ha producido un error al actualizar sus datos', tipo:'danger', icono: 'error'}})
                     }
-                });*/
-        },
-        subir_foto(file){
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                }
-            };
-
-            // form data
-            let formData = new FormData();
-            formData.append('cui', this.graduando.cui);
-            formData.append('foto', file);
-
-            // send upload request
-            axios.post('files/upload-photo', formData, config).then(function (response) {
-                console.log('foto subida con exito');
-            })
-            .catch(error => {
-                if (error.response) {
-                    this.errors_foto = error.response.data.errors.foto;
-                }
-                console.log("Error subiendo la foto: "+ error);
-            });
-        },        
+                });
+        },      
     }
 };
 </script>
