@@ -7,14 +7,23 @@ use App\Matricula;
 use App\Graduando;
 use Illuminate\Http\Request;
 use App\Http\Requests\GraduandoRequest;
+use App\Services\VerifyImageService;
+use Illuminate\Support\Facades\Storage;
 
 class GraduandoController extends Controller
-{    
+{
+    protected $verify_img_service;
+
+    public function __construct(VerifyImageService $verify_img_service)
+    {
+        $this->verify_img_service = $verify_img_service;
+    }
+
     public function index()
     {
         //
     }
- 
+
     public function create()
     {
         //
@@ -31,7 +40,7 @@ class GraduandoController extends Controller
 
         return $graduando;
     }
-   
+    
     public function edit($id)
     {
         //
@@ -53,6 +62,35 @@ class GraduandoController extends Controller
         }
 
         return $result;
+    }
+
+    public function uploadPhoto(Request $request, Graduando $graduando)
+    {
+        $this->validate($request, [
+            'foto' => 'required|file|mimes:jpeg,jpg|max:1024',
+            'cui' => 'required'
+        ]);
+
+        if($request->hasfile('foto')){
+            $file = $request->file('foto');
+            $temp_path = $file->getPathName();
+            
+            // Validar foto
+            $validate_foto_result = $this->verify_img_service->getErrors($temp_path/*, $filename*/);
+            if(!$validate_foto_result['ok']){
+                return response()->json(['errors' => ['foto' => $validate_foto_result['errors']]], 422);
+            }
+            // guardar la foto en storage
+            $name = $request->cui.'.'.$file->extension();
+            $path = '/fotos';
+            $file->move(storage_path('app/public').'/'.$path, $name);
+            $url = Storage::url('app/public/fotos/'.$name);
+            $graduando->foto = $url;
+            $graduando->save();
+        } else {
+            return response()->json(['errors' => 'No ha subido el archivo correctamente'], 500);
+        }
+        return response()->json(['errors' => null], 200);
     }
     
     public function destroy($id)
