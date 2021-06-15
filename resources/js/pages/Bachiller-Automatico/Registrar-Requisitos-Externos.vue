@@ -20,7 +20,7 @@ import SubirArchivos from "./../../components/SubirArchivos";
 import MoverExpediente from "./../../components/MoverExpediente";
 
 export default {
-    name: "b_a_registrar_requisitos_externos",
+    name: "Registrar-Requisitos-Externos",
     components: {        
         SubirArchivos,
         MoverExpediente

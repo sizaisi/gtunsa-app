@@ -13,19 +13,12 @@ class ArchivoController extends Controller
         $idexpediente = $request->idexpediente;
         $idprocedimiento = $request->idprocedimiento;
 
-        $idusuario = DB::table('gt_usuario')
-            ->select('id AS idusuario')
-            ->where('codi_usuario', '=', Auth::user()->cui)
-            ->first()
-            ->idusuario;       
-
         $archivos = DB::table('gt_recurso AS GT_R')
-            ->join('gt_archivo AS GT_A', 'GT_R.id', '=', 'GT_A.idrecurso')
-            ->select('GT_R.id AS idrecurso', 'GT_A.nombre_asignado', 'GT_A.nombre_archivo', 'GT_A.mime')
-            ->where('GT_R.idexpediente', $idexpediente)
-            ->where('GT_R.idprocedimiento', $idprocedimiento)
-            ->where('GT_R.idusuario', $idusuario)
-            ->where('GT_R.idmovimiento', NULL)                
+            ->join('gt_archivo AS GT_A', 'GT_R.recurso_dinamico_id', '=', 'GT_A.id')
+            ->select('GT_R.id AS idrecurso', 'GT_A.nombre as nombre_asignado', 'GT_A.mime')
+            ->where('GT_R.expediente_id', $idexpediente)
+            ->where('GT_R.procedimiento_id', $idprocedimiento)
+            ->where('GT_R.user_id', Auth::id())            
             ->get();     
         
         return $archivos;

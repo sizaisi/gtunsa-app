@@ -22,7 +22,7 @@
                         Trámite presentado para la obtención de <b>{{ expediente.tramite.nombre }}</b> 
                         del programa de estudios de <b>{{ expediente.escuela.nesc }}</b>
                     </b-card-text>
-                    <b-button variant="info" @click="verEstados(expediente)">Seguir trámite</b-button>
+                    <b-button variant="info" @click="mostrarProcedimientos(expediente)">Gestión de trámite</b-button>
                 </b-card-body>                                
             </b-card>
         </b-card>
@@ -62,10 +62,11 @@ export default {
                     params: { graduando }});
             }           
         },        
-        verEstados(expediente) {
+        mostrarProcedimientos(expediente) {
             this.$store.dispatch('setIdTramite', expediente.tramite_id)  
             this.$store.dispatch('setIdExpediente', expediente.id)              
-            this.$router.push( {name: "estados"} );            
+            this.$router.push( { name: expediente.tramite.componente } );   
+            //console.log(expediente.tramite.componente)         
         },        
     }
 };

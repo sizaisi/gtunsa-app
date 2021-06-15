@@ -9,7 +9,7 @@
             <b-container>
                 <b-row>
                     <b-col>
-                        <estado-component
+                        <procedimiento
                             title="Inicio"
                             number="."
                             color="CCC"
@@ -20,7 +20,7 @@
                 </b-row>                
                 <b-row v-for="(movimiento, index) in movimientos" :key="index">                        
                     <b-col>
-                        <estado-component
+                        <procedimiento
                             :title="movimiento.procedimiento"
                             number="+"
                             :accion="movimiento.accion"
@@ -36,7 +36,7 @@
                 </b-row>                
                 <b-row v-if="procedimiento_actual != null">                    
                     <b-col>
-                        <estado-component
+                        <procedimiento
                             :idexpediente="idexpediente"
                             :title="procedimiento_actual.procedimiento"
                             :idprocedimiento_actual="procedimiento_actual.id"
@@ -56,7 +56,7 @@
                 </b-row>
                 <b-row v-if="resto_procedimientos.length > 0">
                     <b-col>
-                        <estado-component
+                        <procedimiento
                             :title="'Procedimientos restantes...'"
                             number=".."
                             color="7D7D7D"
@@ -69,7 +69,7 @@
                 <b-collapse v-model="showRest">                    
                     <b-row v-for="(proc_rest, index) in resto_procedimientos" :key="index">
                         <b-col>
-                            <estado-component
+                            <procedimiento
                                 :title="proc_rest.procedimiento"
                                 number=""
                                 color="7D7D7D"
@@ -81,7 +81,7 @@
                 </b-collapse>
                 <b-row>
                     <b-col>
-                        <estado-component
+                        <procedimiento
                             title="Fin"
                             number="."
                             color="CCC"
@@ -94,11 +94,11 @@
     </div>
 </template>
 <script>
-import EstadoComponent from "../components/EstadoComponent";
+import Procedimiento from "./Procedimiento";
 
 export default {
-    components: {
-        EstadoComponent
+    components: {        
+        Procedimiento        
     },    
     data() {
         return {
