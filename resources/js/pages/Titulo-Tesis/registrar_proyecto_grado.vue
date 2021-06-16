@@ -178,20 +178,7 @@ export default {
             }      
 
             return false
-        },             
-        getRutas() {
-            axios.get(`${this.api_url}/movimiento/ruta`, {
-                    params: {
-                        idprocedimiento_actual: this.idprocedimiento_actual
-                    }
-                })
-                .then(response => {                                                                
-                    this.rutas = response.data;                    
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
-        },        
+        },                           
         mover(ruta) {          
             if (!this.validarTab3()) {
                 return

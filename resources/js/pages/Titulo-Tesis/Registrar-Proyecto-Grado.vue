@@ -4,24 +4,31 @@
             <h4>Elija a una acción para el expediente seleccionado</h4>
         </template>                
         <template v-else-if="ruta.accion.nombre === 'Registrar'">
-            <subir-archivos
-                :idexpediente="idexpediente" 
-                :idprocedimiento="idprocedimiento_actual"
-                :idruta="ruta.id"                
-                :array_opciones="array_tipo_documento"
-                :max_docs="max_docs"
-                ref="documentos"            
-            ></subir-archivos>        
+            <b-card class="m-3">
+                <registrar-titulo :idexpediente="idexpediente"/>  
+            </b-card>
+            <b-card class="m-3">
+                <subir-archivos
+                    :idexpediente="idexpediente" 
+                    :idprocedimiento="idprocedimiento_actual"
+                    :idruta="ruta.id"                
+                    :array_opciones="array_tipo_documento"
+                    :max_docs="max_docs"
+                    ref="documentos"            
+                />
+            </b-card>
         </template>                     
     </div>    
 </template>
 <script>
+import RegistrarTitulo from "./../../components/RegistrarTitulo";
 import SubirArchivos from "./../../components/SubirArchivos";
 
 export default {
     name: "Registrar-Requisitos-Externos",   
     props: ["idexpediente", "idprocedimiento_actual"],
     components: {
+        RegistrarTitulo,
         SubirArchivos,
     },    
     data() {

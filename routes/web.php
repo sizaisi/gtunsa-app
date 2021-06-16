@@ -45,6 +45,7 @@ Route::delete('/titulo_tesis/asesor', 'TituloTesisController@deleteAsesor');
 
 Route::get('/procedimiento/actual', 'ProcedimientoController@getProcedimientoActual');
 Route::get('/procedimiento/resto', 'ProcedimientoController@getRestoProcedimientos');
+Route::get('/procedimiento/rutas', 'ProcedimientoController@getRutas');
 
 Route::get('/movimiento', 'MovimientoController@getMovimientos');
 Route::get('/movimiento/ruta', 'MovimientoController@getRutas');
@@ -53,7 +54,7 @@ Route::post('/movimiento/mover', 'MovimientoController@mover');
 Route::get('/archivo/get', 'ArchivoController@get');
 Route::post('/archivo/registrar', 'ArchivoController@store');
 Route::delete('/archivo/eliminar', 'ArchivoController@destroy');
-Route::get('/archivo/mostrar/{idrecurso}', 'ArchivoController@show');
+Route::get('/archivo/mostrar/{archivo_id}', 'ArchivoController@show');
 
 Route::get('/observaciones/get', 'ObservacionesController@get');
 

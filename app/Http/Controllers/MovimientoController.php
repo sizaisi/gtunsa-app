@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Expediente;
 use App\Movimiento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,49 +45,25 @@ class MovimientoController extends Controller
     
     public function mover(Request $request)
     {              
-        $idruta = $request->idruta;
-        $idexpediente = $request->idexpediente;
-        $idproc_origen = $request->idproc_origen;
-        $idproc_destino = $request->idproc_destino;
-
         try {
-            DB::beginTransaction();
-            
-            /*$idmovimiento = DB::table('gt_movimiento')
-                ->insertGetId([
-                    'expediente_id' => $idexpediente,
-                    'user_id' => \Auth::id(),                    
-                    'ruta_id' => $idruta,                    
-                ]);*/
+            DB::beginTransaction();            
 
             $movimiento = new Movimiento();
-            $movimiento->user_id = \Auth::id();
-            $movimiento->expediente_id = $idexpediente;
-            $movimiento->ruta_id = $idruta;
+            $movimiento->user_id = Auth::id();
+            $movimiento->expediente_id = $request->expediente_id;
+            $movimiento->ruta_id = $request->ruta['id'];
+            $movimiento->save();           
 
-            $movimiento->save();
-
-            DB::table('gt_expediente')
-                ->where('id', $idexpediente)
-                ->update(['procedimiento_id' => $idproc_destino]);          
-            
-            /*DB::table('gt_recurso')
-                ->where([
-                    ['idexpediente', '=', $idexpediente],
-                    ['idprocedimiento', '=', $idproc_origen],
-                    ['idusuario', '=', $idusuario]
-                ])                
-                ->update([
-                    'idmovimiento' => $idmovimiento,
-                    'idruta' => $idruta        
-                ]);*/
+            $expediente = Expediente::find($request->expediente_id);
+            $expediente->procedimiento_id = $request->ruta['procedimiento_destino_id'];
+            $expediente->update();            
 
             DB::commit();
-            $result = ['successMessage' => 'El expediente fue derivado satisfactoriamente.', 'error' => false];
+            $result = ['successMessage' => 'Expediente derivado con éxito', 'error' => false];
         } catch (\Exception $e) {
             DB::rollBack();
             $result = ['errorMessage' => 'Se ha producido un error, vuelve a intentarlo más tarde', 'error' => true];
-            \Log::error('GraduandoController@mover, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
+            \Log::error('MovimientoController@mover, Detalle: "'.$e->getMessage().'" on file '.$e->getFile().':'.$e->getLine());           
         }
 
         return $result;

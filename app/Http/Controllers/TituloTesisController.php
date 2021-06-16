@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Expediente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -81,10 +82,12 @@ class TituloTesisController extends Controller
     }  
 
     public function getTitulo($idexpediente) 
-    {               
-        $titulo = \DB::table('gt_expediente_titulo_tesis AS gt_e')                                        
+    {                      
+        $titulo_tesis_id = Expediente::find($idexpediente)->expedienteable_id;
+
+        $titulo = \DB::table('gt_titulo_tesis AS gt_e')                                        
                             ->select('titulo')
-                            ->where('gt_e.idexpediente', $idexpediente)                        
+                            ->where('id', $titulo_tesis_id)                        
                             ->first()
                             ->titulo;               
 
@@ -99,12 +102,12 @@ class TituloTesisController extends Controller
             ]
         );
 
-        $idexpediente = $request->idexpediente;
+        $titulo_tesis_id = Expediente::find($request->idexpediente)->expedienteable_id;        
         $titulo = $request->titulo;       
 
         try {
-            DB::table('gt_expediente_titulo_tesis')
-                ->where('idexpediente', '=', $idexpediente)
+            DB::table('gt_titulo_tesis')
+                ->where('id', $titulo_tesis_id)
                 ->update(['titulo' => $titulo]);
 
             $result = ['successMessage' => 'Título registrado con éxito', 'error' => false];

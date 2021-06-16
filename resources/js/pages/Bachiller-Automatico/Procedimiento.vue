@@ -28,12 +28,29 @@
                 <b-card-sub-title class="mb-2">{{ desc }}</b-card-sub-title>
                 <br />
                 <template v-if="rol_id == 3 && accion == 'actual'">
+                  <div class="row justify-content-center">
+                    <div class="col col-lg-3"> 
+                        <b-form-select    
+                            v-model="ruta"
+                            :options="rutas"
+                            @change="actualizarRutaStore()"                                                   
+                        >
+                            <template v-slot:first>
+                                <option :value="null" disabled>
+                                    -- Elija acción a realizar --
+                                </option>
+                            </template>
+                        </b-form-select>  
+                    </div>
+                  </div> 
+                  <hr> 
                   <component
                     :is="componente"
-                    :idexpediente="idexpediente"
-                    :idprocedimiento_actual="idprocedimiento_actual"
-                    @reload-parent="actualizarEstados"
+                    :idexpediente="idexpediente"           
+                    :idprocedimiento_actual="idprocedimiento_actual"                             
                   />
+                  <hr>
+                  <derivar-expediente :expediente_id="idexpediente" @reload-parent="actualizarEstados"/>
                 </template>
                 <template v-else>
                   <div class="container">
@@ -77,6 +94,7 @@
 </template>
 <script>
 import Registrar_Requisitos_Externos from "./Registrar-Requisitos-Externos";
+import DerivarExpediente from "./../../components/DerivarExpediente";
 
 export default {
   name: "bachiller-automatico.procedimiento",
@@ -84,18 +102,24 @@ export default {
           "accion", "click", "showDescription", "hideDescription", "componente", 
           "rol_id", "rol", "tipo_rol", "desc", "fecha", "tail"],
   components: {      
-    Registrar_Requisitos_Externos
+    Registrar_Requisitos_Externos,
+    DerivarExpediente
   },  
   data() {
     return {
+      api_url: this.$root.api_url,
       image: "",
       showDescription_: false,
-      rutas: [],      
+      ruta: null,
+      rutas: [],     
       titulo: "",
       file: [],
     };
   },
   created() {    
+    if (this.rol_id == 3 && this.accion == 'actual') {
+      this.getRutas()
+    }   
     if (this.showDescription) {
       this.showDescription_ = true
     }   
@@ -130,6 +154,22 @@ export default {
         this.$emit(this.click);
       }
     },
+    getRutas() {
+      axios.get(`${this.api_url}/procedimiento/rutas`, {
+            params: {
+                idprocedimiento_actual: this.idprocedimiento_actual
+            }
+        })
+        .then(response => {                                                                          
+          this.rutas = response.data
+        })
+        .catch(function(error) {
+            console.log(error)
+        })
+    }, 
+    actualizarRutaStore() {            
+      this.$store.dispatch('setRuta', this.ruta)
+    } 
   },  
 };
 </script>

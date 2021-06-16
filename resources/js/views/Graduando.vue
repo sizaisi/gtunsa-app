@@ -3,9 +3,14 @@
         <b-card no-body>
             <div class="text-center">
                 <img v-if="url" :src="url" width="100" height="120"/>
-                <img v-else                  
+                <img v-else-if="graduando.foto === null"                  
                     class="avatar border-gray"
                     :src="`http://190.119.145.150:8023/fotos/${cui_year}/${cui}.jpg`"
+                />
+                <img v-else
+                    class="avatar border-gray"
+                    width="100" height="120"
+                    :src="fotoGraduando"                    
                 />
             </div>
             <b-card-body>
@@ -29,7 +34,7 @@
                                     <input @change="vistaPrevia($event)" type="file" class="sr-only">
                                 </label>
                             </div>
-                            <b-popover target="upload" triggers="hover" placement="top">
+                            <b-popover target="upload" triggers="hover" placement="right">
                                 <template #title>Requisitos de la fotografía</template>
                                 <ul>
                                     <li>Imagen a color con fondo <b>blanco</b>, de frente, con traje formal, sin gorra y sin lentes.</li>
@@ -101,7 +106,8 @@ export default {
             errors_foto: [],
             status_foto: false,
             file_foto: "",
-            url: null,              
+            url: null,         
+            fotoGraduando: null          
         };
     },
     created() {        
@@ -116,14 +122,19 @@ export default {
         reiniciar_variables(){
             this.edit_flag = false;
             this.status_foto = false;
-            this.url = null;
+            //this.url = null;
             this.file_foto = "";
-            this.errors_foto = [];
+            this.errors_foto = [];            
         },
         async getGraduando() {            
             try {
-                const response = await axios.get(`${this.api_url}/graduando`)                 
+                const response = await axios.get(`${this.api_url}/graduando`)                                 
                 this.graduando = response.data
+                
+                if (!this.url) {
+                    this.fotoGraduando = `${this.api_url}/storage/fotos/${this.cui}.jpg?${new Date().getTime()}`
+                }                
+
                 this.$store.dispatch('setGraduando', this.graduando)   
             } catch (error) {
                 console.log(error)
@@ -150,8 +161,9 @@ export default {
             formData.append('cui', this.graduando.cui);
             formData.append('foto', file);
             
-            axios.post(`files/upload-photo/${this.graduando.id}`, formData, config).then(function (response) {
-                self.actualizar_datos();
+            axios.post(`files/upload-photo/${this.graduando.id}`, formData, config)
+            .then(function (response) {                
+                self.actualizar_datos()                
             })
             .catch(error => {
                 if (error.response) {
@@ -167,7 +179,7 @@ export default {
                     if (!response.data.error) {                                                                         
                         this.$store.dispatch('showAlert', { vm:this, 
                             alert:{titulo:'Actualización de datos', contenido:response.data.successMessage, tipo:'success', icono: 'done'}})
-                        this.getGraduando()
+                        this.getGraduando()                        
                     } else {                                         
                         this.$store.dispatch('showAlert', { vm:this, 
                             alert:{titulo:'Actualización de datos', contenido:response.data.errorMessage, tipo:'danger', icono: 'error'}})

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Procedimiento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -48,4 +49,18 @@ class ProcedimientoController extends Controller
 
         return $resto_procedimientos;
     }  
+
+    public function getRutas(Request $request)
+    {           
+        $idprocedimiento_actual = $request->idprocedimiento_actual;        
+        
+        $rutas = array();
+
+        foreach (Procedimiento::find($idprocedimiento_actual)->rutas()->get() as $idx => $ruta) {
+            $rutas[$idx]['value'] = $ruta;
+            $rutas[$idx]['text'] = $ruta->accion->nombre;
+        }
+        
+        return $rutas;
+    }   
 }

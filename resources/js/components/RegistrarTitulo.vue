@@ -42,7 +42,7 @@ export default {
     },
     methods: {    
         getTitulo() {            
-            axios.get(`${this.api_url}/expediente_titulo_tesis/titulo/${this.idexpediente}`)
+            axios.get(`${this.api_url}/titulo_tesis/titulo/${this.idexpediente}`)
                 .then(response => {                                                                
                     this.titulo = response.data
                 })  
@@ -50,7 +50,7 @@ export default {
         guardarTitulo() {
             this.errors = [];
             
-            axios.put(`${this.api_url}/expediente_titulo_tesis/titulo`, {
+            axios.put(`${this.api_url}/titulo_tesis/titulo`, {
                     idexpediente: this.idexpediente,
                     titulo: this.titulo,                    
                 })

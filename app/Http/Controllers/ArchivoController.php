@@ -15,7 +15,7 @@ class ArchivoController extends Controller
 
         $archivos = DB::table('gt_recurso AS GT_R')
             ->join('gt_archivo AS GT_A', 'GT_R.recurso_dinamico_id', '=', 'GT_A.id')
-            ->select('GT_R.id AS idrecurso', 'GT_A.nombre as nombre_asignado', 'GT_A.mime')
+            ->select('GT_R.id AS idrecurso', 'GT_A.id AS archivo_id', 'GT_A.nombre_asignado', 'GT_A.nombre_archivo', 'GT_A.mime')
             ->where('GT_R.expediente_id', $idexpediente)
             ->where('GT_R.procedimiento_id', $idprocedimiento)
             ->where('GT_R.user_id', Auth::id())            
@@ -29,33 +29,26 @@ class ArchivoController extends Controller
     }
     
     public function store(Request $request)
-    {         
+    {              
         try {            
-            DB::beginTransaction(); 
+            DB::beginTransaction();                              
 
-            $idusuario = DB::table('gt_usuario')
-                            ->select('id AS idusuario')
-                            ->where('codi_usuario', Auth::user()->cui)
-                            ->first()
-                            ->idusuario;                               
+            $archivo_id = DB::table('gt_archivo')
+                            ->insertGetId([                                
+                                'nombre_asignado' => $request->nombre_asignado,
+                                'nombre_archivo' => $request->nombre_archivo,
+                                'mime' => $request->type,
+                                'file' => $request->file,
+                            ]);
                                
-            $idrecurso = DB::table('gt_recurso')
-                        ->insertGetId([
-                            'idexpediente' => $request->idexpediente,
-                            'idprocedimiento' => $request->idprocedimiento,
-                            'idusuario' => $idusuario,
-                            'idmovimiento' => null,
-                            'idruta' => $request->idruta
-                        ]);      
-            
-            DB::table('gt_archivo')
-                ->insert([
-                    'idrecurso' => $idrecurso,
-                    'nombre_asignado' => $request->nombre_asignado,
-                    'nombre_archivo' => $request->nombre_archivo,
-                    'mime' => $request->type,
-                    'data' => $request->file,
-                ]);
+            DB::table('gt_recurso')
+                        ->insertGetId([                            
+                            'tipo_recurso' => 'Archivo',
+                            'recurso_dinamico_id' => $archivo_id,
+                            'user_id' => Auth::id(),
+                            'procedimiento_id' => $request->idprocedimiento,
+                            'expediente_id' => $request->idexpediente,                                                                                   
+                        ]);                         
             
             DB::commit();
             $result = ['successMessage' => 'Archivo registrado con éxito', 'error' => false];            
@@ -70,13 +63,13 @@ class ArchivoController extends Controller
     
     public function destroy(Request $request)
     {
-        $idrecurso = $request->idrecurso;       
+        $archivo_id = $request->archivo_id;       
 
         try {           
             DB::beginTransaction();             
 
-            DB::table('gt_archivo')->where('idrecurso', $idrecurso)->delete();
-            DB::table('gt_recurso')->where('id', $idrecurso)->delete();
+            DB::table('gt_archivo')->where('id', $archivo_id)->delete();
+            DB::table('gt_recurso')->where('recurso_dinamico_id', $archivo_id)->delete();
 
             DB::commit();
             $result = ['successMessage' => 'Archivo eliminado con éxito', 'error' => false];                   
@@ -89,16 +82,16 @@ class ArchivoController extends Controller
         return $result;       
     }
 
-    public function show($idrecurso)
+    public function show($archivo_id)
     {
         $archivo = DB::table('gt_archivo')
-                        ->select('nombre_asignado','mime', 'data')
-                        ->where('idrecurso', $idrecurso)
+                        ->select('nombre_asignado','mime', 'file')
+                        ->where('id', $archivo_id)
                         ->first();       
         
         $nombre_asignado = $archivo->nombre_asignado;
         $mime = $archivo->mime;
-        $data = $archivo->data;       
+        $file = $archivo->file;       
         
         switch ($mime) {
             case 'application/pdf':
@@ -112,9 +105,9 @@ class ArchivoController extends Controller
                 break;
         }	
 
-        $data = base64_decode($data);
+        $file = base64_decode($file);
 
-        return response($data, 200, [
+        return response($file, 200, [
             'Content-Type' => $mime,
             'Content-Disposition' => 'inline; filename="' . $nombre_asignado . $extension . '"',
         ]);

@@ -42,7 +42,7 @@
           size="sm"
           title="Visualizar"          
           class="mr-1"
-          @click="mostrarDocumento(data.item.idrecurso)"
+          @click="mostrarDocumento(data.item.archivo_id)"
         >
           <b-icon icon="eye"></b-icon>
         </b-button>
@@ -185,7 +185,7 @@ export default {
             this.estaOcupado = true;
 
             axios.delete(`${this.api_url}/archivo/eliminar`, {
-                params: { idrecurso: archivo.idrecurso }
+                params: { archivo_id: archivo.archivo_id }
               })
               .then(response => {
                 this.getArchivo()
@@ -235,8 +235,8 @@ export default {
       this.opcion_documento = null;
       this.estaOcupado = false;      
     },     
-    mostrarDocumento(idrecurso) {
-      window.open(`${this.api_url}/archivo/mostrar/${idrecurso}`,'_blank');     
+    mostrarDocumento(archivo_id) {
+      window.open(`${this.api_url}/archivo/mostrar/${archivo_id}`,'_blank');     
     } 
   }  
 };

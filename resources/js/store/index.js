@@ -7,6 +7,7 @@ export default new Vuex.Store({
     graduando: null,
     idtramite: null,
     idexpediente: null, 
+    ruta: null,
     errors: []   
   },
   mutations: {
@@ -21,7 +22,10 @@ export default new Vuex.Store({
     },
     SET_ERRORS(state, errors) {
       state.errors = errors
-    }    
+    },    
+    SET_RUTA(state, ruta) {
+      state.ruta = ruta
+    }
   },
   actions: {
     setGraduando({commit}, graduando) {
@@ -32,7 +36,10 @@ export default new Vuex.Store({
     },
     setIdExpediente({commit}, id) {
       commit('SET_IDEXPEDIENTE', id)
-    },   
+    },  
+    setRuta({commit}, ruta) {
+      commit('SET_RUTA', ruta)
+    }, 
     setErrors({commit}, errors) {
       commit('SET_ERRORS', errors)
     },   
@@ -51,6 +58,9 @@ export default new Vuex.Store({
     getGraduando: state => {
       return state.graduando;
     },    
+    getRuta: state => {
+      return state.ruta;
+    },
     getErrors: state => {
       return state.errors;
     },        
