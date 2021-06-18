@@ -16,12 +16,17 @@ class Expediente extends Model
     public function graduandos()
     {
         return $this->belongsToMany(Graduando::class, 
-            'gt_graduando_expediente', 'expediente_id', 'graduando_id')
-            ->withPivot('nues', 'espe');
+            'gt_graduando_expediente', 'expediente_id', 'graduando_id');
+            //->withPivot('nues', 'espe');
     }
     
     public function graduandos_expediente()
     {        
         return $this->hasMany(GraduandoExpediente::class);
     }
+
+    public function escuela()
+    {        
+        return $this->belongsTo(Escuela::class, 'nues', 'nues');   
+    }   
 }

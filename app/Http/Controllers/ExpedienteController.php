@@ -14,10 +14,7 @@ class ExpedienteController extends Controller
 {    
     public function index()
     {        
-        $expedientes = User::find(Auth::id())->administrado // modelo graduando                       
-                        ->expedientes()
-                        ->with('graduandos_expediente.escuela', 'tramite')                         
-                        ->get();                               
+        $expedientes = User::find(Auth::id())->administrado->expedientes()->with('tramite')->with('escuela')->get();         
         
         return $expedientes;    
     }    

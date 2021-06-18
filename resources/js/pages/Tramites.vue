@@ -20,7 +20,7 @@
                     <b-card-sub-title class="mb-2"><b>Fecha de creación:</b> {{ expediente.created_at }}</b-card-sub-title>
                     <b-card-text>
                         Trámite presentado para la obtención de <b>{{ expediente.tramite.nombre }}</b> 
-                        del programa de estudios de <b>{{ expediente.graduandos_expediente[0].escuela.nesc }}</b>
+                        del programa de estudios de <b>{{ expediente.escuela.nesc }}</b>
                     </b-card-text>
                     <b-button variant="info" @click="mostrarProcedimientos(expediente)">Gestión de trámite</b-button>
                 </b-card-body>                                

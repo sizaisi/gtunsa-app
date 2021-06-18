@@ -14,8 +14,8 @@ class Escuela extends Model
         return $this->belongsTo(Matricula::class, 'nues', 'nues');
     }
 
-    public function graduandos_expediente()
+    public function expedientes()
     {        
-        return $this->hasMany(GraduandoExpediente::class, 'nues', 'nues');
+        return $this->hasMany(Expediente::class, 'nues', 'nues');
     }    
 }

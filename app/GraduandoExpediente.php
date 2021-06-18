@@ -11,10 +11,5 @@ class GraduandoExpediente extends Model
     public function graduando()
     {        
         return $this->belongsTo(Graduando::class);   
-    }   
-
-    public function escuela()
-    {        
-        return $this->belongsTo(Escuela::class, 'nues', 'nues');   
-    }   
+    }       
 }
