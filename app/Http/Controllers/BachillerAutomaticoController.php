@@ -36,9 +36,7 @@ class BachillerAutomaticoController extends Controller
                 ->insertGetId([
                     'tramite_id' => $tramite_id,
                     'expedienteable_id' => $bachiller_automatico_id,
-                    'procedimiento_id' => $procedimiento_id,
-                    'nues' => $nues,
-                    'espe' => $espe,
+                    'procedimiento_id' => $procedimiento_id,                    
                     'codigo' => '',                    
                     'estado' => 'En trámite',                    
                 ]);
@@ -60,6 +58,8 @@ class BachillerAutomaticoController extends Controller
                 ->insert([
                     'graduando_id' => User::find(Auth::id())->administrado->id,
                     'expediente_id' => $expediente_id,
+                    'nues' => $nues,
+                    'espe' => $espe,
                 ]);                                                  
             
             DB::table('gt_graduando')

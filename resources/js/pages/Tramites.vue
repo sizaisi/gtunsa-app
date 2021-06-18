@@ -20,7 +20,7 @@
                     <b-card-sub-title class="mb-2"><b>Fecha de creación:</b> {{ expediente.created_at }}</b-card-sub-title>
                     <b-card-text>
                         Trámite presentado para la obtención de <b>{{ expediente.tramite.nombre }}</b> 
-                        del programa de estudios de <b>{{ expediente.escuela.nesc }}</b>
+                        del programa de estudios de <b>{{ expediente.graduandos_expediente[0].escuela.nesc }}</b>
                     </b-card-text>
                     <b-button variant="info" @click="mostrarProcedimientos(expediente)">Gestión de trámite</b-button>
                 </b-card-body>                                
@@ -44,7 +44,7 @@ export default {
     methods: {
         getTramites() {
             axios.get(`${this.api_url}/expediente/tramite`)
-                .then(response => {                                        
+                .then(response => {                                                          
                     this.expedientes = response.data;
                 })
                 .catch(error => {
@@ -65,8 +65,7 @@ export default {
         mostrarProcedimientos(expediente) {
             this.$store.dispatch('setIdTramite', expediente.tramite_id)  
             this.$store.dispatch('setIdExpediente', expediente.id)              
-            this.$router.push( { name: expediente.tramite.componente } );   
-            //console.log(expediente.tramite.componente)         
+            this.$router.push( { name: expediente.tramite.componente } );                     
         },        
     }
 };

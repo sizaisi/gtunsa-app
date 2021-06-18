@@ -11,15 +11,17 @@ class Expediente extends Model
     public function tramite()
     {        
         return $this->belongsTo(Tramite::class);   
-    }
-
-    public function escuela()
-    {        
-        return $this->belongsTo(Escuela::class, 'nues', 'nues');   
-    }
+    }    
 
     public function graduandos()
     {
-        return $this->belongsToMany(Graduando::class, 'gt_graduando_expediente', 'expediente_id', 'graduando_id');
+        return $this->belongsToMany(Graduando::class, 
+            'gt_graduando_expediente', 'expediente_id', 'graduando_id')
+            ->withPivot('nues', 'espe');
+    }
+    
+    public function graduandos_expediente()
+    {        
+        return $this->hasMany(GraduandoExpediente::class);
     }
 }

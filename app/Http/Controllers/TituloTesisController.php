@@ -37,9 +37,7 @@ class TituloTesisController extends Controller
                 ->insertGetId([
                     'tramite_id' => $tramite_id,
                     'expedienteable_id' => $titulo_tesis_id,
-                    'procedimiento_id' => $procedimiento_id,
-                    'nues' => $nues,
-                    'espe' => $espe,
+                    'procedimiento_id' => $procedimiento_id,                    
                     'codigo' => '',                    
                     'estado' => 'En trámite',                    
                 ]);
@@ -61,6 +59,8 @@ class TituloTesisController extends Controller
                 ->insert([
                     'graduando_id' => User::find(Auth::id())->administrado->id,
                     'expediente_id' => $expediente_id,
+                    'nues' => $nues,
+                    'espe' => $espe,
                 ]);                                                  
             
             DB::table('gt_graduando')
