@@ -26,6 +26,13 @@ class BachillerAutomaticoController extends Controller
                 ->where('gt_a.nombre', 'Iniciar')
                 ->first()
                 ->procedimiento_id;
+
+            $denominacion_id = DB::table('gt_grado_titulo')                
+                ->select('denominacion_id')
+                ->where('tramite_id', $tramite_id)
+                ->where('nuesmen', $nues.$espe)
+                ->first()
+                ->denominacion_id;
             
             $bachiller_automatico_id = DB::table('gt_bachiller_automatico')
                                             ->insertGetId([
@@ -39,7 +46,8 @@ class BachillerAutomaticoController extends Controller
                     'procedimiento_id' => $procedimiento_id,                    
                     'nues' => $nues,
                     'espe' => $espe,
-                    'codigo' => '',                    
+                    'codigo' => '',                
+                    'denominacion_id' => $denominacion_id,
                     'estado' => 'En trámite',                    
                 ]);
 
@@ -68,6 +76,8 @@ class BachillerAutomaticoController extends Controller
                     'nombres' => $request->nombres,
                     'apellidos' => $request->apellidos,                    
                 ]);
+
+            
 
             DB::commit();
             $result = ['successMessage' => 'Trámite registrado con éxito', 'error' => false];
