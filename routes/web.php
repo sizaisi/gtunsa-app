@@ -3,6 +3,10 @@
 /*Route::get('/', function () {
     return view('welcome');
 });*/
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
+
 
 Auth::routes(['register' => true]);
 
@@ -66,3 +70,8 @@ Route::get('/callback/{provider}', 'SocialController@callback');
 
 Route::post('files/upload-photo/{graduando}', 'GraduandoController@uploadPhoto');
 
+////////////////////////////////////// PDFs /////////////////////////////
+Route::get('pdf/bachiller_solicitud_proyecto',[PdfController::class,'bachiller_solicitud_proyecto'])->name('pdf.bachiller_solicitud_proyecto');
+Route::get('pdf/bachiller_solicitud_automatico',[PdfController::class,'bachiller_solicitud_automatico'])->name('pdf.bachiller_solicitud_automatico');
+Route::get('pdf/titulacion_solicitud_proyecto',[PdfController::class,'titulacion_solicitud_proyecto'])->name('pdf.titulacion_solicitud_proyecto');
+Route::get('pdf/titulacion_solicitud_modalidad',[PdfController::class,'titulacion_solicitud_modalidad'])->name('pdf.titulacion_solicitud_modalidad');
