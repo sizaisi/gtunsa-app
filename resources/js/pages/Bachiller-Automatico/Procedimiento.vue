@@ -25,7 +25,7 @@
             </template>
             <b-collapse id="description" v-model="showDescription_">
               <b-card-body>
-                <b-card-sub-title class="mb-2">{{ desc }}</b-card-sub-title>
+                <b-card-sub-title class="mb-2" v-html="desc"></b-card-sub-title>
                 <br />
                 <template v-if="rol_id == 3 && accion == 'actual'">
                   <div class="row justify-content-center">
