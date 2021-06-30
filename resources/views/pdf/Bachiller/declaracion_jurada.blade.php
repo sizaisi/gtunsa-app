@@ -33,7 +33,7 @@ p.b {
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">
                     <p dir="ltr" style="line-height:1.7999999999999998;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:'Times New Roman';color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Apellidos y Nombres</span></p>
                 </td>
-                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;"><br></td>
+                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;">{{ $graduando->apellidos }}, {{ $graduando->nombres }}</td>
             </tr>
             <tr style="height:0pt;">
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">
@@ -45,13 +45,13 @@ p.b {
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">
                     <p dir="ltr" style="line-height:1.7999999999999998;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:'Times New Roman';color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">DNI/C.E./Pasaporte</span></p>
                 </td>
-                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;"><br></td>
+                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;">{{ substr($graduando->alumno->dic, 1) }}</td>
             </tr>
             <tr style="height:0pt;">
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">
                     <p dir="ltr" style="line-height:1.7999999999999998;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:'Times New Roman';color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Direcci&oacute;n</span></p>
                 </td>
-                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;"><br></td>
+                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;">{{ $graduando->direccion }}</td>
             </tr>
             <tr style="height:0pt;">
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">
@@ -63,19 +63,19 @@ p.b {
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">
                     <p dir="ltr" style="line-height:1.7999999999999998;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:'Times New Roman';color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Tel&eacute;fono/Celular</span></p>
                 </td>
-                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;"><br></td>
+                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;">{{ $graduando->telefono }}</td>
             </tr>
             <tr style="height:0pt;">
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">
                     <p dir="ltr" style="line-height:1.7999999999999998;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:'Times New Roman';color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">Correo Electr&oacute;nico</span></p>
                 </td>
-                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;"><br></td>
+                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;">{{ $graduando->email_personal }}</td>
             </tr>
             <tr style="height:0pt;">
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">
                     <p dir="ltr" style="line-height:1.7999999999999998;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:'Times New Roman';color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">CUI</span></p>
                 </td>
-                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;"><br></td>
+                <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 79.5946%;">{{ $graduando->cui }}</td>
             </tr>
             <tr style="height:17.473388671875pt;">
                 <td style="border-width: 0.5pt; border-style: solid; border-color: rgb(0, 0, 0); vertical-align: top; padding: 0pt 5.4pt; overflow: hidden; overflow-wrap: break-word; width: 20.2815%;">

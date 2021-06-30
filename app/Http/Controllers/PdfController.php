@@ -25,8 +25,12 @@ class PdfController extends Controller
     }
     public function bachiller_declaracion_jurada()  
     {      
+        $graduando = User::find(\Auth::id())->administrado()->with('alumno:cui,dic,apn')->first();
+
         $pdf = \PDF::loadView('pdf.Bachiller.declaracion_jurada', 
-            []);
+            [
+                'graduando' => $graduando
+            ]);
         $pdf->setPaper('A4', 'portrait');        
         
         return $pdf->stream("declaracion_jurada.pdf", array("Attachment" => false));    

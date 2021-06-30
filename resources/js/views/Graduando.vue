@@ -90,12 +90,12 @@
                 </b-card-text>
             </b-card-body>
         </b-card>
-        <div class="d-inline">
+        <!--<div class="d-inline">
             <b-button @click="open1" variant="success">bachiller 1</b-button>
             <b-button @click="open2" variant="success">bachiller 2</b-button>
             <b-button @click="open3" variant="success">titulo 1</b-button>
             <b-button @click="open4" variant="success">titulo 2</b-button>
-        </div>
+        </div>-->
      </div>
 </template>
 
@@ -121,7 +121,7 @@ export default {
     },
     methods: {
         open1(){
-                window.open(`${this.api_url}/pdf/bachiller_solicitud_proyecto`,'_blank')
+                window.open(`${this.api_url}/pdf/bachiller_declaracion_jurada`,'_blank')
         },
         open2(){
                 window.open(`${this.api_url}/pdf/bachiller_solicitud_automatico`,'_blank')
