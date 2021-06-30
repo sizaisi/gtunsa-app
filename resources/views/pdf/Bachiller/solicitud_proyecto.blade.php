@@ -77,7 +77,7 @@
       </p>
       <p class=MsoNormal style='line-height:150%'><span lang=ES-PE style='font-family:
          "Times New Roman",serif'>Señor Decano de la Facultad de:
-         ___________________________________________________________________________________________________________________________________</span>
+         <b>INGENIERIA DE PRODUCCION Y SERVICIOS</b></span>
       </p>
       <table class=14 border=1 cellspacing=0 cellpadding=0 width=56
          style='border-collapse:collapse;border:none'>
@@ -93,7 +93,7 @@
                border-left:none;padding:0in 5.4pt 0in 5.4pt'>
                <p class=MsoNormal align=center style='margin-bottom:0in;text-align:center;
                   line-height:150%;border:none'><b><span lang=ES-PE style='font-family:"Times New Roman",serif;
-                  color:black'>&nbsp;</span></b></p>
+                  color:black'>{{ $graduando->apellidos }}, {{ $graduando->nombres }}</span></b></p>
             </td>
          </tr>
          <tr>
@@ -105,8 +105,8 @@
             <td width=434 valign=top style='width:325.75pt;border-top:none;border-left:
                none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
                padding:0in 5.4pt 0in 5.4pt'>
-               <p class=MsoNormal style='margin-bottom:0in;line-height:150%;border:none'><b><span
-                  lang=ES-PE style='font-family:"Times New Roman",serif;color:black'>&nbsp;</span></b></p>
+               <p class=MsoNormal style='margin-bottom:0in;text-align:center;line-height:150%;border:none'><b><span
+                  lang=ES-PE style='font-family:"Times New Roman",serif;color:black'>Peruana</span></b></p>
             </td>
          </tr>
          <tr>
@@ -120,7 +120,7 @@
                padding:0in 5.4pt 0in 5.4pt'>
                <p class=MsoNormal align=center style='margin-bottom:0in;text-align:center;
                   line-height:150%;border:none'><b><span lang=ES-PE style='font-family:"Times New Roman",serif;
-                  color:black'>&nbsp;</span></b></p>
+                  color:black'>{{ substr($graduando->alumno->dic, 1) }}</span></b></p>
             </td>
          </tr>
          <tr>
@@ -134,7 +134,7 @@
                padding:0in 5.4pt 0in 5.4pt'>
                <p class=MsoNormal align=center style='margin-bottom:0in;text-align:center;
                   line-height:150%;border:none'><b><span lang=ES-PE style='font-family:"Times New Roman",serif;
-                  color:black'>&nbsp;</span></b></p>
+                  color:black'>{{ $graduando->direccion }}</span></b></p>
             </td>
          </tr>
          <tr>
@@ -164,7 +164,7 @@
                padding:0in 5.4pt 0in 5.4pt'>
                <p class=MsoNormal align=center style='margin-bottom:0in;text-align:center;
                   line-height:150%;border:none'><b><span lang=ES-PE style='font-family:"Times New Roman",serif;
-                  color:black'>&nbsp;</span></b></p>
+                  color:black'>{{ $graduando->telefono }}</span></b></p>
             </td>
          </tr>
          <tr>
@@ -180,7 +180,7 @@
                padding:0in 5.4pt 0in 5.4pt'>
                <p class=MsoNormal align=center style='margin-bottom:0in;text-align:center;
                   line-height:150%;border:none'><b><span lang=ES-PE style='font-family:"Times New Roman",serif;
-                  color:black'>&nbsp;</span></b></p>
+                  color:black'>{{ $graduando->email_personal }}</span></b></p>
             </td>
          </tr>
          <tr>
@@ -194,7 +194,7 @@
                padding:0in 5.4pt 0in 5.4pt'>
                <p class=MsoNormal align=center style='margin-bottom:0in;text-align:center;
                   line-height:150%;border:none'><b><span lang=ES-PE style='font-family:"Times New Roman",serif;
-                  color:black'>&nbsp;</span></b></p>
+                  color:black'>{{ $graduando->cui }}</span></b></p>
             </td>
          </tr>
          <tr>

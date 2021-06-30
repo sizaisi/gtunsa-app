@@ -24,10 +24,10 @@
               <h5 class="mb-0">{{ title }}</h5>
             </template>
             <b-collapse id="description" v-model="showDescription_">
-              <b-card-body>
-                <b-card-sub-title class="mb-2" v-html="desc"></b-card-sub-title>
-                <br />
+              <b-card-body>                
                 <template v-if="rol_id == 3 && accion == 'actual'">
+                  <b-card-sub-title class="mb-2" v-html="desc"></b-card-sub-title>
+                  <br />
                   <div class="row justify-content-center">
                     <div class="col col-lg-3"> 
                         <b-form-select    

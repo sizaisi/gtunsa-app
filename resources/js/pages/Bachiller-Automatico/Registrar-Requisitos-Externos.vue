@@ -28,8 +28,8 @@ export default {
         return {
             array_tipo_documento: [
                 { value: null, text: 'Tipo Documento', disabled: true },                
-                { value: 'DNI Anverso', text: 'DNI Anverso', disabled: false},
-                { value: 'DNI Reverso', text: 'DNI Reverso', disabled: false},
+                { value: 'Solicitud de Grado Académico', text: 'Solicitud de Grado Académico', disabled: false},
+                { value: 'Declaración Jurada', text: 'Declaración Jurada', disabled: false},
                 { value: 'Certificado Antecendentes Penales', text: 'Certificado Antecendentes Penales', disabled: false},
                 { value: 'Constancia Nivel Intermedio de Idiomas', text: 'Constancia Nivel Intermedio de Idiomas', disabled: false},           
             ],
