@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <!--<div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Iniciar sesión') }}</div>
@@ -56,7 +56,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Entrar') }}
                                 </button>
-                                <!--<a href="{{ url('/auth/redirect/google') }}" class="btn btn-primary"><i class="fab fa-google"></i> Google</a>-->
+                                <a href="{{ url('/auth/redirect/google') }}" class="btn btn-primary"><i class="fab fa-google"></i> Google</a>
 
                                 @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
@@ -69,13 +69,13 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--<div align="center"><img src="img/logo_unsa.png" width="50%" /></div>
+    </div>-->
+    <div align="center"><img src="img/logo_unsa.png" width="50%" /></div>
     <h2 align="center">Registro y Seguimiento de Grados</h2>
     <p align="center">Login únicamente con cuentas de correo institucional <strong>@unsa.edu.pe.</strong></p>
     <div align="center"><a href="{{ url('/auth/redirect/google') }}"><img src="img/login_unsa.png" class="img-fluid" /></a></div>
     @if (Session::has('login_message'))
         <div class="alert alert-warning text-center mt-3">{{ Session::get('login_message') }}</div>
-    @endif-->
+    @endif
 </div>
 @endsection
