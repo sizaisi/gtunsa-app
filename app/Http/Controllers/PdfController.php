@@ -39,7 +39,7 @@ class PdfController extends Controller
     {      
         $graduando = User::find(\Auth::id())->administrado()->with('alumno:cui,dic,apn')->first();
 
-        $pdf = \PDF::loadView('pdf.Bachiller.solicitud_automatico', 
+        $pdf = \PDF::loadView('pdf.Bachiller.doc_template', 
             [
                 'graduando' => $graduando
             ]);
