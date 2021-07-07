@@ -49,7 +49,7 @@ class PdfController extends Controller
     }
     public function titulacion_solicitud_proyecto()  
     {      
-        $pdf = \PDF::loadView('pdf.Titulo_profecional.solicitud_proyecto', 
+        $pdf = \PDF::loadView('pdf.Titulo_profecional.doc_template', 
             []);
         $pdf->setPaper('A4', 'portrait');        
         
