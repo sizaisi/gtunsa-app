@@ -215,7 +215,7 @@ export default {
             try {
                 const response = await axios.get(`${this.api_url}/api_dni/${this.dni}`)
                 
-                if (response.data.hasOwnProperty('success')) {                                                    
+                if (!response.data.hasOwnProperty('success')) {                                                    
                     this.nombres = response.data.nombres                                                
                     this.apellidos = `${response.data.apellidoPaterno} ${response.data.apellidoMaterno}`                             
                 }      
