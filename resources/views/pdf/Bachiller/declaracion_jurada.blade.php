@@ -6,19 +6,15 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Declaracion jurada</title>
         <style>
-
             body {
-
                 margin-left:35pt;
                 margin-right:35pt;
                 font-family: "Times New Roman";
                 font-size:11pt;
                 font-weight: normal;
                 line-height: 1.5;
-                color: #151b1e;           
-
+                color: #151b1e;    
             }
-
             .izquierda {
                 float:left;
             }
