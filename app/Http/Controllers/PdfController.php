@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 class PdfController extends Controller
@@ -14,10 +15,11 @@ class PdfController extends Controller
         $graduando = User::find(\Auth::id())->administrado()->with('alumno:cui,dic,apn')->first();
 
         //return $graduando;
-        
+        $qr = base64_encode(\QrCode::format('svg')->size(55)->errorCorrection('H')->generate('SB'.substr($graduando->alumno->dic, 1)));
         $pdf = \PDF::loadView('pdf.Bachiller.solicitud_proyecto', 
             [
-                'graduando' => $graduando
+                'graduando' => $graduando,
+                'qr' => $qr
             ]);
         $pdf->setPaper('A4', 'portrait');        
         
