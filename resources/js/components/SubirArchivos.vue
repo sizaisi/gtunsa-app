@@ -147,7 +147,7 @@ export default {
       }
 
       this.estaOcupado = true
-      
+
       this.file.arrayBuffer().then((buffer) => {
         axios.post(`${this.api_url}/archivo/registrar`, {                    
             idexpediente: this.idexpediente,

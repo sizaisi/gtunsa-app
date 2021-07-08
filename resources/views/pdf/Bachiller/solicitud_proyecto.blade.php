@@ -62,8 +62,10 @@
          clear=all style='page-break-before:always'>
       </span>
       <div class="logo" style="text-align: left;"> 
-	        <img width="150" src="https://cdn.jsdelivr.net/gh/unsa-cdn/static/unsa.png" alt="Logo UNSA">
-        </div>
+	      <img width="150" src="https://cdn.jsdelivr.net/gh/unsa-cdn/static/unsa.png" alt="Logo UNSA">
+         <img style="margin-left: 22%;" src="data:image/svg+xml;base64,'{{$qr}}">
+      </div>
+      
       <p class=MsoNormal><span lang=ES-PE style='font-family:"Times New Roman",serif'>&nbsp;</span></p>
       
       <p class=MsoNormal style='margin-left:155.95pt;text-align:justify;text-indent:
