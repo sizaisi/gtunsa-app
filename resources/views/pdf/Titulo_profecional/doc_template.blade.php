@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Solicitud: Bachiller Automatico</title>
+        <title>Solicitud: Titulacion</title>
         <style>
 
             body {
@@ -51,8 +51,7 @@
         </div>
         <br>
         <div style="text-align:right;">
-            <h3>SOLICITO: OPTAR EL
-         GRADO  ACADÉMICO DE <br> BACHILLER POR LA MODALIDAD DE: BACHILLER AUTOMATICO</h3>
+            <h3>SOLICITO: TITULACIÓN POR LA MODALIDAD DE: <br>___________</h3>
         </div>
         <div >
         <p>Señor Decano de la Facultad de: <b> INGENIERIA DE PRODUCCION Y SERVICIOS</b></p>
@@ -122,7 +121,7 @@
         </table>
         </div>
         <p class="texto"> Ante usted me presento con el debido respeto y expongo:</p>
-        <p class="texto"> Solicito optar Grado Académico de Bachiller en _______________________________________ en la
+        <p class="texto"> Solicito optar el Título Profesional de  _______________________________________ en la
          Facultad de _______________________________________________________________ de la
          Universidad Nacional de San Agustín de Arequipa, por la modalidad de
          ____________________________________________; a tal efecto, adjunto los
@@ -157,9 +156,8 @@
                <p></p>
             </td>
             <td >
-               Informe
-                  del asesor dando conformidad que el Trabajo de Investigación esta expedito
-                  para proceder con su evaluación.
+            Informe del asesor dando conformidad que la Tesis esta expedita para proceder con su
+            evaluación
             </td>
          </tr>
          <tr>
@@ -218,8 +216,7 @@
             </td>
             <td >
                
-                  Trabajo
-                  de Investigación digitalizado en formato PDF.
+            Tesis digitalizada en formato PDF.
             </td>
          </tr>
          <tr>
@@ -228,8 +225,29 @@
             </td>
            <td >
                
-                  Documento
-                  que acredite la presentación de un artículo publicado.
+                    Documento que acredite la presentación de un artículo publicado para obtención del Título
+            Profesional por la modalidad Publicación de Artículo en Revista Indexada.
+            </td>
+         </tr>
+         
+         <tr>
+             <td style=" width: 10%;">
+               <p></p>
+            </td>
+           <td >
+                            
+                Informe de INDECOPI que da trámite a la solicitud de patente y su publicación en la Gaceta
+                para obtención del Título Profesional por la modalidad Tesis Formato Patente de Invención.
+            </td>
+         </tr>
+         <tr>
+             <td style=" width: 10%;">
+               <p></p>
+            </td>
+           <td >
+                            
+           Informe de Evaluación de los Pares Externos, para la obtención del Título Profesional por la
+            modalidad de Tesis Formato Libro, Evaluado por Pares Externos.
             </td>
          </tr>
       </table>

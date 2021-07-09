@@ -51,16 +51,18 @@ class PdfController extends Controller
     }
     public function titulacion_solicitud_proyecto()  
     {      
-        $pdf = \PDF::loadView('pdf.Titulo_profecional.solicitud_modalidad', 
-            []);
+        $graduando = User::find(\Auth::id())->administrado()->with('alumno:cui,dic,apn')->first();
+        $pdf = \PDF::loadView('pdf.Titulo_profecional.solicitud_proyecto', 
+            ['graduando' => $graduando]);
         $pdf->setPaper('A4', 'portrait');        
         
         return $pdf->stream("solicitud_automatico.pdf", array("Attachment" => false));    
     }
     public function titulacion_solicitud_modalidad()  
     {      
+        $graduando = User::find(\Auth::id())->administrado()->with('alumno:cui,dic,apn')->first();
         $pdf = \PDF::loadView('pdf.Titulo_profecional.solicitud_modalidad', 
-            []);
+            ['graduando' => $graduando]);
         $pdf->setPaper('A4', 'portrait');        
         
         return $pdf->stream("solicitud_automatico.pdf", array("Attachment" => false));    
