@@ -74,7 +74,7 @@
                       <div class="text-lg-right text-md-right text-sm-left py-2 col-lg-3 col-md-4 col-sm-12 border bg-light">
                         <b>Fecha - Hora:</b>
                       </div>
-                      <div v-if="fecha != ''" class="py-2 col-lg-9 col-md-8 col-sm-12 border">{{ fecha }}</div>
+                      <div v-if="fecha != ''" class="py-2 col-lg-9 col-md-8 col-sm-12 border">{{ fecha | fecha_hora }}</div>
                       <div v-else class="py-2 col-lg-9 col-md-8 col-sm-12 border"></div>
                     </div>
                   </div>
@@ -93,6 +93,7 @@
   </div>
 </template>
 <script>
+import moment from 'moment'  
 import Registrar_Requisitos_Externos from "./Registrar-Requisitos-Externos";
 import DerivarExpediente from "./../../components/DerivarExpediente";
 
@@ -101,7 +102,8 @@ export default {
   props: ["idexpediente", "title", "idprocedimiento_actual", "number", "color",
           "accion", "click", "showDescription", "hideDescription", "componente", 
           "rol_id", "rol", "tipo_rol", "desc", "fecha", "tail"],
-  components: {      
+  components: {  
+    moment,    
     Registrar_Requisitos_Externos,
     DerivarExpediente
   },  
@@ -116,6 +118,14 @@ export default {
       file: [],
     };
   },
+  filters: {
+    fecha: function (date) {      
+      return moment(date).format("DD-MM-YYYY")      
+    },
+    fecha_hora: function (date) {      
+      return moment(date).format("DD-MM-YYYY, hh:mm A")      
+    }
+  }, 
   created() {    
     if (this.rol_id == 3 && this.accion == 'actual') {
       this.getRutas()

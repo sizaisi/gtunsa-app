@@ -1,6 +1,7 @@
 <template>
     <div>
-        <b-card class="principal-card" title="Estado de su trámite:">
+        <b-card class="principal-card">
+             <b-card-title><b>Trámite:</b> {{ tramite_nombre }}</b-card-title>
             <div class="d-flex justify-content-center mb-3">
                 <b-button variant="outline-warning" :to="{ name: 'tramites' }">
                     <b-icon icon="arrow-left-circle-fill"></b-icon> Volver
@@ -97,6 +98,8 @@
 import Procedimiento from "./Procedimiento";
 
 export default {
+    name: 'bachiller-automatico-procedimientos',
+    props: ['tramite_nombre'],
     components: {        
         Procedimiento        
     },    

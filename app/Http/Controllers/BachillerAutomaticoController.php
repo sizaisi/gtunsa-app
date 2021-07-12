@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Expediente;
+use App\BachillerAutomatico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -32,42 +34,39 @@ class BachillerAutomaticoController extends Controller
                 ->where('tramite_id', $tramite_id)
                 ->where('nuesmen', $nues.$espe)
                 ->first()
-                ->denominacion_id;
-            
-            $bachiller_automatico_id = DB::table('gt_bachiller_automatico')
-                                            ->insertGetId([
-                                                'nro_resolucion' => 'resolucion prueba',                                                
-                                            ]);
+                ->denominacion_id;           
 
-            $expediente_id = DB::table('gt_expediente')
-                ->insertGetId([
-                    'tramite_id' => $tramite_id,
-                    'expedienteable_id' => $bachiller_automatico_id,
-                    'procedimiento_id' => $procedimiento_id,                    
-                    'nues' => $nues,
-                    'espe' => $espe,
-                    'codigo' => '',                
-                    'denominacion_id' => $denominacion_id,
-                    'estado' => 'En trámite',                    
-                ]);
+            $bachiller_automatico = new BachillerAutomatico();
+            $bachiller_automatico->save();
 
-            $digitos = strlen(strval($expediente_id));
+            $expediente = new Expediente();
+            $expediente->tramite_id = $tramite_id;
+            $expediente->expedienteable_id = $bachiller_automatico->id;
+            $expediente->procedimiento_id = $procedimiento_id;
+            $expediente->nues = $nues;
+            $expediente->espe = $espe;
+            $expediente->codigo = '';
+            $expediente->denominacion_id = $denominacion_id;
+            $expediente->estado = 'En trámite';
+            $expediente->save();
+
+            $digitos = strlen(strval($expediente->id));
             $codExpediente = 'E-';
 
             for ($i = 0; $i < 7 - $digitos; $i++) {
                 $codExpediente .= '0';
             }
 
-            $codExpediente .= strval($expediente_id);
+            $codExpediente .= strval($expediente->id);
 
             DB::table('gt_expediente')
-                ->where('id', $expediente_id)
+                ->where('id', $expediente->id)
                 ->update(['codigo' => $codExpediente]);
 
             DB::table('gt_graduando_expediente')
                 ->insert([
                     'graduando_id' => User::find(Auth::id())->administrado->id,
-                    'expediente_id' => $expediente_id,                   
+                    'expediente_id' => $expediente->id,                   
                 ]);                                                  
             
             DB::table('gt_graduando')
@@ -75,9 +74,7 @@ class BachillerAutomaticoController extends Controller
                 ->update([                    
                     'nombres' => $request->nombres,
                     'apellidos' => $request->apellidos,                    
-                ]);
-
-            
+                ]);            
 
             DB::commit();
             $result = ['successMessage' => 'Trámite registrado con éxito', 'error' => false];
